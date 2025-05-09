@@ -1,0 +1,15 @@
+.privacy {
+    &__container {
+        padding: 5vw 4vw 30vw 4vw;
+        width: 80%;
+    }
+}
+
+@media only screen and (max-width: 640px) {
+    .privacy {
+        &__container {
+            margin: 10vw 4vw 50vh 4vw;
+            width: 80%;
+        }
+    }
+}

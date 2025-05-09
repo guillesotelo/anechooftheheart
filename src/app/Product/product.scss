@@ -1,0 +1,117 @@
+.product {
+    &__container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-height: 120vh;
+        padding-bottom: 20rem;
+        margin: 4rem;
+        position: relative;
+    }
+
+    &__row {
+        display: flex;
+        flex-direction: row;
+        gap: 5rem;
+        justify-content: center;
+        width: 100%;
+    }
+
+    &__image {
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
+        object-position: 0 0;
+        transition: 1s;
+        animation: fade-in 1s ease-in forwards;
+        &-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 80vh;
+        }
+    }
+
+    &__information {
+        display: flex;
+        flex-direction: column;
+        width: 40%;
+    }
+
+    &__title {
+        font-size: 2rem;
+        margin: 0;
+    }
+
+    &__price {
+        font-size: 1.5rem;
+    }
+
+    &__description {
+        max-height: 40vh;
+        overflow-y: scroll;
+       
+    }
+
+    &__galery {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 2rem;
+        margin: 10rem 0 6rem;
+
+        &-image {
+            max-height: 30rem;
+            max-width: 30rem;
+            width: fit-content;
+            height: fit-content;
+
+
+            &-wrapper {}
+        }
+    }
+}
+
+@media only screen and (max-width: 640px) {
+    .product {
+        &__container {
+            margin: 1rem;
+            padding-top: 3rem;
+        }
+
+        &__row {
+            flex-direction: column;
+            width: 90vw;
+            margin: auto;
+        }
+
+        &__image {
+            &-wrapper {
+                width: 100%;
+                height: auto;
+            }
+        }
+
+        &__title {
+            margin: 0 0 .5rem;
+        }
+
+        &__price {
+            margin: .5rem 0 1rem;
+        }
+
+        &__information {
+            width: 100%;
+        }
+
+        &__galery {
+            margin-top: 5rem;
+
+            &-image {
+                width: 90vw;
+                height: auto;
+            }
+        }
+    }
+}

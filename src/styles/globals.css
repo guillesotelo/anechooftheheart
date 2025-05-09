@@ -1,0 +1,84 @@
+@import url('https://fonts.googleapis.com/css2?family=Bentham&family=Lora:wght@400..700&family=Raleway:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Lora:ital,wght@1,400..700&family=Cutive+Mono:wght@400..700&family=Montserrat+Alternates:wght@400..7000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+
+html {
+  overscroll-behavior-y: none;
+}
+
+body {
+  margin: 0;
+  font-family: "Lora", serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overscroll-behavior-y: none;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+p img,
+h1 img,
+h2 img,
+h3 img,
+h4 img {
+  /* border-radius: .5vw; */
+  /* box-shadow: 5px 5px 15px rgb(179, 179, 179); */
+  transition: .4s;
+  max-width: 100%;
+  height: auto;
+}
+
+p img:hover,
+h1 img:hover,
+h2 img:hover,
+h3 img:hover,
+h4 img:hover {
+  filter: grayscale(100%);
+}
+
+.no-pointer {
+  cursor: default !important;
+}
+
+h4,
+button,
+h2 {
+  font-family: "Playfair Display", serif;
+  font-weight: normal !important;
+}
+
+h1 {
+  font-family: "Playfair Display", serif;
+  font-weight: normal !important;
+}
+
+a {
+  color: #5D8C8C;
+}
+
+a:hover {
+  color: #75aeae;
+}
+
+@media only screen and (max-width: 640px) {
+
+  p img:hover,
+  h1 img:hover,
+  h2 img:hover,
+  h3 img:hover,
+  h4 img:hover {
+    filter: none;
+  }
+}
+
+
+@font-face {
+  font-family: 'Madelyn';
+  src:
+    url('/public/fonts/Madelyn.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}

@@ -1,0 +1,71 @@
+@import '../pages/Home/home.scss';
+@import '../pages/PrivacyPolicy/privacy.scss';
+@import '../pages/About/about.scss';
+@import '../pages/Contact/contact.scss';
+@import '../pages/PostViewer/postviewer.scss';
+@import '../pages/Blog/blog.scss';
+@import '../pages/Login/login.scss';
+@import '../pages/Search/search.scss';
+@import '../pages/Subscribe/subscribe.scss';
+@import '../pages/PostEditor/posteditor.scss';
+@import '../pages/Bespoken/bespoken.scss';
+@import '../pages/Notifications/notifications.scss';
+@import '../pages/Store/store.scss';
+@import '../pages/Product/product.scss';
+@import '../pages/EditStore/editstore.scss';
+
+.page {
+    &__wrapper {
+        position: relative;
+        min-height: 100vh;
+        overflow: hidden;
+        padding: 4rem 0 8rem 0;
+    }
+
+    &__header {
+        align-self: center;
+        text-align: center;
+
+        &-title {
+            font-size: 1.2rem;
+            font-weight: normal;
+            padding: 1rem 0;
+            border-bottom: 1px solid gray;
+            width: fit-content;
+            margin: 0 auto;
+            animation: move-y-up .7s ease-in;
+            font-family: "Playfair Display", serif;
+
+            &-blog {
+                animation: move-y-up .7s ease-in;
+                font-size: 2rem;
+                margin: 0 0 .5rem 0;
+                font-family: "Playfair Display", serif;
+            }
+        }
+
+        &-subtitle {
+            font-size: 1rem;
+            padding-bottom: 1.5rem;
+            width: fit-content;
+            margin: 1rem auto 0 auto;
+            animation: move-y-down .7s ease-in;
+
+            &-blog {
+                margin: 0;
+                color: #a5a5a5;
+                font-size: 1.5rem;
+                font-weight: normal;
+                font-family: "Lora", serif;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 640px) {
+    .page {
+        &__wrapper {
+            padding-top: 5rem;
+        }
+    }
+}

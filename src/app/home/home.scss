@@ -1,0 +1,170 @@
+.home {
+    &__container {
+        display: flex;
+        flex-direction: column;
+        padding: 0 0 30rem 0;
+        position: relative;
+    }
+
+    &__postlist {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 4rem;
+        margin-top: 2vw;
+    }
+
+    &__section {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        margin: 4rem 0;
+        
+        &-wrapper {
+            min-height: 50vh;
+        }
+    }
+
+    &__parallax {
+        &-image {
+            background-size: cover;
+            background-position: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 150%;
+            z-index: 1;
+            transform: translateY(0);
+            // transition: transform .2s;
+        }
+
+        &-container {
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+        }
+    }
+
+    &__landing {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        align-self: center;
+        width: 90vw;
+        position: relative;
+
+        &-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            // object-position: 50% 0;
+            animation: fade-in 1s ease-in forwards;
+
+            &-wrapper {
+                width: 100vw;
+                height: auto;
+                position: relative;
+            }
+
+            &-overlap {
+                position: absolute;
+                width: 100%;
+                height: 12vh;
+                bottom: 45%;
+                z-index: 2;
+                display: flex;
+                flex-direction: column;
+
+                &-title {
+                    color: #fff;
+                    font-size: 3rem;
+                    font-family: 'Lora';
+                    margin: .5rem 0;
+                    opacity: 0;
+                    animation: fade-in 1s ease-in forwards;
+                    animation-delay: .5s;
+                }
+
+                &-subtitle {
+                    color: #fff;
+                    font-size: 1.5rem;
+                    font-family: 'Lora';
+                    opacity: 0;
+                    margin: 0;
+                    animation: fade-in .5s ease-in forwards;
+                    animation-delay: 1s;
+                }
+            }
+        }
+
+        &-text {
+            width: 60vw;
+            align-self: center;
+            text-align: center;
+            animation: fade-in-card 1s ease-in forwards;
+            margin-top: 6rem;
+        }
+
+        &>button {
+            margin-top: 2rem;
+        }
+
+        &-caption {
+            font-family: "Courier New", monospace;
+            margin: 15rem 0;
+            font-size: 1.5rem;
+            width: 60vw;
+        }
+
+        &-title {
+            margin: 0;
+            font-family: "Playfair Display", serif;
+        }
+
+        &-subtitle {
+            margin: 0;
+            color: #a5a5a5;
+            font-size: 1.5rem;
+            font-style: italic;
+            font-weight: normal;
+        }
+    }
+
+}
+
+@media only screen and (max-width: 640px) {
+    .home {
+        &__container {
+            // padding: 5rem 0 60vw 0;
+        }
+
+        &__postlist {
+            gap: 6vw;
+            margin-top: 5vw;
+        }
+
+        &__landing {
+
+            &-image {
+
+                &-wrapper {
+                    // margin-bottom: 1rem;
+                }
+            }
+
+            &-text {
+                width: 90vw;
+                margin-top: 0;
+            }
+
+            &-caption {
+                width: 90vw;
+            }
+
+        }
+    }
+}

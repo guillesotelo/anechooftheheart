@@ -1,0 +1,41 @@
+.button {
+    &__default {
+        // margin: .5rem;
+        font-size: 1rem;
+        // font-family: "Lora", serif;
+        background-color: #ece7e6;
+        width: fit-content;
+        padding: .5rem;
+        border-radius: .5rem;
+        cursor: pointer;
+        font-weight: normal;
+        transition: .2s;
+        border: none;
+        border: 1px solid transparent;
+        color: black;
+        place-content: center;
+
+        &:hover {
+            filter: brightness(110%);
+            background-color: white !important;
+            color: rgb(41, 41, 41) !important;
+            border: 1px solid rgb(41, 41, 41) !important;
+            transition: .4s;
+        }
+
+    }
+
+    &__svg {
+        height: 1.5rem;
+        cursor: pointer;
+        transition: .2s;
+        border: 1px solid transparent;
+        border-radius: .5rem;
+        background-color: white !important;
+        padding: .2rem;
+
+        &:hover {
+            border: 1px solid rgb(41, 41, 41) !important;
+        }
+    }
+}

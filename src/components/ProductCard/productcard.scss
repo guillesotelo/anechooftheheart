@@ -1,0 +1,50 @@
+.productcard {
+    &__container {
+        display: flex;
+        flex-direction: column;
+        height: 20rem;
+        width: 17rem;
+        align-items: center;
+        gap: 1rem;
+        cursor: pointer;
+        opacity: 0;
+        animation: fade-in-down .5s ease-in forwards;
+
+        &:hover .productcard__image {
+            transform: scale(1.1);
+        }
+    }
+
+    &__price {
+        margin: 0;
+    }
+
+    &__title {
+        font-size: 1.2rem;
+        margin: 0;
+        text-align: center;
+    }
+
+    &__image {
+        height: 100%;
+        width: 100%;
+        min-width: 100%;
+        min-height: 100%;
+        object-fit: cover;
+        transition: 1s;
+
+        &-wrapper {
+            height: 15rem;
+            width: 100%;
+            min-width: 17rem;
+            overflow: hidden;
+        }
+
+        &-frame {
+            padding: .5rem;
+            box-shadow: 2px 2px 5px lightgray;
+            border-top: 1px solid #d3d3d369;
+            border-left: 1px solid #d3d3d369;
+        }
+    }
+}

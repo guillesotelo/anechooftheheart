@@ -1,0 +1,45 @@
+.blog {
+    &__container {
+        padding: 5rem 1rem 25rem 1rem;
+        min-height: 60vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    &__list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 0 2rem;
+        margin-top: 2.5rem;
+    }
+
+    &__caption {
+        width: 60vw;
+        text-align: center;
+        opacity: 0;
+        animation: move-y-down 1s ease-in forwards;
+        // font-family: 'Lora', serif !important;
+        color: #a5a5a5;
+        font-size: 1.5rem;
+        font-style: italic;
+    }
+}
+
+@media only screen and (max-width: 640px) {
+    .blog {
+        &__container {
+            // padding: 16vw 0 60vw 0;
+            min-height: 80vh;
+        }
+
+        &__caption {
+            width: 80vw;
+        }
+
+        &__list {
+            gap: 1.5rem;
+        }
+    }
+}

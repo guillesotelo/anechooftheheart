@@ -1,0 +1,119 @@
+.category-card {
+    &__container {
+        display: none;
+        flex-direction: column;
+        height: 42vh;
+        width: 22vw;
+        transition: .5s;
+        animation: fade-in-card 1s ease-in;
+        cursor: pointer;
+
+        &:hover .category-card__images {
+            filter: brightness(110%) saturate(120%);
+            box-shadow: 5px 5px 20px #b3b3b3;
+        }
+    }
+
+    &__images {
+        border-radius: 1rem;
+        display: flex;
+        flex-direction: row;
+        overflow: hidden;
+        transition: .3s;
+        height: 90%;
+
+        &-col {
+            border-top-right-radius: 1rem;
+            display: flex;
+            overflow: hidden;
+            flex-direction: column;
+            width: 100%;
+        }
+    }
+
+    &__image {
+        height: 50%;
+        margin-bottom: 3px;
+        object-fit: cover;
+
+        &-large {
+            height: 100%;
+            width: 50%;
+            margin-right: 3px;
+            object-fit: cover;
+        }
+    }
+
+    &__title {
+        font-size: 1.2rem;
+        margin: .5rem 0;
+        margin: .5rem 0 0 0;
+    }
+
+    &__subtitle {
+        font-size: 1rem;
+        font-weight: normal;
+        margin: 0;
+    }
+}
+
+@media only screen and (max-width: 640px) {
+    .category-card {
+        &__container {
+            display: none;
+            flex-direction: column;
+            height: 30vh;
+            width: 70vw;
+            margin-bottom: 1rem;
+            transition: .5s;
+            animation: fade-in-card 1s ease-in;
+            cursor: pointer;
+    
+            &:hover .category-card__images {
+                filter: brightness(110%) saturate(120%);
+                box-shadow: 5px 5px 20px #b3b3b3;
+            }
+        }
+    
+        &__images {
+            border-radius: 1rem;
+            display: flex;
+            flex-direction: row;
+            overflow: hidden;
+            transition: .3s;
+            height: 90%;
+    
+            &-col {
+                border-top-right-radius: 1rem;
+                display: flex;
+                overflow: hidden;
+                flex-direction: column;
+                width: 100%;
+            }
+        }
+    
+        &__image {
+            height: 50%;
+            margin-bottom: 2px;
+            object-fit: cover;
+    
+            &-large {
+                height: 100%;
+                width: 50%;
+                margin-right: 2px;
+                object-fit: cover;
+            }
+        }
+    
+        &__title {
+            font-size: 1rem;
+            margin: .5rem 0;
+        }
+    
+        &__subtitle {
+            font-size: .6rem;
+            font-weight: normal;
+            margin: 0;
+        }
+    }
+}
