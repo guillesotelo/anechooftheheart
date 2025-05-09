@@ -1,14 +1,12 @@
-import { commentType, onChangeEventType } from '../../types'
-import User from '../../assets/icons/user-icon.svg'
-import Dany from '../../assets/images/dany-comment-profile.png'
+import { commentType, onChangeEventType } from '../../app/types'
 import Like from '../../assets/icons/like.svg'
 import LikeFilled from '../../assets/icons/like-filled.svg'
 import Reply from '../../assets/icons/reply.svg'
 import { useContext, useState } from 'react'
-import { AppContext } from '../../AppContext'
+import { AppContext } from '../../app/context/AppContext'
 import { deleteComment, updateComment } from '../../services/comment'
 import toast from 'react-hot-toast'
-import { useHistory } from 'react-router-dom'
+import { useRouter } from 'next/navigation'
 
 type Props = {
     comment?: commentType
@@ -18,7 +16,7 @@ export default function ReplyComment({ comment }: Props) {
     const [liked, setLiked] = useState(false)
     const [likes, setLikes] = useState(comment?.likes || 0)
     const { lang, isLoggedIn } = useContext(AppContext)
-    const history = useHistory()
+    const router = useRouter()
 
     const getCommentDate = (comment?: commentType) => {
         if (!comment || !comment.createdAt) return ''
@@ -69,7 +67,7 @@ export default function ReplyComment({ comment }: Props) {
             const deleted = await deleteComment(comment)
             if (deleted) {
                 toast.success('Comment deleted')
-                setTimeout(() => history.go(0), 1000)
+                setTimeout(() => router.refresh(), 1000)
             }
             else toast.error(lang === 'es' ? 'Error al enviar comentario. Intenta nuevamente.' : 'Error while sending comment. Please try again.')
         } catch (error) {
@@ -94,7 +92,7 @@ export default function ReplyComment({ comment }: Props) {
             </div>
             <div className="comment__col" >
                 {comment?.isDany ?
-                    <img src={Dany} alt="Comment Profile Image" className="comment__image" draggable={false} />
+                    <img src={'/assets/images/dany-comment-profile.png'} alt="Comment Profile Image" className="comment__image" draggable={false} />
                     :
                     <p className="comment__profile">{getProfile(comment)}</p>
                 }            </div>

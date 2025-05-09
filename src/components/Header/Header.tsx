@@ -1,21 +1,16 @@
 import { useContext, useEffect, useState } from 'react'
-import Menu from '../../assets/icons/menu-icon.svg'
-import ChevronDown from '../../assets/icons/chevron-down.svg'
-import Search from '../../assets/icons/search-icon.svg'
-import { useHistory, useLocation } from 'react-router-dom'
 import Button from '../Button/Button'
-import DeleteIcon from '../../assets/icons/delete.svg'
-import EditIcon from '../../assets/icons/edit.svg'
-import NotificationIcon from '../../assets/icons/notification.svg'
 import { verifyToken } from '../../services/user'
 import { deletePost } from '../../services/post'
 import { toast } from 'react-hot-toast'
 import { APP_VERSION } from '../../constants/app'
-import { AppContext } from '../../AppContext'
+import { AppContext } from '../../app/context/AppContext'
 import { TEXT } from '../../constants/lang'
-import { onChangeEventType, postType } from '../../types'
+import { onChangeEventType, postType } from '../../app/types'
 import { getPostBySlug } from '../../services/post'
 import Tooltip from '../Tooltip/Tooltip'
+import { usePathname, useRouter } from 'next/navigation'
+import { getUser } from 'src/helpers'
 
 type Props = {
     search: string[]
@@ -32,8 +27,8 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
     const [blogToggle, setBlogToggle] = useState(false)
     const [searchClicked, setSearchClicked] = useState(false)
     const [bigHeader, setBigHeader] = useState(true)
-    const history = useHistory()
-    const location = useLocation()
+    const router = useRouter()
+    const pathname = usePathname()
     const { setIsLoggedIn, isLoggedIn } = useContext(AppContext)
 
     useEffect(() => {
@@ -57,13 +52,13 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
     }, [])
 
     useEffect(() => {
-        const isPost = location.pathname.split('/')[1] === 'post'
+        const isPost = pathname.split('/')[1] === 'post'
         if (isPost) {
-            const slug = location.pathname.split('/')[2]
+            const slug = pathname.split('/')[2]
             if (slug) getPostId(slug)
             else setPostId('')
         }
-    }, [location])
+    }, [pathname])
 
     useEffect(() => {
         const postViewr = document.querySelector<HTMLElement>('.postviewer__container')
@@ -91,10 +86,12 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
 
     const verifyUser = async () => {
         try {
-            const isLodded = await verifyToken()
-            if (isLodded) setIsLoggedIn(isLodded)
-        } catch (err) {
-            console.error(err)
+            const verified = await verifyToken(getUser().token)
+            if (verified && verified.token) {
+                setIsLoggedIn(true)
+            } else setIsLoggedIn(false)
+        } catch (error) {
+            setIsLoggedIn(false)
         }
     }
 
@@ -116,7 +113,7 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
         if (prompt.trim()) {
             setSearchClicked(false)
             setSearch(prompt.split(' '))
-            history.push('/search')
+            router.push('/search')
             setPrompt('')
         }
     }
@@ -133,7 +130,7 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
             )
             setDeleteModal(false)
             localStorage.removeItem('posts')
-            setTimeout(() => history.push('/blog'), 1500)
+            setTimeout(() => router.push('/blog'), 1500)
         } catch (err) {
             console.error(err)
             setDeleteModal(false)
@@ -149,7 +146,7 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
             const posts = localStorage.getItem('posts') ? JSON.parse(localStorage.getItem('posts') || '[]') : []
             localStorage.setItem('posts', posts.filter((post: postType) => post.published))
             setPostId('')
-            history.push('/')
+            router.push('/')
         }, 1500)
     }
 
@@ -162,19 +159,19 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
         return (
             <>
                 <div className='header__menu' onClick={() => setMenuToggle(!menuToggle)} >
-                    <img className="header__menu-svg" src={Menu} />
+                    <img className="header__menu-svg" src={'/assets/icons/menu-icon.svg'} />
                     <div className={`header__menu-sidebar${menuToggle ? '--toggled' : '--hidden'}`}>
                         {window.location.pathname !== '/' &&
                             <div className="header__menu-item">
                                 <h4 className="header__menu-item-text" onClick={() => {
                                     setTimeout(() => setMenuToggle(false), 50)
-                                    history.push('/')
+                                    router.push('/')
                                 }}>HOME</h4>
                             </div>}
                         <div className="header__menu-item">
                             <h4 className="header__menu-item-text" onClick={() => {
                                 // setTimeout(() => setMenuToggle(false), 50)
-                                // history.push('/blog')
+                                // router.push('/blog')
                                 setBlogToggle(!blogToggle)
                             }}>{TEXT[lang]['blog']}</h4>
                         </div>
@@ -184,28 +181,28 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
                                     className="header__menu-subitem-text"
                                     onClick={() => {
                                         setTimeout(() => setMenuToggle(false), 50)
-                                        history.push('/blog?category=inspiration')
+                                        router.push('/blog?category=inspiration')
                                     }}>{TEXT[lang]['inspiration']}</h4>
                                 <h4
                                     className="header__menu-subitem-text"
                                     style={{ animationDelay: '.2s' }}
                                     onClick={() => {
                                         setTimeout(() => setMenuToggle(false), 50)
-                                        history.push('/blog?category=motherhood')
+                                        router.push('/blog?category=motherhood')
                                     }}>{TEXT[lang]['motherhood']}</h4>
                                 <h4
                                     className="header__menu-subitem-text"
                                     style={{ animationDelay: '.4s' }}
                                     onClick={() => {
                                         setTimeout(() => setMenuToggle(false), 50)
-                                        history.push('/blog?category=life_abroad')
+                                        router.push('/blog?category=life_abroad')
                                     }}>{TEXT[lang]['life_abroad']}</h4>
                                 <h4
                                     className="header__menu-subitem-text"
                                     style={{ animationDelay: '.5s' }}
                                     onClick={() => {
                                         setTimeout(() => setMenuToggle(false), 50)
-                                        history.push('/blog?category=\career_insights')
+                                        router.push('/blog?category=\career_insights')
                                     }}>{TEXT[lang]['career_insights']}</h4>
                             </div>
                             :
@@ -213,13 +210,13 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
                                 <div className="header__menu-item">
                                     <h4 className="header__menu-item-text" onClick={() => {
                                         setTimeout(() => setMenuToggle(false), 50)
-                                        history.push('/bespoken/home')
+                                        router.push('/bespoken/home')
                                     }}>{TEXT[lang]['bespoken']}</h4>
                                 </div>
                                 <div className="header__menu-item">
                                     <h4 className="header__menu-item-text" style={{ paddingBottom: '8vw' }} onClick={() => {
                                         setTimeout(() => setMenuToggle(false), 50)
-                                        history.push('/about')
+                                        router.push('/about')
                                     }}>{TEXT[lang]['about_greeting']}</h4>
                                 </div>
                                 {/* <div className="header__menu-item header__language">
@@ -260,17 +257,17 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
                     <div className="header__admin-btns" style={{ margin: '0 4vw', gap: '3vw', border: 'none' }}>
                         <Button
                             label='Create'
-                            handleClick={() => history.push('/editor?new=true')}
+                            handleClick={() => router.push('/editor?new=true')}
                         />
                         {postId ?
                             <Button
-                                svg={EditIcon}
-                                handleClick={() => history.push(`/editor?id=${postId}`)}
+                                svg={'/assets/icons/edit.svg'}
+                                handleClick={() => router.push(`/editor?id=${postId}`)}
                             />
                             : ''}
                         {postId ?
                             <Button
-                                svg={DeleteIcon}
+                                svg={'/assets/icons/delete.svg'}
                                 handleClick={() => setDeleteModal(true)}
                             />
                             : ''}
@@ -281,8 +278,8 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
                         onClick={() => {
                             setSearch([])
                             setPrompt('')
-                            if (bespokenLogo) history.push('/bespoken/home')
-                            else history.push('/')
+                            if (bespokenLogo) router.push('/bespoken/home')
+                            else router.push('/')
                         }}>
                         {/* <h4 className="header__logo-text">An Echo of the Heart</h4> */}
                         {bespokenLogo ?
@@ -301,7 +298,7 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
                     </div>
                     : ''}
                 <div className="header__search" >
-                    <img className="header__search-svg" src={Search} onClick={triggerSearch} />
+                    <img className="header__search-svg" src='/assets/icons/search-icon.svg' onClick={triggerSearch} />
                     {searchClicked ?
                         <input type="text" className="header__search-input" placeholder={TEXT[lang]['search']} onChange={handleSearch} onKeyDown={e => {
                             if (e.key === 'Enter') triggerSearch()
@@ -318,35 +315,35 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
                 <div className="header__items">
                     <div className="header__item">
                         <h4 className="header__item-text no-pointer">{TEXT[lang]['blog']}</h4>
-                        <img className="header__item-svg" src={ChevronDown} />
+                        <img className="header__item-svg" src={'/assets/icons/chevron-down.svg'} />
                         <div className="header__item-dropdown" style={{ background: bigHeader ? '#00000099' : '#00000092' }}>
-                            <div className="header__item-dropdown-row" onClick={() => history.push('/blog?category=inspiration')}>
+                            <div className="header__item-dropdown-row" onClick={() => router.push('/blog?category=inspiration')}>
                                 <h4 className="header__item-dropdown-text">
                                     {TEXT[lang]['inspiration']}
                                 </h4>
                             </div>
-                            <div className="header__item-dropdown-row" onClick={() => history.push('/blog?category=motherhood')}>
+                            <div className="header__item-dropdown-row" onClick={() => router.push('/blog?category=motherhood')}>
                                 <h4 className="header__item-dropdown-text">
                                     {TEXT[lang]['motherhood']}
                                 </h4>
                             </div>
-                            <div className="header__item-dropdown-row" onClick={() => history.push('/blog?category=life_abroad')}>
+                            <div className="header__item-dropdown-row" onClick={() => router.push('/blog?category=life_abroad')}>
                                 <h4 className="header__item-dropdown-text">
                                     {TEXT[lang]['life_abroad']}
                                 </h4>
                             </div>
-                            <div className="header__item-dropdown-row" onClick={() => history.push('/blog?category=\career_insights')}>
+                            <div className="header__item-dropdown-row" onClick={() => router.push('/blog?category=\career_insights')}>
                                 <h4 className="header__item-dropdown-text">
                                     {TEXT[lang]['career_insights']}
                                 </h4>
                             </div>
-                            <div className="header__item-dropdown-row" onClick={() => history.push('/blog')}>
+                            <div className="header__item-dropdown-row" onClick={() => router.push('/blog')}>
                                 <h4 className="header__item-dropdown-text">
                                     {TEXT[lang]['see_all']}
                                 </h4>
                             </div>
                             {/* <div className="header__item-dropdown-row">
-                                    <h4 className="header__item-dropdown-text" onClick={() => history.push('/subscribe')}>
+                                    <h4 className="header__item-dropdown-text" onClick={() => router.push('/subscribe')}>
                                         {TEXT[lang]['subscribe']}
                                     </h4>
                                 </div> */}
@@ -354,36 +351,36 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
                     </div>
                     <div className="header__item">
                         <h4 className="header__item-text">{TEXT[lang]['bespoken']}</h4>
-                        <img className="header__item-svg" src={ChevronDown} />
+                        <img className="header__item-svg" src={'/assets/icons/chevron-down.svg'} />
                         <div className="header__item-dropdown" style={{ background: bigHeader ? '#00000099' : '#00000092' }}>
-                            <div className="header__item-dropdown-row" onClick={() => history.push('/store')}>
+                            <div className="header__item-dropdown-row" onClick={() => router.push('/store')}>
                                 <h4 className="header__item-dropdown-text">
                                     STORE
                                 </h4>
                             </div>
-                            <div className="header__item-dropdown-row" onClick={() => history.push('/bespoken/story')}>
+                            <div className="header__item-dropdown-row" onClick={() => router.push('/bespoken/story')}>
                                 <h4 className="header__item-dropdown-text">
                                     {TEXT[lang]['story_of_brand']}
                                 </h4>
                             </div>
-                            <div className="header__item-dropdown-row" onClick={() => history.push('/bespoken/products')}>
+                            <div className="header__item-dropdown-row" onClick={() => router.push('/bespoken/products')}>
                                 <h4 className="header__item-dropdown-text">
                                     {TEXT[lang]['products']}
                                 </h4>
                             </div>
-                            <div className="header__item-dropdown-row" onClick={() => history.push('/bespoken/our_handcrafted_wedding')}>
+                            <div className="header__item-dropdown-row" onClick={() => router.push('/bespoken/our_handcrafted_wedding')}>
                                 <h4 className="header__item-dropdown-text">
                                     {TEXT[lang]['our_handcrafted_wedding']}
                                 </h4>
                             </div>
-                            {/* <div className="header__item-dropdown-row" onClick={() => history.push('/bespoken/values')}>
+                            {/* <div className="header__item-dropdown-row" onClick={() => router.push('/bespoken/values')}>
                                     <h4 className="header__item-dropdown-text">
                                         {TEXT[lang]['values']}
                                     </h4>
                                 </div> */}
                         </div>
                     </div>
-                    <div className="header__item" onClick={() => history.push('/about')}>
+                    <div className="header__item" onClick={() => router.push('/about')}>
                         <h4 className="header__item-text">{TEXT[lang]['about_greeting']}</h4>
                     </div>
                 </div>
@@ -393,8 +390,8 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
                         onClick={() => {
                             setSearch([])
                             setPrompt('')
-                            if (bespokenLogo) history.push('/bespoken/story')
-                            else history.push('/')
+                            if (bespokenLogo) router.push('/bespoken/story')
+                            else router.push('/')
                         }}>
                         {bespokenLogo ?
                             <img
@@ -419,7 +416,7 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
                             <Tooltip tooltip='Create a new post'>
                                 <Button
                                     label='Create'
-                                    handleClick={() => history.push('/editor?new=true')}
+                                    handleClick={() => router.push('/editor?new=true')}
                                     bgColor='transparent'
                                     textColor='#fff'
                                 />
@@ -428,15 +425,15 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
                                 <>
                                     <Tooltip tooltip='Edit this post'>
                                         <Button
-                                            svg={EditIcon}
-                                            handleClick={() => history.push(`/editor?id=${postId}`)}
+                                            svg={'/assets/icons/edit.svg'}
+                                            handleClick={() => router.push(`/editor?id=${postId}`)}
                                             bgColor='transparent'
                                             textColor='#fff'
                                         />
                                     </Tooltip>
                                     <Tooltip tooltip='Delete this post'>
                                         <Button
-                                            svg={DeleteIcon}
+                                            svg={'/assets/icons/delete.svg'}
                                             handleClick={() => setDeleteModal(true)}
                                             bgColor='transparent'
                                             textColor='#fff'
@@ -446,8 +443,8 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
                                 : ''}
                             <Tooltip tooltip='Newsletter'>
                                 <Button
-                                    svg={NotificationIcon}
-                                    handleClick={() => history.push('/notifications')}
+                                    svg={'/assets/icons/notification.svg'}
+                                    handleClick={() => router.push('/notifications')}
                                     bgColor='transparent'
                                     textColor='#fff'
                                 />
@@ -464,7 +461,7 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
                     <div className="header__search" >
                         {/* <div className="header__item header__language" style={{ justifySelf: 'flex-end' }}>
                             <h4 className="header__item-text">{lang.toUpperCase()}</h4>
-                            <img className="header__item-svg" src={ChevronDown} />
+                            <img className="header__item-svg" src={'/assets/icons/chevron-down.svg} />
                             <div className="header__item-dropdown" style={{ marginTop: bigHeader ? '5rem' : '3rem' }}>
                                 <div className="header__item-dropdown-row" onClick={() => changeLanguage('en')}>
                                     <img src={UsaFlag} alt="" className="header__item-dropdown-img header__item-dropdown-text" />
@@ -481,10 +478,10 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
                             </div>
                         </div> */}
                         {window.location.pathname !== '/' &&
-                            <div className="header__item" onClick={() => history.push('/')} style={{ marginRight: '2rem' }}>
+                            <div className="header__item" onClick={() => router.push('/')} style={{ marginRight: '2rem' }}>
                                 <h4 className="header__item-text">HOME</h4>
                             </div>}
-                        <img className="header__search-svg" src={Search} onClick={triggerSearch} />
+                        <img className="header__search-svg" src='/assets/icons/search-icon.svg' onClick={triggerSearch} />
                         {searchClicked || !isMobile ?
                             <input type="text" className="header__search-input" placeholder={TEXT[lang]['search']} onChange={handleSearch} onKeyDown={e => {
                                 if (e.key === 'Enter') triggerSearch()

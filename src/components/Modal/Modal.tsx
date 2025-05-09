@@ -1,7 +1,4 @@
 import React, { ReactNode, useContext, useEffect, useState } from 'react'
-import { AppContext } from '../../AppContext'
-import Api from '../../assets/icons/api.svg'
-
 type Props = {
     children?: ReactNode
     onClose?: () => void

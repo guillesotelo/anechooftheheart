@@ -2,15 +2,21 @@
 
 import React, { createContext, useEffect, useState } from 'react'
 import { AppContextType } from '../types'
-import { verifyToken } from '../../services'
+import { verifyToken } from '../../services/user'
 import { getUser } from '../../helpers'
+import ReactGA from 'react-ga4';
+import { usePathname } from 'next/navigation';
 
 export const AppContext = createContext<AppContextType>({
+    lang: 'en',
+    setLang: () => { },
+    search: [],
+    setSearch: () => { },
     isMobile: false,
     isLoggedIn: null,
     setIsLoggedIn: () => { },
     darkMode: false,
-    setDarkMode: () => { },
+    children: <></>,
 })
 
 type Props = {
@@ -18,21 +24,17 @@ type Props = {
 }
 
 export const AppProvider = ({ children }: Props) => {
-    const [isMobile, setIsMobile] = useState<boolean>(false)
+    const preferedLang = localStorage.getItem('preferedLang')
+    const localLang = preferedLang ? preferedLang : navigator.language.startsWith('es') ? 'es' : 'en'
+    const isInstagram = (navigator.userAgent.indexOf('Instagram') > -1) ? true : false
+    const [isMobile, setIsMobile] = useState(isInstagram || window.screen.width <= 640)
+    const [lang, setLang] = useState<string>('en')
     const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null)
-    const [darkMode, setDarkMode] = useState(false)
-    const [windowLoading, setWindowLoading] = useState(true)
+    const [darkMode, setDarkMode] = useState<boolean>(false)
+    const [search, setSearch] = useState<string[]>([])
+    const pathname = usePathname()
 
     useEffect(() => {
-        if (typeof window !== 'undefined') {
-            setWindowLoading(false)
-        }
-        setDarkMode(JSON.parse(localStorage.getItem('preferredMode') || 'false'))
-        setIsMobile(isMobileDevice())
-
-        verifyUser()
-        getPreferredScheme()
-
         const checkWidth = () => setIsMobile(window.innerWidth <= 768)
 
         window.addEventListener("resize", checkWidth)
@@ -40,18 +42,14 @@ export const AppProvider = ({ children }: Props) => {
     }, [])
 
     useEffect(() => {
-        // Uncomment to use darkmode in Body
-        // const body = document.querySelector('body')
-        // if (body) {
-        //     body.classList.remove('--dark')
-        //     if (darkMode) body.classList.add('--dark')
+        window.scrollTo({ top: 0, behavior: 'smooth' })
 
-        document.documentElement.setAttribute(
-            "data-color-scheme",
-            darkMode ? "dark" : "light"
-        )
-        // }
-    }, [darkMode])
+        ReactGA.send({
+            hitType: 'pageview',
+            page: window.location.pathname
+        })
+
+    }, [pathname, window.location.pathname])
 
     const isMobileDevice = () => {
         if (typeof window === 'undefined') return false // Server-side check
@@ -87,21 +85,31 @@ export const AppProvider = ({ children }: Props) => {
     }
 
     const contextValue = React.useMemo(() => ({
+        lang,
+        setLang,
+        search,
+        setSearch,
         isMobile,
-        setIsLoggedIn,
         isLoggedIn,
+        setIsLoggedIn,
         darkMode,
-        setDarkMode,
+        children
     }), [
+        lang,
+        setLang,
+        search,
+        setSearch,
         isMobile,
-        setIsLoggedIn,
         isLoggedIn,
+        setIsLoggedIn,
         darkMode,
-        setDarkMode,
+        children
     ])
 
 
-    return windowLoading ? null : <AppContext.Provider value={contextValue}>
-        {children}
-    </AppContext.Provider>
+    return (
+        <AppContext.Provider value={contextValue}>
+            {children}
+        </AppContext.Provider>
+    )
 }

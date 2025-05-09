@@ -1,21 +1,21 @@
-@import '../pages/Home/home.scss';
-@import '../pages/PrivacyPolicy/privacy.scss';
-@import '../pages/About/about.scss';
-@import '../pages/Contact/contact.scss';
-@import '../pages/PostViewer/postviewer.scss';
-@import '../pages/Blog/blog.scss';
-@import '../pages/Login/login.scss';
-@import '../pages/Search/search.scss';
-@import '../pages/Subscribe/subscribe.scss';
-@import '../pages/PostEditor/posteditor.scss';
-@import '../pages/Bespoken/bespoken.scss';
-@import '../pages/Notifications/notifications.scss';
-@import '../pages/Store/store.scss';
-@import '../pages/Product/product.scss';
-@import '../pages/EditStore/editstore.scss';
+@import '../../app/home/home.scss';
+@import '../../app/policy/privacy.scss';
+@import '../../app/about/about.scss';
+@import '../../app/contact/contact.scss';
+@import '../../app/post/postviewer.scss';
+@import '../../app/blog/blog.scss';
+@import '../../app/login/login.scss';
+@import '../../app/search/search.scss';
+@import '../../app/subscribe/subscribe.scss';
+@import '../../app/editor/posteditor.scss';
+@import '../../app/bespoken/bespoken.scss';
+@import '../../app/notifications/notifications.scss';
+@import '../../app/store/store.scss';
+@import '../../app/product/product.scss';
+@import '../../app/store/edit/editstore.scss';
 
 .page {
-    &__wrapper {
+    &__container {
         position: relative;
         min-height: 100vh;
         overflow: hidden;

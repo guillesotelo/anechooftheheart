@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { AppContext } from '../../AppContext'
+import { AppContext } from '../../app/context/AppContext'
 import { APP_COLORS } from '../../constants/app'
 
 type Props = {

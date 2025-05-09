@@ -21,6 +21,8 @@ export const sortArray = (arr: any[], key: string | number, order?: boolean) => 
     })
 }
 
+export const getUser = () => localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') || '{}') : {}
+
 export const convertToBase64 = (file: any) => {
     try {
         return new Promise((resolve, reject) => {

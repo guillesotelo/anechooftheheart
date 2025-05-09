@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import PlayTrack from '../../assets/icons/play-track.svg'
 import PauseTrack from '../../assets/icons/pause-track.svg'
 import ChangeTrack from '../../assets/icons/next-track.svg'
-import { AppContext } from '../../AppContext'
+import { AppContext } from '../../app/context/AppContext'
 
 type Props = {
     filePath?: string | string[]

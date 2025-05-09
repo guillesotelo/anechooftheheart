@@ -1,5 +1,3 @@
-import React, { useContext } from 'react'
-import { AppContext } from '../../AppContext'
 
 type Props = {
     label: string
