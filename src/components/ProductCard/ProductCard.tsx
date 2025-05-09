@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { productType } from '../../types'
-import { useHistory } from 'react-router-dom'
+import { productType } from '../../app/types'
+import { useRouter } from 'next/navigation'
 
 type Props = {
     product?: productType
@@ -10,7 +10,7 @@ type Props = {
 
 export default function ProductCard({ product, style, index }: Props) {
     const [mainImage, setMainImage] = useState('')
-    const history = useHistory()
+    const router = useRouter()
 
     const {
         title,
@@ -25,7 +25,7 @@ export default function ProductCard({ product, style, index }: Props) {
     }, [images])
 
     const goToProductPage = () => {
-        history.push(`/store/product?id=${_id}`)
+        router.push(`/store/product?id=${_id}`)
     }
 
     const getMainImage = (images?: string) => {

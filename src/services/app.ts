@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { contactType, emailType, templateType } from '../types';
+import { contactType, emailType, templateType } from '../app/types';
 import { retryWithDelay } from '../helpers';
 
-const API_URL = process.env.REACT_APP_API_URL
+const API_URL = process.env.NEXT_PUBLIC_API_URL
 const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') || '{}') : {}
 const authorization = `Bearer ${user.token}`
 

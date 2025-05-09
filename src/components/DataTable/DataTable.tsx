@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import MoonLoader from "react-spinners/MoonLoader"
-import { dataObj } from '../../types'
-import { AppContext } from '../../AppContext'
+import { dataObj } from '../../app/types'
+import { AppContext } from '../../app/context/AppContext'
 import { DragDropContext, Droppable, Draggable, DropResult } from 'react-beautiful-dnd';
 import { getDate } from '../../helpers';
 

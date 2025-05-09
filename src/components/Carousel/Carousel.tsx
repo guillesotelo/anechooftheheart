@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { cardType } from '../../types'
+import { cardType } from '../../app/types'
 
 type Props = {
     title?: string

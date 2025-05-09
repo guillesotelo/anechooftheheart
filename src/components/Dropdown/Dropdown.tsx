@@ -1,6 +1,6 @@
-import React, { SyntheticEvent, useContext, useEffect, useRef, useState } from 'react'
-import { dataObj } from '../../types'
-import { AppContext } from '../../AppContext'
+import React, { useContext, useEffect, useRef, useState } from 'react'
+import { dataObj } from '../../app/types'
+import { AppContext } from '../../app/context/AppContext'
 import { BeatLoader } from 'react-spinners'
 
 type Props = {

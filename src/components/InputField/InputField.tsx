@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { AppContext } from '../../AppContext'
-import { dataObj, onChangeEventType } from '../../types'
+import { AppContext } from '../../app/context/AppContext'
+import { onChangeEventType } from '../../app/types'
 import toast from 'react-hot-toast'
 import imageCompression from 'browser-image-compression';
 

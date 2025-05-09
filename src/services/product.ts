@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { productType } from '../types';
+import { productType } from '../app/types';
 import { retryWithDelay } from '../helpers';
 
-const API_URL = process.env.REACT_APP_API_URL
+const API_URL = process.env.NEXT_PUBLIC_API_URL
 
 const getHeaders = () => {
     const { token }: { [key: string | number]: any } = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') || '{}') : {}

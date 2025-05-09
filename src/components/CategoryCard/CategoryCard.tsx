@@ -1,6 +1,4 @@
-import postImagePlaceholder from '../../assets/logos/isologo.png'
-import { useHistory } from 'react-router-dom'
-import { history } from '../../helpers'
+import { useRouter } from "next/navigation"
 
 type Props = {
     images?: string[]
@@ -12,18 +10,18 @@ type Props = {
 }
 
 export default function CategoryCard({ images, title, subtitle, category, count }: Props) {
-    const history = useHistory()
+    const router = useRouter()
 
     return (
-        <div className="category-card__container" onClick={() => history.push(`/blog?category=${category}`)}>
+        <div className="category-card__container" onClick={() => router.push(`/blog?category=${category}`)}>
             <div className="category-card__images">
-                <img src={images && images[0] ? images[0] : postImagePlaceholder} style={{ width: images && !images[1] ? '100%' : '50%' }} className='category-card__image-large' loading='lazy' />
+                <img src={images && images[0] ? images[0] : '/assets/logos/isologo.png'} style={{ width: images && !images[1] ? '100%' : '50%' }} className='category-card__image-large' loading='lazy' />
                 <div className="category-card__images-col">
                     {images?.map((image: string, i: number) =>
                         i > 0 && i < 3 ?
                             <img
                                 key={i}
-                                src={image || postImagePlaceholder}
+                                src={image || '/assets/logos/isologo.png'}
                                 className='category-card__image'
                                 style={{
                                     height: !images[2] ? '100%' : '50%',

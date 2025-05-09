@@ -1,8 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
-import postImagePlaceholder from '../../assets/logos/isologo.png'
-import { AppContext } from '../../AppContext'
-import Lock from '../../assets/icons/lock.svg'
-import { postType } from '../../types'
+import { AppContext } from '../../app/context/AppContext'
+import { postType } from '../../app/types'
 
 type Props = {
     post: postType
@@ -21,7 +19,7 @@ export default function PostCard({ post, index, style }: Props) {
     }, [])
 
     const getPreview = () => {
-        return post.imageUrl || JSON.parse(post.sideImgs || '[]')[0] || postImagePlaceholder
+        return post.imageUrl || JSON.parse(post.sideImgs || '[]')[0] || '/assets/logos/isologo.png'
     }
 
     const getOverlap = () => {
@@ -40,7 +38,7 @@ export default function PostCard({ post, index, style }: Props) {
             }}
         >
             <div className="postcard__image-div" >
-                {!post.published ? <img src={Lock} alt="Not Published" className="postcard__image-lock" /> : ''}
+                {!post.published ? <img src={'/assets/icons/lock.svg'} alt="Not Published" className="postcard__image-lock" /> : ''}
                 <h4 className="postcard__image-overlap">{getOverlap()}</h4>
                 <img
                     src={getPreview()}

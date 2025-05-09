@@ -1,6 +1,6 @@
 import { withRouter } from 'react-router-dom';
 import ReactGA from 'react-ga4';
-import { dataObj } from '../../types';
+import { dataObj } from '../../app/types';
 
 type Props = {
     history: dataObj

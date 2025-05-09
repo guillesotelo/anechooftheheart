@@ -1,9 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { toast } from 'react-hot-toast'
-import ShareIcon from '../../assets/icons/share.svg'
-import { AppContext } from '../../AppContext'
+import { AppContext } from '../../app/context/AppContext'
 import { TEXT } from '../../constants/lang'
-import { postHeadersType } from '../../types'
+import { postHeadersType } from '../../app/types'
 
 type Props = {
     content?: string
