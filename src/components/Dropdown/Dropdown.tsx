@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useContext, useEffect, useRef, useState } from 'react'
 import { dataObj } from '../../app/types'
 import { AppContext } from '../../app/context/AppContext'

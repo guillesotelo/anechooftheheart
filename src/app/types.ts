@@ -39,6 +39,7 @@ export type postType = {
     removed?: boolean
     sideImages?: string[]
     sideImgsStyles?: React.CSSProperties[]
+    unpublished?: boolean
 }
 
 export type userType = {

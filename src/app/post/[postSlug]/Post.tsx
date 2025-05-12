@@ -1,36 +1,29 @@
+"use client"
+
 import React, { useContext, useEffect, useState } from 'react'
-import Post from '../../components/Post/Post'
-import { getPostBySlug } from '../../services/post'
-import { AppContext } from '../context/AppContext'
-import { commentType, onChangeEventType, postType } from '../types'
-import InputField from '../../components/InputField/InputField'
-import Comment from '../../components/Comment/Comment'
-import { createComment, getPostComments } from '../../services/comment'
-import Button from '../../components/Button/Button'
+import Post from '../../../components/Post/Post'
+import { AppContext } from '../../context/AppContext'
+import { commentType, onChangeEventType, postType } from '../../types'
+import InputField from '../../../components/InputField/InputField'
+import Comment from '../../../components/Comment/Comment'
+import { createComment, getPostComments } from '../../../services/comment'
+import Button from '../../../components/Button/Button'
 import toast from 'react-hot-toast'
-import Instagram from '../../assets/icons/instagram.svg'
-import Facebook from '../../assets/icons/facebook.svg'
-import X from '../../assets/icons/x.svg'
-import Linkedin from '../../assets/icons/linkedin.svg'
-import Whatsapp from '../../assets/icons/whatsapp.svg'
-import SEO from '../../components/SEO/Seo'
-import { TEXT } from '../../constants/lang'
-import { subscribe } from '../../services/app'
+import { TEXT } from '../../../constants/lang'
+import { subscribe } from '../../../services/app'
 import { usePathname, useRouter } from 'next/navigation'
-const REACT_APP_PAGE = process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : process.env.REACT_APP_PAGE
+import { capitalizeFirstLetter } from 'src/helpers'
 
 type Props = {
+    post: postType
+    comments: commentType[]
 }
 
-export default function PostViewer({ }: Props) {
+export default function PostViewer({ post, comments }: Props) {
     const [data, setData] = useState<commentType>({})
     const [subscribeData, setSubscribeData] = useState({ email: '', fullname: '' })
-    const [post, setPost] = useState<postType>({})
     const [html, setHtml] = useState('')
     const [spaHtml, setspaHtml] = useState('')
-    const [postSlug, setPostSlug] = useState('')
-    const [loading, setLoading] = useState(false)
-    const [spanish, setSpanish] = useState(false)
     const [sideImages, setSideImages] = useState<string[]>([])
     const [postComments, setPostComments] = useState<commentType[]>([])
     const [sideImgStyles, setSideImgStyles] = useState<React.CSSProperties[]>([])
@@ -42,29 +35,21 @@ export default function PostViewer({ }: Props) {
     const { lang, isMobile, isLoggedIn } = useContext(AppContext)
 
     useEffect(() => {
-        setSpanish(lang === 'es')
-    }, [])
-
-    useEffect(() => {
-        const slug = pathname.split('/')[2]
         const language = new URLSearchParams(document.location.search).get('lang')
         // const updated = new URLSearchParams(document.location.search).get('updated')
 
-        // if (updated && id) getPost(id)
-        if (slug) setPostSlug(slug)
         if (language) setLinkLang(language)
     }, [pathname])
 
     useEffect(() => {
-        renderSeo()
-        if (!html && !spaHtml && postSlug) getPost(postSlug)
-        if (!postComments.length && post && post._id) getComments(post._id)
+        if (!html && !spaHtml && post) getPost()
         if (!category) getCategory()
-    }, [postSlug])
+        if (comments) setPostComments(comments)
+    }, [post, comments])
 
     useEffect(() => {
         styleImagesInParagraphs()
-    }, [html, spaHtml, loading])
+    }, [html, spaHtml])
 
     const updateSubscribeData = (key: string, e: onChangeEventType) => {
         const value = e.target.value
@@ -116,40 +101,29 @@ export default function PostViewer({ }: Props) {
         })
     }
 
-
-
     const getCategory = () => {
         const _category = post.category ? JSON.parse(post.category || '[]')[0] :
             post.tags ? post.tags.replace(/#/g, '').replace(/_/g, ' ').split(' ')[0] : ''
         if (_category.length) setCategory(_category.toLocaleLowerCase())
     }
 
-    const getPost = async (slug: string) => {
-        try {
-            setLoading(true)
-            const _post = await getPostBySlug(slug)
-            if (_post && _post._id) {
-                if (_post.unpublished && !isLoggedIn === false) router.back()
+    const getPost = async () => {
+        console.log(post)
+        if (post && post._id) {
+            if (post.unpublished && !isLoggedIn === false) router.back()
 
-                setPost(_post)
-                if (_post.html) setHtml(_post.html)
-                if (_post.spaHtml) setspaHtml(_post.spaHtml)
+            if (post.html) setHtml(post.html)
+            if (post.spaHtml) setspaHtml(post.spaHtml)
 
-                if (_post.sideImgs) {
-                    const sideImgs = JSON.parse(_post.sideImgs)
-                    setSideImages(sideImgs)
-                }
-                if (_post.sideStyles) {
-                    const sideStyles = JSON.parse(_post.sideStyles)
-                    setSideImgStyles(sideStyles)
-                }
-                getComments(_post._id)
-                setData({ ...data, postId: _post._id })
-            } else router.back()
-            setLoading(false)
-        } catch (error) {
-            setLoading(false)
-            console.error(error)
+            if (post.sideImgs) {
+                const sideImgs = JSON.parse(post.sideImgs)
+                setSideImages(sideImgs)
+            }
+            if (post.sideStyles) {
+                const sideStyles = JSON.parse(post.sideStyles)
+                setSideImgStyles(sideStyles)
+            }
+            setData({ ...data, postId: post._id })
         }
     }
 
@@ -160,29 +134,6 @@ export default function PostViewer({ }: Props) {
         } catch (error) {
             console.error(error)
         }
-    }
-    const getOgDescription = () => {
-        if (spanish && post.spaSubtitle) return post.spaSubtitle
-        if (post.subtitle) return post.subtitle
-
-        const div = document.createElement('div')
-        div.innerHTML = spanish ? spaHtml : html
-        return div.textContent?.substring(0, 40) + '...'
-    }
-
-    const renderSeo = () => {
-        const title = spanish && post.spaTitle ? post.spaTitle : post.title || post.spaTitle || ''
-        const description = getOgDescription()
-        const image = post.imageUrl || 'https://www.anechooftheheart.com/images/stay-connected2.png'
-        const url = `${REACT_APP_PAGE}/post/${post.slug}`
-
-        return <SEO
-            title={title}
-            description={description}
-            image={image}
-            url={url}
-            type='website'
-        />
     }
 
     const updateData = (key: string, e: onChangeEventType) => {
@@ -231,28 +182,26 @@ export default function PostViewer({ }: Props) {
 
     return (
         <div className='postviewer__container'>
-            {renderSeo()}
             <div className="postviewer__routes">
-                <h4 className='postviewer__routes-link' onClick={() => router.push('/blog')}>{lang === 'es' ? 'BITÁCORA ABIERTA' : 'OPEN JOURNAL'}</h4>
+                <h4 className='postviewer__routes-link' onClick={() => router.push('/blog')}>Open Journal</h4>
                 {category ?
                     <>
                         {!isMobile ? <h4 className='postviewer__routes-link' >&nbsp;-&nbsp;</h4> : ''}
-                        <h4 className='postviewer__routes-link' onClick={() => router.push(`/blog?category=${category.trim().replaceAll(' ', '_')}`)}>{isMobile ? '.' : ''}{category.toUpperCase()}</h4>
+                        <h4 className='postviewer__routes-link' onClick={() => router.push(`/blog?category=${category.trim().replaceAll(' ', '_')}`)}>{isMobile ? '.' : ''}{capitalizeFirstLetter(category)}</h4>
                     </>
                     : ''}
                 {!isMobile ? <h4 className='postviewer__routes-link' >&nbsp;-&nbsp;</h4> : ''}
-                <h4 className='postviewer__routes-link'>{isMobile ? '..' : ''}{lang === 'es' && post.spaTitle ? post.spaTitle.toUpperCase() : post.title?.toUpperCase()}</h4>
+                <h4 className='postviewer__routes-link'>{isMobile ? '->' : ''}{lang === 'es' && post.spaTitle ? capitalizeFirstLetter(post.spaTitle) : capitalizeFirstLetter(post.title || '')}</h4>
             </div>
-            {loading ? <span className="loader" style={{ margin: '10rem auto 60vh' }}></span>
+            {/* {loading ? <span className="loader" style={{ margin: '10rem auto 60vh' }}></span>
                 :
-                <Post
-                    headers={{ ...post, sideImages, sideImgStyles }}
-                    content={html}
-                    spaContent={spaHtml}
-                    linkLang={linkLang}
-                />
-            }
-
+                <> */}
+            <Post
+                headers={{ ...post, sideImages, sideImgStyles }}
+                content={html}
+                spaContent={spaHtml}
+                linkLang={linkLang}
+            />
             {post.video?.trim() ?
                 <div style={{ textAlign: 'center', margin: '0 0 6rem 0' }}>
                     <iframe src={parseYTLink(post.video)} width={isMobile ? '90%' : "700"} height={isMobile ? 'auto' : "400"} frameBorder={0} allowFullScreen />
@@ -261,15 +210,15 @@ export default function PostViewer({ }: Props) {
             <div className="postviewer__row">
                 <div className="postviewer__share-section">
                     <h2 className="postviewer__share-text">{lang === 'es' ? 'Comparte este post' : 'Share this post'}</h2>
-                    <img className="postviewer__share-icon" onClick={() => shareToPlatform('instagram')} src={Instagram} />
-                    <img className="postviewer__share-icon" onClick={() => shareToPlatform('facebook')} src={Facebook} />
-                    <img className="postviewer__share-icon" onClick={() => shareToPlatform('x')} src={X} />
-                    <img className="postviewer__share-icon" onClick={() => shareToPlatform('linkedin')} src={Linkedin} />
-                    <img className="postviewer__share-icon" onClick={() => shareToPlatform('whatsapp')} src={Whatsapp} />
+                    <img className="postviewer__share-icon" onClick={() => shareToPlatform('instagram')} src={'/assets/icons/instagram.svg'} />
+                    <img className="postviewer__share-icon" onClick={() => shareToPlatform('facebook')} src={'/assets/icons/facebook.svg'} />
+                    <img className="postviewer__share-icon" onClick={() => shareToPlatform('x')} src={'/assets/icons/x.svg'} />
+                    <img className="postviewer__share-icon" onClick={() => shareToPlatform('linkedin')} src={'/assets/icons/linkedin.svg'} />
+                    <img className="postviewer__share-icon" onClick={() => shareToPlatform('whatsapp')} src={'/assets/icons/whatsapp.svg'} />
                 </div>
             </div>
             <div className="postviewer__subscribe">
-                <h2 style={{ fontFamily: '"Madelyn", sans-serif' }}>{lang === 'es' ? 'Únete a mi Comunidad' : 'Join my Mail Community'}</h2>
+                <h2 style={{ fontFamily: 'var(--font-madelyn), sans-serif' }}>{lang === 'es' ? 'Únete a mi Comunidad' : 'Join my Mail Community'}</h2>
                 <h3>{lang === 'es' ? 'Únete y recibe cartas mensuales 🖤' : 'Sign up for monthly letters 🖤'}</h3>
                 <div className="postviewer__subscribe-row">
                     <InputField
@@ -333,7 +282,8 @@ export default function PostViewer({ }: Props) {
                     : ''}
             </div>
             <img src={isMobile ? '/assets/illustrations/signature-mobile.png' : '/assets/illustrations/signature.png'} alt="Signature" draggable={false} className="postviewer__signature" />
-
+            {/* </>
+            } */}
         </div>
     )
 }

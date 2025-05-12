@@ -1,36 +1,20 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { getProductById } from '../../services/product'
-import { productType } from '../types'
-import Button from '../../components/Button/Button'
+"use client"
+
+import React, { useContext } from 'react'
+import { getProductById } from '../../../../services/product'
+import { productType } from '../../../types'
+import Button from '../../../../components/Button/Button'
 import { HashLoader } from 'react-spinners'
-import { AppContext } from '../context/AppContext'
-import { usePathname, useRouter } from 'next/navigation'
+import { AppContext } from '../../../context/AppContext'
+import {  useRouter } from 'next/navigation'
 
-type Props = {}
+type Props = {
+    product: productType
+}
 
-export default function Product({ }: Props) {
-    const [product, setProduct] = useState<null | productType>(null)
-    const [loading, setLoading] = useState(false)
+export default function Product({ product }: Props) {
     const { isMobile } = useContext(AppContext)
-    const pathname = usePathname()
     const router = useRouter()
-
-    useEffect(() => {
-        const id = new URLSearchParams(document.location.search).get('id')
-        if (id && !product) getProduct(id)
-    }, [pathname])
-
-    const getProduct = async (id: string) => {
-        try {
-            setLoading(true)
-            const p = await getProductById(id)
-            if (p && p._id) setProduct(p)
-            setLoading(false)
-        } catch (error) {
-            setLoading(false)
-            console.error(error)
-        }
-    }
 
     const buyProduct = () => {
         const a = document.createElement('a')
@@ -63,8 +47,9 @@ export default function Product({ }: Props) {
 
     return (
         <div className="product__container">
-            {loading ? <div className='store__loader'><HashLoader size={15} /><p>Loading product details...</p></div>
-                :
+            {
+                // loading ? <div className='store__loader'><HashLoader size={15} /><p>Loading product details...</p></div>
+                //     :
                 !product ? <p>An error occurred while getting the product information. Please <a href='https://store.anechooftheheart.com/'>go back to the store</a> and try again</p>
                     :
                     <div className="product__col">
@@ -79,7 +64,6 @@ export default function Product({ }: Props) {
                                 top: isMobile ? '-1rem' : '-3.25rem',
                                 position: 'absolute'
                             }}
-                            disabled={loading}
                         />
                         <div className="product__row">
                             <div className="product__image-wrapper">

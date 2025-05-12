@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useContext } from 'react'
 import { AppContext } from '../../app/context/AppContext';
 import { TEXT } from '../../constants/lang';

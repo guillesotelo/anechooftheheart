@@ -5,13 +5,13 @@
         align-items: center;
         justify-content: center;
         gap: 1rem;
+        position: absolute;
         bottom: 0;
         width: 100%;
-        height: fit-content;
-        padding: 3rem 0;
         background-color: #FFF9F5;
         box-shadow: 0 1rem 3rem rgba(0, 0, 0, .175);
         animation: move-y-up .7s ease-in;
+        padding: 1rem 0;
     }
 
     &__nav {
@@ -19,7 +19,7 @@
         flex-direction: row;
         align-items: center;
         justify-content: center;
-        gap: 4vw;
+        gap: 3rem;
 
         &-link {
             font-weight: normal;
@@ -56,7 +56,7 @@
     }
 
     &__social {
-        margin: 0 1rem 1rem 1rem;
+        margin: 1rem;
 
         &-svg {
             height: 1.2rem;
@@ -74,14 +74,15 @@
     }
 
     &__signature {
-        margin: 0;
+        margin: 1rem 0 0 0;
         opacity: .8;
-        font-family: "Madelyn", sans-serif;
+        font-family: var(--font-madelyn), sans-serif;
         font-size: 2rem;
     }
 
     &__copyright {
         font-weight: normal;
+        margin-top: 0;
     }
 }
 
@@ -89,17 +90,17 @@
 @media only screen and (max-width: 640px) {
     .footer {
         &__container {
-            height: 20rem;
+            padding: 3rem 0;
         }
 
         &__nav {
             // justify-content: space-between;
             width: 80vw;
-            margin: 0 4vw;
+            margin: 0 .5rem;
             flex-wrap: wrap;
+            gap: 1rem;
 
             &-link {
-                font-size: 1rem;
                 margin: 0 .5rem;
 
                 &:hover {
@@ -113,21 +114,21 @@
             display: flex;
             flex-direction: row;
             align-items: center;
+            margin: 0 2rem;
         }
 
         &__social {
-            margin: 1rem;
+            margin: 2rem;
 
             &-svg {
                 height: 1.5rem;
-                margin: 1.5rem;
+                margin: 1rem;
             }
         }
 
         &__copyright {
             font-weight: normal;
             font-size: .9rem;
-            margin-top: 2rem;
         }
     }
 }

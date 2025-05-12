@@ -7,7 +7,7 @@ import Button from '../../components/Button/Button'
 import { getAllProducts } from '../../services/product'
 import { productType } from '../types'
 import { HashLoader } from 'react-spinners'
-import { sortArray } from '../../helpers'
+import { getUser, sortArray } from '../../helpers'
 import { useRouter } from 'next/navigation'
 
 type Props = {}
@@ -26,7 +26,7 @@ export default function Store({ }: Props) {
     const getProducts = async () => {
         try {
             setLoading(true)
-            const _products = await getAllProducts()
+            const _products = await getAllProducts(getUser())
             if (_products && Array.isArray(_products)) setProducts(_products)
             setLoading(false)
         } catch (error) {

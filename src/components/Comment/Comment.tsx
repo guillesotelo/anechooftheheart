@@ -1,14 +1,13 @@
+"use client"
+
 import { commentType, onChangeEventType } from '../../app/types'
-import Like from '../../assets/icons/like.svg'
-import LikeFilled from '../../assets/icons/like-filled.svg'
-import Reply from '../../assets/icons/reply.svg'
 import { useContext, useEffect, useState } from 'react'
 import { AppContext } from '../../app/context/AppContext'
 import { createComment, deleteComment, getRepliesById, updateComment } from '../../services/comment'
 import Button from '../Button/Button'
 import InputField from '../InputField/InputField'
 import toast from 'react-hot-toast'
-import { sortArray } from '../../helpers'
+import { getUser, sortArray } from '../../helpers'
 import ReplyComment from './ReplyComment'
 import { useRouter } from 'next/navigation'
 
@@ -74,7 +73,7 @@ export default function Comment({ comment, setReply, reply }: Props) {
         try {
             if (comment) {
                 let _likes = likes + (liked ? -1 : 1)
-                const updated = await updateComment({ ...comment, likes: _likes })
+                const updated = await updateComment({ ...comment, likes: _likes }, getUser())
                 if (updated) {
                     setLiked(!liked)
                     setLikes(_likes)
@@ -118,7 +117,7 @@ export default function Comment({ comment, setReply, reply }: Props) {
 
     const removeComment = async (comment: commentType) => {
         try {
-            const deleted = await deleteComment(comment)
+            const deleted = await deleteComment(comment, getUser())
             if (deleted) {
                 toast.success('Comment deleted')
                 setTimeout(() => router.refresh(), 1000)
@@ -155,7 +154,7 @@ export default function Comment({ comment, setReply, reply }: Props) {
                     <p className="comment__message">{comment?.comment}</p>
                     <div className="comment__btns">
                         <div className="comment__likes">
-                            <img src={liked ? LikeFilled : Like} onClick={likeComment} alt="Like this comment" className="comment__likes-img" draggable={false} />
+                            <img src={liked ? '/assets/icons/like-filled.svg' : '/assets/icons/like.svg'} onClick={likeComment} alt="Like this comment" className="comment__likes-img" draggable={false} />
                             {likes ? <p className="comment__likes-count">{likes}</p> : ''}
                         </div>
                         <p className='comment__reply-btn' onClick={renderReply}>{lang === 'es' ? 'Responder' : 'Reply'}</p>
@@ -167,7 +166,7 @@ export default function Comment({ comment, setReply, reply }: Props) {
             {openReply ?
                 <div className="comment__reply-row" >
                     <div className="comment__col" style={{ width: '15%' }}>
-                        <img src={Reply} alt="Reply" className="comment__reply-image" draggable={false} />
+                        <img src={'/assets/icons/reply.svg'} alt="Reply" className="comment__reply-image" draggable={false} />
                     </div>
                     <div className="comment__col" style={{ width: '80%' }}>
                         <p className="comment__reply-title">{lang === 'es' ? 'Responde a ' : 'Reply to '}{comment?.fullname ? <i>{comment.fullname.split(' ')[0]}</i> : ''}</p>

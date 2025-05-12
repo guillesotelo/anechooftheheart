@@ -1,12 +1,12 @@
+"use client"
+
 import { commentType, onChangeEventType } from '../../app/types'
-import Like from '../../assets/icons/like.svg'
-import LikeFilled from '../../assets/icons/like-filled.svg'
-import Reply from '../../assets/icons/reply.svg'
 import { useContext, useState } from 'react'
 import { AppContext } from '../../app/context/AppContext'
 import { deleteComment, updateComment } from '../../services/comment'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/navigation'
+import { getUser } from 'src/helpers'
 
 type Props = {
     comment?: commentType
@@ -51,7 +51,7 @@ export default function ReplyComment({ comment }: Props) {
         try {
             if (comment) {
                 let _likes = likes + (liked ? -1 : 1)
-                const updated = await updateComment({ ...comment, likes: _likes })
+                const updated = await updateComment({ ...comment, likes: _likes }, getUser())
                 if (updated) {
                     setLiked(!liked)
                     setLikes(_likes)
@@ -64,7 +64,7 @@ export default function ReplyComment({ comment }: Props) {
 
     const removeComment = async (comment: commentType) => {
         try {
-            const deleted = await deleteComment(comment)
+            const deleted = await deleteComment(comment, getUser())
             if (deleted) {
                 toast.success('Comment deleted')
                 setTimeout(() => router.refresh(), 1000)
@@ -84,11 +84,11 @@ export default function ReplyComment({ comment }: Props) {
             } else return comment.fullname.toUpperCase()
         }
     }
-    
+
     return (
         <div className="comment__row" style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid lightgray' }}>
             <div className="comment__col">
-                <img src={Reply} alt="Reply" className="comment__reply-image" draggable={false} />
+                <img src={'/assets/icons/reply.svg'} alt="Reply" className="comment__reply-image" draggable={false} />
             </div>
             <div className="comment__col" >
                 {comment?.isDany ?
@@ -102,7 +102,7 @@ export default function ReplyComment({ comment }: Props) {
                 <p className="comment__message">{comment?.comment}</p>
                 <div className="comment__btns">
                     <div className="comment__likes">
-                        <img src={liked ? LikeFilled : Like} onClick={likeComment} alt="Like this comment" className="comment__likes-img" draggable={false} />
+                        <img src={liked ? '/assets/icons/like-filled.svg' : '/assets/icons/like.svg'} onClick={likeComment} alt="Like this comment" className="comment__likes-img" draggable={false} />
                         {likes ? <p className="comment__likes-count">{likes}</p> : ''}
                         {isLoggedIn ? <p className='comment__reply-btn' onClick={() => removeComment(comment || {})} style={{ margin: '0 1rem' }}>Delete</p> : ''}
                     </div>

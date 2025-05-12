@@ -29,6 +29,10 @@
             transition: .3s;
         }
 
+        &-hamburger {
+            margin: 0 1rem;
+        }
+
         &-sidebar {
             &--hidden {
                 margin-top: 4vw;
@@ -144,7 +148,7 @@
             margin: 0;
             font-weight: normal;
             transition: .5s;
-            font-family: "Madelyn", sans-serif;
+            font-family: var(--font-madelyn), sans-serif;
             color: #fff;
 
             &:hover {

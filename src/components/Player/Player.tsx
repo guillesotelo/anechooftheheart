@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useContext, useEffect, useState } from 'react'
 import PlayTrack from '../../assets/icons/play-track.svg'
 import PauseTrack from '../../assets/icons/pause-track.svg'

@@ -1,3 +1,5 @@
+"use client"
+
 import { useContext, useState } from 'react'
 import InputField from '../../components/InputField/InputField'
 import Button from '../../components/Button/Button'
@@ -41,7 +43,7 @@ export default function Subscribe({ }: Props) {
 
     return (
         <div className='subscribe__container'>
-            <h2 style={{ fontFamily: '"Madelyn", sans-serif', fontSize: '5rem', margin: '2rem 0 0 0' }}>{lang === 'es' ? 'Únete a mi Comunidad' : 'Join my Mail Community'}</h2>
+            <h2 style={{ fontFamily: 'var(--font-madelyn), sans-serif', fontSize: '5rem', margin: '2rem 0 0 0' }}>{lang === 'es' ? 'Únete a mi Comunidad' : 'Join my Mail Community'}</h2>
             <h3 style={{ fontSize: '1.3rem', fontWeight: 'normal' }}>{lang === 'es' ? 'Únete y recibe cartas mensuales 🖤' : 'Sign up for monthly letters 🖤'}</h3>
             <div className="postviewer__subscribe-row">
                 <InputField

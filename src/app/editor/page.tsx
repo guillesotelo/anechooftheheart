@@ -1,3 +1,5 @@
+"use client"
+
 import { useContext, useEffect, useRef, useState } from 'react'
 import { Editor } from '@tinymce/tinymce-react'
 import InputField from '../../components/InputField/InputField'
@@ -14,7 +16,6 @@ import Dropdown from '../../components/Dropdown/Dropdown'
 import { clearDB, getAllRecordsFromDB, saveItemToDB } from '../../indexedDB'
 import imageCompression from 'browser-image-compression';
 import { convertToBase64, createSlug } from '../../helpers'
-import Upload from '../../assets/icons/upload.svg'
 import Tooltip from '../../components/Tooltip/Tooltip'
 import { usePathname, useRouter } from 'next/navigation'
 
@@ -425,7 +426,7 @@ export default function PostEditor({ }: Props) {
                             {data.imageUrl ? <img src={data.imageUrl} alt='Image URL' className='editor__image-url' /> : ''}
                             <Tooltip tooltip='Upload image'>
                                 <Button
-                                    svg={Upload}
+                                    svg={'/assets/icons/upload.svg'}
                                     handleClick={openFilePicker}
                                     bgColor='transparent'
                                     textColor='#fff'

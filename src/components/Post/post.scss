@@ -14,7 +14,7 @@
         animation: fade-in 1s ease-in;
         overflow: hidden;
     }
-    
+
     &__body {
         display: flex;
         flex-direction: column;
@@ -42,7 +42,7 @@
         width: fit-content;
         margin-top: 0;
         font-size: 4rem !important;
-        font-family: 'Madelyn', sans-serif;
+        font-family: var(--font-madelyn), sans-serif;
         text-align: center;
     }
 
@@ -142,6 +142,9 @@
             top: -1rem;
         }
 
+        &__title {
+            font-size: 2.5rem !important;
+        }
 
         &__side-images {
             width: 100%;

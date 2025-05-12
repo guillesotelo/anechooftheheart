@@ -120,8 +120,17 @@
             margin-bottom: 1rem;
             animation: fade-in-card 1.5s ease-in;
 
+            &:hover {
+                filter: none;
+            }
+
+            &:hover .postcard__image {
+                transform: none;
+                filter: none;
+            }
+
             &:hover .postcard__image-overlap {
-                font-size: 5vw;
+                opacity: 0;
             }
         }
 

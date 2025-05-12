@@ -4,7 +4,7 @@ export default function About() {
   return (
     <div className="about__container fade-in">
       <div className="about__col">
-        <h1 className="about__title" style={{ fontFamily: '"Madelyn", sans-serif', fontSize: '4rem', margin: 0 }}>Blog Summary</h1>
+        <h1 className="about__title" style={{ fontFamily: 'var(--font-madelyn), sans-serif', fontSize: '4rem', margin: 0 }}>Blog Summary</h1>
         <div className="about__text-container">
           <p className='about__text' style={{ width: '100%' }}>
             An Echo of the Heart is a creative space where I, Daniela García—writer, mother, and founder of Bespoken—share stories rooted in travel, motherhood, personal growth, and creative living. Born from a desire to connect and inspire, this blog captures the quiet truths of everyday life, inviting readers to pause, reflect, and reconnect with their inner world.
@@ -14,7 +14,7 @@ export default function About() {
           </p>
         </div>
 
-        <h1 className="about__title" style={{ fontFamily: '"Madelyn", sans-serif', fontSize: '4rem', margin: 0 }}>About The Blog</h1>
+        <h1 className="about__title" style={{ fontFamily: 'var(--font-madelyn), sans-serif', fontSize: '4rem', margin: 0 }}>About The Blog</h1>
         <div className="about__text-container">
           <p className='about__text' style={{ width: '100%' }}>
             Some years ago, as I slowed down and quieted my life, an inward and spiritual search sparked within me, deeper than ever before. I began connecting with the words of mentors, books, and inspiring people, while also learning to truly listen to my own thoughts and feelings. That quiet shift became a profound turning point in my life.

@@ -24,17 +24,22 @@ type Props = {
 }
 
 export const AppProvider = ({ children }: Props) => {
-    const preferedLang = localStorage.getItem('preferedLang')
-    const localLang = preferedLang ? preferedLang : navigator.language.startsWith('es') ? 'es' : 'en'
     const isInstagram = (navigator.userAgent.indexOf('Instagram') > -1) ? true : false
-    const [isMobile, setIsMobile] = useState(isInstagram || window.screen.width <= 640)
+    const [isMobile, setIsMobile] = useState(false)
     const [lang, setLang] = useState<string>('en')
     const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null)
     const [darkMode, setDarkMode] = useState<boolean>(false)
     const [search, setSearch] = useState<string[]>([])
+    const [windowLoading, setWindowLoading] = useState(true)
     const pathname = usePathname()
 
     useEffect(() => {
+        if (typeof window !== 'undefined') {
+            setWindowLoading(false)
+            setLang(localStorage.getItem('lang') || 'en')
+        }
+
+        setIsMobile(isMobileDevice())
         const checkWidth = () => setIsMobile(window.innerWidth <= 768)
 
         window.addEventListener("resize", checkWidth)
@@ -46,10 +51,10 @@ export const AppProvider = ({ children }: Props) => {
 
         ReactGA.send({
             hitType: 'pageview',
-            page: window.location.pathname
+            page: pathname
         })
 
-    }, [pathname, window.location.pathname])
+    }, [pathname])
 
     const isMobileDevice = () => {
         if (typeof window === 'undefined') return false // Server-side check
@@ -107,9 +112,7 @@ export const AppProvider = ({ children }: Props) => {
     ])
 
 
-    return (
-        <AppContext.Provider value={contextValue}>
-            {children}
-        </AppContext.Provider>
-    )
+    return windowLoading ? null : <AppContext.Provider value={contextValue}>
+        {children}
+    </AppContext.Provider>
 }
