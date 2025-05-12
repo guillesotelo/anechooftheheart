@@ -108,7 +108,6 @@ export default function PostViewer({ post, comments }: Props) {
     }
 
     const getPost = async () => {
-        console.log(post)
         if (post && post._id) {
             if (post.unpublished && !isLoggedIn === false) router.back()
 
