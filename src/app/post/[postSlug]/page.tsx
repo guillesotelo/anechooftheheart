@@ -56,7 +56,7 @@ export async function generateMetadata({ params }: PostProps): Promise<Metadata>
     }
 }
 
-export default async function EditionPage({ params }: PostProps) {
+export default async function PostPage({ params }: PostProps) {
     const { postSlug } = params
     const posts = await getCachedPosts()
     const post = getPostBySlug(postSlug, posts)

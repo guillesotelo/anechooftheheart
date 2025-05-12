@@ -185,29 +185,36 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
                                     className="header__menu-subitem-text"
                                     onClick={() => {
                                         setTimeout(() => setMenuToggle(false), 50)
-                                        router.push('/blog?category=inspiration')
+                                        router.push('/blog/inspiration')
                                     }}>{TEXT[lang]['inspiration']}</h4>
                                 <h4
                                     className="header__menu-subitem-text"
                                     style={{ animationDelay: '.2s' }}
                                     onClick={() => {
                                         setTimeout(() => setMenuToggle(false), 50)
-                                        router.push('/blog?category=motherhood')
+                                        router.push('/blog/motherhood')
                                     }}>{TEXT[lang]['motherhood']}</h4>
                                 <h4
                                     className="header__menu-subitem-text"
                                     style={{ animationDelay: '.4s' }}
                                     onClick={() => {
                                         setTimeout(() => setMenuToggle(false), 50)
-                                        router.push('/blog?category=life_abroad')
+                                        router.push('/blog/life_abroad')
                                     }}>{TEXT[lang]['life_abroad']}</h4>
                                 <h4
                                     className="header__menu-subitem-text"
                                     style={{ animationDelay: '.5s' }}
                                     onClick={() => {
                                         setTimeout(() => setMenuToggle(false), 50)
-                                        router.push('/blog?category=\career_insights')
+                                        router.push('/blog/career_insights')
                                     }}>{TEXT[lang]['career_insights']}</h4>
+                                    <h4
+                                    className="header__menu-subitem-text"
+                                    style={{ animationDelay: '.5s' }}
+                                    onClick={() => {
+                                        setTimeout(() => setMenuToggle(false), 50)
+                                        router.push('/blog/all')
+                                    }}>All posts</h4>
                             </div>
                             :
                             <>
@@ -316,27 +323,27 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
                         <h4 className="header__item-text no-pointer">{TEXT[lang]['blog']}</h4>
                         <img className="header__item-svg" src={'/assets/icons/chevron-down.svg'} />
                         <div className="header__item-dropdown" style={{ background: bigHeader ? '#00000099' : '#00000092' }}>
-                            <div className="header__item-dropdown-row" onClick={() => router.push('/blog?category=inspiration')}>
+                            <div className="header__item-dropdown-row" onClick={() => router.push('/blog/inspiration')}>
                                 <h4 className="header__item-dropdown-text">
                                     {TEXT[lang]['inspiration']}
                                 </h4>
                             </div>
-                            <div className="header__item-dropdown-row" onClick={() => router.push('/blog?category=motherhood')}>
+                            <div className="header__item-dropdown-row" onClick={() => router.push('/blog/motherhood')}>
                                 <h4 className="header__item-dropdown-text">
                                     {TEXT[lang]['motherhood']}
                                 </h4>
                             </div>
-                            <div className="header__item-dropdown-row" onClick={() => router.push('/blog?category=life_abroad')}>
+                            <div className="header__item-dropdown-row" onClick={() => router.push('/blog/life_abroad')}>
                                 <h4 className="header__item-dropdown-text">
                                     {TEXT[lang]['life_abroad']}
                                 </h4>
                             </div>
-                            <div className="header__item-dropdown-row" onClick={() => router.push('/blog?category=\career_insights')}>
+                            <div className="header__item-dropdown-row" onClick={() => router.push('/blog/\career_insights')}>
                                 <h4 className="header__item-dropdown-text">
                                     {TEXT[lang]['career_insights']}
                                 </h4>
                             </div>
-                            <div className="header__item-dropdown-row" onClick={() => router.push('/blog')}>
+                            <div className="header__item-dropdown-row" onClick={() => router.push('/blog/all')}>
                                 <h4 className="header__item-dropdown-text">
                                     {TEXT[lang]['see_all']}
                                 </h4>

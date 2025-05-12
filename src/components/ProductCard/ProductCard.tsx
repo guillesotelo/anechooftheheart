@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { productType } from '../../app/types'
 import { useRouter } from 'next/navigation'
+import { HashLoader } from 'react-spinners'
 
 type Props = {
     product?: productType
@@ -10,6 +11,7 @@ type Props = {
 
 export default function ProductCard({ product, style, index }: Props) {
     const [mainImage, setMainImage] = useState('')
+    const [loading, setLoading] = useState(false)
     const router = useRouter()
 
     const {
@@ -24,6 +26,7 @@ export default function ProductCard({ product, style, index }: Props) {
     }, [images])
 
     const goToProductPage = () => {
+        setLoading(true)
         router.push(`/store/product/${_id}`)
     }
 
@@ -54,6 +57,7 @@ export default function ProductCard({ product, style, index }: Props) {
             <div className="productcard__image-frame">
                 <div className="productcard__image-wrapper">
                     <img src={mainImage} alt={title} className="productcard__image" />
+                    {loading && <div className='productcard__loader'><HashLoader size={40} color='gray'/></div>}
                 </div>
             </div>
             <p className="productcard__title">{getTitle(title)}</p>

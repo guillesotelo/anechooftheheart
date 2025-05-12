@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { AppContext } from '../../app/context/AppContext'
 import { TEXT } from '../../constants/lang'
@@ -18,6 +18,7 @@ export default function Post({ headers, content, spaContent, linkLang }: Props) 
     const [sideImgStyles, setSideImgStyles] = useState<React.CSSProperties[]>([])
     const [spanish, setSpanish] = useState(false)
     const { lang, isMobile } = useContext(AppContext)
+    const contentRef = useRef<null | HTMLDivElement>(null)
 
     useEffect(() => {
         setSpanish(lang === 'es' || linkLang === 'es')
@@ -28,10 +29,49 @@ export default function Post({ headers, content, spaContent, linkLang }: Props) 
         if (headers.sideImgStyles) setSideImgStyles(headers.sideImgStyles)
     }, [content])
 
+    useEffect(() => {
+        if (!contentRef.current) return;
+        // Defer styling until the DOM has painted the injected HTML
+        setTimeout(() => styleImagesInParagraphs(), 200)
+    }, [spaContent, content])
+
     const copyLink = () => {
         const currentUrl = window.location.href;
         navigator.clipboard.writeText(`${currentUrl}&lang=${lang}`)
         toast.success(TEXT[lang]['link_copied'])
+    }
+
+    const styleImagesInParagraphs = () => {
+        if (contentRef.current) {
+            const paragraphs = contentRef.current.querySelectorAll('p');
+            console.log(paragraphs)
+            paragraphs.forEach(paragraph => {
+                const images = paragraph.querySelectorAll('img');
+                if (images.length === 1) {
+                    (images[0] as HTMLElement).style.width = '100%';
+                    if (isMobile) (images[0] as HTMLElement).style.width = '90%';
+                } else if (images.length > 1) {
+                    paragraph.style.textAlign = 'center';
+                    const width = 100 / images.length;
+                    images.forEach(image => {
+                        // (image as HTMLElement).style.width = `${width}%`;
+                        (image as HTMLElement).style.height = 'auto';
+                        (image as HTMLElement).style.display = 'inline';
+                        if (isMobile) (image as HTMLElement).style.width = '100%';
+                    });
+                }
+            });
+
+            const paragraphsWithImages = Array.from(document.querySelectorAll('p > img'))
+            paragraphsWithImages.forEach((image) => {
+                if (image.parentElement instanceof HTMLElement) {
+                    const paragraph = image.parentElement
+                    paragraph.style.textAlign = 'center';
+                    (image as HTMLElement).style.display = 'inline';
+                    if (isMobile) (image as HTMLElement).style.width = '100%';
+                }
+            })
+        }
     }
 
     return (
@@ -60,6 +100,7 @@ export default function Post({ headers, content, spaContent, linkLang }: Props) 
                 </div>
                 <div
                     className="post__content"
+                    ref={contentRef}
                     dangerouslySetInnerHTML={{ __html: spanish && spaContent && spaContent.length > 10 ? spaContent : content || spaContent || '' }}
                 />
             </div>
