@@ -1,3 +1,5 @@
+"use client"
+
 import { useContext, useState } from 'react'
 import InputField from '../../components/InputField/InputField'
 import Button from '../../components/Button/Button'

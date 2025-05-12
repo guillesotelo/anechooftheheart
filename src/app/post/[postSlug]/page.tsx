@@ -26,7 +26,7 @@ export async function generateStaticParams() {
     }))
 }
 
-export const getPostBySlug = (slug: string, posts: postType[]) => {
+const getPostBySlug = (slug: string, posts: postType[]) => {
     return posts.find((p: postType) => p.slug === slug) || {}
 }
 

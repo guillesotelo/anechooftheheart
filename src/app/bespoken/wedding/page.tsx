@@ -1,12 +1,11 @@
 "use client"
 
-import { usePathname, useRouter } from "next/navigation"
+import { useRouter } from "next/navigation"
 import { useContext, useEffect, useState } from "react"
 import { AppContext } from "src/app/context/AppContext"
-import { TEXT } from "src/constants/lang"
 import { getScrappedImages } from "src/services/app"
 
-export const renderDiyWedding = () => {
+export default function renderDiyWedding() {
     const [wedding, setWedding] = useState<any>([])
     const [loading, setLoading] = useState({ products: false, wedding: false, adornments: false, gifts: false })
     const [showPin, setShowPin] = useState(-1)

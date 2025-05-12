@@ -6,7 +6,7 @@ import { AppContext } from "src/app/context/AppContext"
 import { TEXT } from "src/constants/lang"
 import { getScrappedImages } from "src/services/app"
 
-export const renderProducts = () => {
+export default function renderProducts() {
     const [images, setImages] = useState<any>([])
     const [products, setProducts] = useState('')
     const [arrangements, setArrangements] = useState<any>([])

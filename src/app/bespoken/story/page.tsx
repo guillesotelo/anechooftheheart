@@ -8,7 +8,7 @@ import Carousel from "src/components/Carousel/Carousel"
 import { APP_COLORS } from "src/constants/app"
 import { whatsappMessage } from '../../../constants/whatsappMessage'
 
-export const renderStory = () => {
+export default function renderStory() {
     const { isMobile } = useContext(AppContext)
     const router = useRouter()
 

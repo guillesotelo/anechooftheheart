@@ -3,9 +3,9 @@
 import { useContext } from "react"
 import { AppContext } from "src/app/context/AppContext"
 
-export const renderValues = () => {
+export default function renderValues() {
     const { isMobile } = useContext(AppContext)
-    
+
     return (
         <div className="bespoken__container">
             <div className="page__header">
