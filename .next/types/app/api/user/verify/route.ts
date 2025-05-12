@@ -1,4 +1,4 @@
-// File: /home/guillermo/Documents/git/anechooftheheart/src/app/api/user/verify/route.ts
+// File: /Users/guillermo/Documents/projects/anechooftheheart/src/app/api/user/verify/route.ts
 import * as entry from '../../../../../../src/app/api/user/verify/route.js'
 import type { NextRequest } from 'next/server.js'
 

@@ -32,7 +32,7 @@ export default function Bespoken() {
                         }
                     </h3> */}
             </div>
-            <div className="bespoken__section-card" onClick={() => router.push('/bespoken/our_handcrafted_wedding')}>
+            <div className="bespoken__section-card" onClick={() => router.push('/bespoken/wedding')}>
                 <h2 className="bespoken__section-title">{TEXT[lang]['our_handcrafted_wedding']}</h2>
                 {/* <h3 className="bespoken__section-description">
                         {lang === 'es' ?

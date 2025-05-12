@@ -1,4 +1,4 @@
-// File: /home/guillermo/Documents/git/anechooftheheart/src/app/api/post/getById/route.ts
+// File: /Users/guillermo/Documents/projects/anechooftheheart/src/app/api/post/getById/route.ts
 import * as entry from '../../../../../../src/app/api/post/getById/route.js'
 import type { NextRequest } from 'next/server.js'
 

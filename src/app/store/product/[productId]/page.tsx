@@ -20,7 +20,7 @@ export async function generateStaticParams() {
     }))
 }
 
-export const getProductById = (id: string, products: productType[]) => products.find((p: productType) => p._id === id) || {}
+const getProductById = (id: string, products: productType[]) => products.find((p: productType) => p._id === id) || {}
 
 export async function generateMetadata({ params }: ProductProps): Promise<Metadata> {
     const { productId } = params

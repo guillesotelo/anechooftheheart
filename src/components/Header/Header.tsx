@@ -114,7 +114,7 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
         if (prompt.trim()) {
             setSearchClicked(false)
             setSearch(prompt.split(' '))
-            router.push('/search')
+            router.push(`/search/${encodeURIComponent(prompt)}`)
             setPrompt('')
         }
     }
@@ -374,7 +374,7 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
                                     {TEXT[lang]['products']}
                                 </h4>
                             </div>
-                            {/* <div className="header__item-dropdown-row" onClick={() => router.push('/bespoken/our_handcrafted_wedding')}>
+                            {/* <div className="header__item-dropdown-row" onClick={() => router.push('/bespoken/wedding')}>
                                 <h4 className="header__item-dropdown-text">
                                     {TEXT[lang]['our_handcrafted_wedding']}
                                 </h4>
