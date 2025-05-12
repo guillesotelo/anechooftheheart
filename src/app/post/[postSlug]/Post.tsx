@@ -47,10 +47,6 @@ export default function PostViewer({ post, comments }: Props) {
         if (comments) setPostComments(comments)
     }, [post, comments])
 
-    useEffect(() => {
-        styleImagesInParagraphs()
-    }, [html, spaHtml])
-
     const updateSubscribeData = (key: string, e: onChangeEventType) => {
         const value = e.target.value
         setSubscribeData({ ...subscribeData, [key]: value })
@@ -69,36 +65,6 @@ export default function PostViewer({ post, comments }: Props) {
         } else toast.error(TEXT[lang]['subscribe_error'])
 
         return toast.remove(loading)
-    }
-
-    const styleImagesInParagraphs = () => {
-        const paragraphs = document.querySelectorAll('p');
-        paragraphs.forEach(paragraph => {
-            const images = paragraph.querySelectorAll('img');
-            if (images.length === 1) {
-                (images[0] as HTMLElement).style.width = '100%';
-                if (isMobile) (images[0] as HTMLElement).style.width = '90%';
-            } else if (images.length > 1) {
-                paragraph.style.textAlign = 'center';
-                const width = 100 / images.length;
-                images.forEach(image => {
-                    // (image as HTMLElement).style.width = `${width}%`;
-                    (image as HTMLElement).style.height = 'auto';
-                    (image as HTMLElement).style.display = 'inline';
-                    if (isMobile) (image as HTMLElement).style.width = '100%';
-                });
-            }
-        });
-
-        const paragraphsWithImages = Array.from(document.querySelectorAll('p > img'))
-        paragraphsWithImages.forEach((image) => {
-            if (image.parentElement instanceof HTMLElement) {
-                const paragraph = image.parentElement
-                paragraph.style.textAlign = 'center';
-                (image as HTMLElement).style.display = 'inline';
-                if (isMobile) (image as HTMLElement).style.width = '100%';
-            }
-        })
     }
 
     const getCategory = () => {
@@ -186,7 +152,7 @@ export default function PostViewer({ post, comments }: Props) {
                 {category ?
                     <>
                         {!isMobile ? <h4 className='postviewer__routes-link' >&nbsp;-&nbsp;</h4> : ''}
-                        <h4 className='postviewer__routes-link' onClick={() => router.push(`/blog?category=${category.trim().replaceAll(' ', '_')}`)}>{isMobile ? '.' : ''}{capitalizeFirstLetter(category)}</h4>
+                        <h4 className='postviewer__routes-link' onClick={() => router.push(`/blog/${category.trim().replaceAll(' ', '_')}`)}>{isMobile ? '.' : ''}{capitalizeFirstLetter(category)}</h4>
                     </>
                     : ''}
                 {!isMobile ? <h4 className='postviewer__routes-link' >&nbsp;-&nbsp;</h4> : ''}

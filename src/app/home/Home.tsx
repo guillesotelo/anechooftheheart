@@ -142,7 +142,7 @@ export default function Home({ data }: dataObj) {
                     </div>
                     <Button
                         label={lang === 'es' ? 'Ver todo' : 'View all'}
-                        handleClick={() => router.push(`/blog?category=inspiration`)}
+                        handleClick={() => router.push(`/blog/inspiration`)}
                         style={{ margin: '0 0 4rem' }}
                     />
                 </div>
@@ -183,7 +183,7 @@ export default function Home({ data }: dataObj) {
                     </div>
                     <Button
                         label={lang === 'es' ? 'Ver todo' : 'View all'}
-                        handleClick={() => router.push(`/blog?category=motherhood`)}
+                        handleClick={() => router.push(`/blog/motherhood`)}
                         style={{ margin: '0 0 6rem' }}
                     />
                 </div>
@@ -202,7 +202,7 @@ export default function Home({ data }: dataObj) {
                     </div>
                     <Button
                         label={lang === 'es' ? 'Ver todo' : 'View all'}
-                        handleClick={() => router.push(`/blog?category=life_abroad`)}
+                        handleClick={() => router.push(`/blog/life_abroad`)}
                         style={{ margin: '0 0 4rem' }}
                     />
                 </div>

@@ -3,6 +3,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { AppContext } from '../../app/context/AppContext'
 import { postType } from '../../app/types'
+import { HashLoader } from 'react-spinners'
 
 type Props = {
     post: postType
@@ -12,6 +13,7 @@ type Props = {
 
 export default function PostCard({ post, index, style }: Props) {
     const [spanish, setSpanish] = useState(false)
+    const [loading, setLoading] = useState(false)
     const { lang, isMobile } = useContext(AppContext)
     const webUrl = process.env.NODE_ENV === 'production' ?
         'https://anechooftheheart.com' : 'http://localhost:3000'
@@ -33,6 +35,7 @@ export default function PostCard({ post, index, style }: Props) {
         <a
             className='postcard__container'
             href={`${webUrl}/post/${post.slug}`}
+            onClick={() => setLoading(true)}
             style={{
                 opacity: !post.published ? '.5' : '1',
                 width: isMobile ? '70%' : index % 5 === 0 ? '45%' : '',
@@ -53,6 +56,7 @@ export default function PostCard({ post, index, style }: Props) {
                         height: !post.imageUrl && !JSON.parse(post.sideImgs || '[]')[0] ? '50%' : '100%',
                     }}
                 />
+                {loading && <div className='productcard__loader'><HashLoader size={40} color='gray' /></div>}
             </div>
             <div className="postcard__text">
                 <h4 className="postcard__text-subtitle">{spanish && post.spaSubtitle ? post.spaSubtitle : post.subtitle || post.spaSubtitle || ''}</h4>
