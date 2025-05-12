@@ -1,10 +1,13 @@
+"use client"
+
 import React, { useContext, useEffect, useState } from 'react'
 import { getAllPosts } from '../../services/post'
 import PostCard from '../../components/PostCard/PostCard'
-import { postType } from '../types'
-import { AppContext } from '../context/AppContext'
+import { postType } from '../../app/types'
+import { AppContext } from '../../app/context/AppContext'
 import { TEXT } from '../../constants/lang'
 import Switch from '../../components/Switch/Switch'
+import { getUser } from 'src/helpers'
 
 type Props = {
 }
@@ -15,7 +18,7 @@ export default function Blog({ }: Props) {
     const [loading, setLoading] = useState(false)
     const [showPublished, setShowPublished] = useState(false)
     const [category, setCategory] = useState('')
-    const { isLoggedIn, lang } = useContext(AppContext)
+    const { isLoggedIn, lang, isMobile } = useContext(AppContext)
 
     useEffect(() => {
         const cat = new URLSearchParams(document.location.search).get('category')
@@ -41,7 +44,7 @@ export default function Blog({ }: Props) {
         // const duedate = localStorage.getItem('duedate') ? localStorage.getItem('duedate') : null
         // const localPosts = duedate && !hasCaducated(JSON.parse(duedate)) && localStorage.getItem('posts') ? JSON.parse(localStorage.getItem('posts') || '[]') : []
         // const posts = localPosts.length ? localPosts : await getAllPosts(isLoggedIn || false)
-        const posts = await getAllPosts(isLoggedIn || false)
+        const posts = await getAllPosts(getUser())
         setLoading(false)
         if (posts && Array.isArray(posts)) {
             setAllPosts(posts)
@@ -70,7 +73,7 @@ export default function Blog({ }: Props) {
         return parsedDate < twoHoursAgo
     }
 
-    const parseCategory = (cat: string) => TEXT[lang][cat]
+    const parseCategory = (cat: string) => TEXT[lang][cat].split('').map((c, i, a) => i === 0 || (a[i - 1] && a[i - 1] === ' ') ? c.toUpperCase() : c.toLowerCase())
 
     return (
         <div className='blog__container'>
@@ -80,10 +83,10 @@ export default function Blog({ }: Props) {
                 off='No'
                 value={showPublished}
                 setValue={setShowPublished}
-                style={{ position: 'absolute', right: '1rem', transform: 'scale(0.9)' }}
+                style={{ position: 'absolute', right: isMobile ? 0 : '1rem', top: isMobile ? '5rem' : '', transform: 'scale(0.9)' }}
             /> : ''}
             <div className="page__header">
-                <h4 className="page__header-title-blog">{category ? parseCategory(category) : lang === 'es' ? 'BITÁCORA ABIERTA' : 'OPEN JOURNAL'}</h4>
+                <h4 className="page__header-title-blog">{category ? parseCategory(category) : 'Open Journal'}</h4>
                 {category ? <h4 className="page__header-subtitle-blog">{TEXT[lang][`${category}_cap`]}</h4> : ''}
                 <p className="blog__caption">
                     {!category ?

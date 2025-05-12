@@ -80,4 +80,8 @@ export const history = (path = '/') => {
     const mainDomain = prod ? 'anechooftheheart.com' : 'localhost:3000'
     const protocol = prod ? window.location.protocol : 'http:'
     window.location.href = `${protocol}//${mainDomain}${path}`;
-};
+}
+
+export const capitalizeFirstLetter = (str: string) => {
+    return String(str).charAt(0).toUpperCase() + String(str).slice(1)
+}

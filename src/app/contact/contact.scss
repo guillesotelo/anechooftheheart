@@ -1,6 +1,6 @@
 .contact {
     &__container {
-        padding: 5vw 4vw 30vw 4vw;
+        padding: 2rem;
     }
 
     &__row-container {
@@ -74,7 +74,7 @@
 @media only screen and (max-width: 640px) {
     .contact {
         &__container {
-            padding: 16vw 6vw 60vh 6vw;
+            padding: 2rem 2rem 25rem 2rem;
             display: flex;
             flex-direction: column;
             text-align: justify;

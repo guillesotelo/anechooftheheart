@@ -1,3 +1,5 @@
+"use client"
+
 import { useContext, useEffect, useState } from 'react'
 import { AppContext } from '../../context/AppContext'
 import DataTable from '../../../components/DataTable/DataTable'
@@ -13,6 +15,7 @@ import Dropdown from '../../../components/Dropdown/Dropdown'
 import { HashLoader, RingLoader } from 'react-spinners'
 import Tooltip from '../../../components/Tooltip/Tooltip'
 import { useRouter } from 'next/navigation'
+import { getUser } from 'src/helpers'
 
 type Props = {}
 
@@ -43,7 +46,7 @@ export default function EditStore({ }: Props) {
 
     const getProducts = async () => {
         try {
-            const _products = await getAllProducts()
+            const _products = await getAllProducts(getUser())
             if (_products && Array.isArray(_products)) setProducts(_products)
         } catch (error) {
             console.error(error)
@@ -59,7 +62,7 @@ export default function EditStore({ }: Props) {
         try {
             if (checkData()) return toast.error('Check required fields.')
             setLoading(true)
-            const saved = await createProduct(product)
+            const saved = await createProduct(product, getUser())
             if (saved) {
                 toast.success('Product saved successfully!')
                 setSelectedProduct(-1)
@@ -80,7 +83,7 @@ export default function EditStore({ }: Props) {
         try {
             if (checkData()) return toast.error('Check required fields.')
             setLoading(true)
-            const saved = await updateProduct(product)
+            const saved = await updateProduct(product, getUser())
             if (saved) {
                 toast.success('Product updated successfully!')
                 setSelectedProduct(-1)
@@ -99,7 +102,7 @@ export default function EditStore({ }: Props) {
     const saveTableDataOrder = async (items: productType[]) => {
         try {
             setLoading(true)
-            const updatedProducts = await updateProductOrder(items.map((item, i) => { return { ...item, order: i } }))
+            const updatedProducts = await updateProductOrder(items.map((item, i) => { return { ...item, order: i } }), getUser())
             if (updatedProducts && updatedProducts.length) {
                 setProducts(updatedProducts)
                 toast.success('Order updated successfully')
@@ -127,7 +130,7 @@ export default function EditStore({ }: Props) {
     const deleteSelectedProduct = async () => {
         try {
             setLoading(true)
-            const deleted = await deleteProduct(product)
+            const deleted = await deleteProduct(product, getUser())
             if (deleted) {
                 toast.success('Product deleted successfully!')
                 setSelectedProduct(-1)

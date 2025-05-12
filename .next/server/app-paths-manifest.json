@@ -1,5 +1,7 @@
 {
   "/page": "app/page.js",
-  "/store/page": "app/store/page.js",
-  "/login/page": "app/login/page.js"
+  "/api/post/getAll/route": "app/api/post/getAll/route.js",
+  "/post/[postSlug]/page": "app/post/[postSlug]/page.js",
+  "/api/post/getById/route": "app/api/post/getById/route.js",
+  "/api/comment/getByPostId/route": "app/api/comment/getByPostId/route.js"
 }

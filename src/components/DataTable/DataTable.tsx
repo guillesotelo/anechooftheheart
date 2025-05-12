@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useContext, useEffect, useState } from 'react'
 import MoonLoader from "react-spinners/MoonLoader"
 import { dataObj } from '../../app/types'

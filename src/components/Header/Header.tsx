@@ -1,3 +1,5 @@
+"use client"
+
 import { useContext, useEffect, useState } from 'react'
 import Button from '../Button/Button'
 import { verifyToken } from '../../services/user'
@@ -9,6 +11,7 @@ import { TEXT } from '../../constants/lang'
 import { onChangeEventType, postType } from '../../app/types'
 import { getPostBySlug } from '../../services/post'
 import Tooltip from '../Tooltip/Tooltip'
+import Hamburger from 'hamburger-react'
 import { usePathname, useRouter } from 'next/navigation'
 import { getUser } from 'src/helpers'
 
@@ -39,7 +42,7 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
         const blog = document.querySelector('.blog__container')
         window.addEventListener('mouseup', e => {
             const clicked = e.target
-            if (clicked !== svg) setMenuToggle(false)
+            // if (clicked !== svg) setMenuToggle(false)
             if (clicked === container
                 || clicked === home
                 || clicked === blog
@@ -86,12 +89,10 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
 
     const verifyUser = async () => {
         try {
-            const verified = await verifyToken(getUser().token)
-            if (verified && verified.token) {
-                setIsLoggedIn(true)
-            } else setIsLoggedIn(false)
-        } catch (error) {
-            setIsLoggedIn(false)
+            const isLodded = await verifyToken(getUser())
+            if (isLodded) setIsLoggedIn(isLodded)
+        } catch (err) {
+            console.error(err)
         }
     }
 
@@ -158,8 +159,11 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
     const renderMobile = () => {
         return (
             <>
-                <div className='header__menu' onClick={() => setMenuToggle(!menuToggle)} >
-                    <img className="header__menu-svg" src={'/assets/icons/menu-icon.svg'} />
+                <div className='header__menu' >
+                    {/* <img className="header__menu-svg" src={Menu} /> */}
+                    <div className='header__menu-hamburger' onClick={() => setMenuToggle(!menuToggle)}>
+                        <Hamburger animateOnMount size={25} toggled={menuToggle} toggle={setMenuToggle} color='#dcdcdc' easing="ease-in" rounded label="Show menu" />
+                    </div>
                     <div className={`header__menu-sidebar${menuToggle ? '--toggled' : '--hidden'}`}>
                         {window.location.pathname !== '/' &&
                             <div className="header__menu-item">
@@ -244,8 +248,7 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
                         }}>
                             <h4 className="header__menu-item-text" style={{
                                 position: 'fixed',
-                                bottom: '20%',
-                                marginBottom: '2.5rem',
+                                bottom: '15%',
                                 color: '#fff',
                                 fontSize: isMobile ? '.9rem' : '.75rem'
                             }}
@@ -273,7 +276,7 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
                             : ''}
                     </div>
                     : ''}
-                {!searchClicked && !isLoggedIn ?
+                {!searchClicked && !isLoggedIn && bespokenLogo ?
                     <div className="header__logo"
                         onClick={() => {
                             setSearch([])
@@ -282,23 +285,19 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
                             else router.push('/')
                         }}>
                         {/* <h4 className="header__logo-text">An Echo of the Heart</h4> */}
-                        {bespokenLogo ?
-                            <img
-                                className="header__logo-image"
-                                style={{
-                                    maxHeight: '2rem',
-                                    margin: 0
-                                }}
-                                src={bespokenLogo}
-                                alt='Bespoken'
-                                loading='lazy' />
-                            :
-                            ''
-                        }
+                        <img
+                            className="header__logo-image"
+                            style={{
+                                maxHeight: '2rem',
+                                margin: 0
+                            }}
+                            src={bespokenLogo}
+                            alt='Bespoken'
+                            loading='lazy' />
                     </div>
                     : ''}
                 <div className="header__search" >
-                    <img className="header__search-svg" src='/assets/icons/search-icon.svg' onClick={triggerSearch} />
+                    <img className="header__search-svg" src={'/assets/icons/search-icon.svg'} onClick={triggerSearch} />
                     {searchClicked ?
                         <input type="text" className="header__search-input" placeholder={TEXT[lang]['search']} onChange={handleSearch} onKeyDown={e => {
                             if (e.key === 'Enter') triggerSearch()
@@ -368,11 +367,11 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
                                     {TEXT[lang]['products']}
                                 </h4>
                             </div>
-                            <div className="header__item-dropdown-row" onClick={() => router.push('/bespoken/our_handcrafted_wedding')}>
+                            {/* <div className="header__item-dropdown-row" onClick={() => router.push('/bespoken/our_handcrafted_wedding')}>
                                 <h4 className="header__item-dropdown-text">
                                     {TEXT[lang]['our_handcrafted_wedding']}
                                 </h4>
-                            </div>
+                            </div> */}
                             {/* <div className="header__item-dropdown-row" onClick={() => router.push('/bespoken/values')}>
                                     <h4 className="header__item-dropdown-text">
                                         {TEXT[lang]['values']}
@@ -461,7 +460,7 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
                     <div className="header__search" >
                         {/* <div className="header__item header__language" style={{ justifySelf: 'flex-end' }}>
                             <h4 className="header__item-text">{lang.toUpperCase()}</h4>
-                            <img className="header__item-svg" src={'/assets/icons/chevron-down.svg} />
+                            <img className="header__item-svg" src={'/assets/icons/chevron-down.svg'} />
                             <div className="header__item-dropdown" style={{ marginTop: bigHeader ? '5rem' : '3rem' }}>
                                 <div className="header__item-dropdown-row" onClick={() => changeLanguage('en')}>
                                     <img src={UsaFlag} alt="" className="header__item-dropdown-img header__item-dropdown-text" />
@@ -481,7 +480,7 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
                             <div className="header__item" onClick={() => router.push('/')} style={{ marginRight: '2rem' }}>
                                 <h4 className="header__item-text">HOME</h4>
                             </div>}
-                        <img className="header__search-svg" src='/assets/icons/search-icon.svg' onClick={triggerSearch} />
+                        <img className="header__search-svg" src={'/assets/icons/search-icon.svg'} onClick={triggerSearch} />
                         {searchClicked || !isMobile ?
                             <input type="text" className="header__search-input" placeholder={TEXT[lang]['search']} onChange={handleSearch} onKeyDown={e => {
                                 if (e.key === 'Enter') triggerSearch()

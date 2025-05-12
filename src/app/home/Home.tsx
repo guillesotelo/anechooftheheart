@@ -2,30 +2,37 @@
 
 import { useContext, useEffect, useState } from 'react'
 import PostCard from '../../components/PostCard/PostCard'
-import { AppContext } from '../context/AppContext'
+import { getAllPosts } from '../../services/post'
+import { AppContext } from '../../app/context/AppContext'
+import LandingDany from '../../assets/images/landing-1.jpg'
+import LandingFlowers from '../../assets/images/landing-3.jpg'
+import LandingSweden from '../../assets/images/landing-4.jpg'
 import Button from '../../components/Button/Button'
 import { APP_COLORS } from '../../constants/app'
 import Player from '../../components/Player/Player'
-import ProductCard from '../../components/ProductCard/ProductCard'
-import { dataObj, onChangeEventType, postType, productType } from '../types'
-import { sortArray } from '../../helpers'
+import { getAllProducts } from '../../services/product'
+import { dataObj, onChangeEventType, postType, productType } from '../../app/types'
+import { getUser, sortArray } from '../../helpers'
 import InputField from '../../components/InputField/InputField'
 import toast from 'react-hot-toast'
 import { TEXT } from '../../constants/lang'
 import { subscribe } from '../../services/app'
 import { useRouter } from 'next/navigation'
-// const Track1 = require('/assets/audio/Jamie-Duffy_Solas.mp3')
-// const Track2 = require('/assets/audio/Je-Te-Laisserai_Des-Mots.mp3')
+// const Track1 = require('../../assets/audio/Jamie-Duffy_Solas.mp3')
+// const Track2 = require('../../assets/audio/Je-Te-Laisserai_Des-Mots.mp3')
 
 export default function Home({ data }: dataObj) {
     const [showUp, setShowUp] = useState(false)
     const [subscribeData, setSubscribeData] = useState({ email: '', fullname: '' })
     const [allPosts, setAllPosts] = useState<any[]>([])
-    const [loading, setLoading] = useState(false)
-    const [showPlayer, setShowPlayer] = useState(false)
     const [products, setProducts] = useState<productType[]>([])
     const { lang, isMobile, isLoggedIn } = useContext(AppContext)
     const router = useRouter()
+
+    useEffect(() => {
+        if (data.products) setProducts(sortArray(data.products, 'order'))
+        if (data.posts) setAllPosts(isLoggedIn ? data.posts : data.posts.filter((post: postType) => post.published))
+    }, [data])
 
     useEffect(() => {
         const parallaxScroll = () => {
@@ -40,11 +47,6 @@ export default function Home({ data }: dataObj) {
         window.addEventListener('scroll', parallaxScroll)
         return () => window.removeEventListener('scroll', parallaxScroll)
     }, [])
-
-    useEffect(() => {
-        if (data && data.posts) setAllPosts(isLoggedIn ? data.posts : data.posts.filter((post: postType) => post.published))
-        if (data && data.products) setProducts(sortArray(data.products, 'order'))
-    }, [data])
 
     // useEffect(() => {
     // if (isLoggedIn) setTimeout(() => setShowPlayer(true), 2000)
@@ -66,7 +68,6 @@ export default function Home({ data }: dataObj) {
     const filterPosts = (filter: string) => {
         return allPosts.filter(post => (post.category && post.category.toLowerCase().includes(filter.toLowerCase())))
     }
-
 
     const updateSubscribeData = (key: string, e: onChangeEventType) => {
         const value = e.target.value
@@ -100,30 +101,30 @@ export default function Home({ data }: dataObj) {
                     {/* <p className="home__landing-title" style={{ fontSize: '2rem', margin: '15vh auto 0 auto', color: '#fff', background: '#000', width: 'fit-content', padding: '0 .5rem' }}>One heart's story, resonating with many.</p> */}
                 </div>
                 <div className="home__parallax-container">
-                    <img src='/assets/images/landing-1.jpg' alt="Dany Garcia" className="home__landing-image home__parallax-image" />
+                    <img src={'/assets/images/landing-1.jpg'} alt="Dany Garcia" className="home__landing-image home__parallax-image" />
                 </div>
             </div>
             <div className="home__section-wrapper">
                 <div className="home__section">
-                    <p className="home__landing-title" style={{ fontSize: '1.5rem', margin: '.5rem' }}>A blog by Daniela García | Travel, Motherhood, Inspired Living & Bespoken Flower Design</p>
-                    <p className="home__landing-text">
-                        <p>Welcome—I'm Dany García. I created An Echo of the Heart as a gentle space for storytelling, motherhood, travel reflections, and personal growth. I also run Bespoken, where I design with floweres.</p>
-                        <p>Here, I share what moves me—writing from a place of authenticity, hoping my words may echo something in you, too.</p>
-                    </p>
+                    <p className="home__landing-title" style={{ fontSize: '1.5rem', margin: '.5rem', fontFamily: 'Lora' }}>A blog by Daniela García | Travel, Motherhood, Inspired Living & Bespoken Flower Design</p>
+                    <div className="home__landing-text-container">
+                        <p className="home__landing-text">Welcome—I'm Dany García. I created An Echo of the Heart as a gentle space for storytelling, motherhood, travel reflections, and personal growth. I also run Bespoken, where I design with floweres.</p>
+                        <p className="home__landing-text">Here, I share what moves me—writing from a place of authenticity, hoping my words may echo something in you, too.</p>
+                    </div>
 
                     <Button
                         label={lang === 'es' ? 'Conóceme' : 'Read My Story'}
                         handleClick={() => router.push(`/about`)}
                         bgColor={APP_COLORS.GRASS}
                         textColor='white'
-                        style={{ transform: 'scale(1.2)' }}
+                        style={{ marginTop: '2rem' }}
                     />
                 </div>
             </div>
 
             <div className="home__landing-image-wrapper">
                 <div className="home__parallax-container">
-                    <img src='/assets/images/landing-3.jpg' alt="Dany Garcia" className="home__landing-image home__parallax-image" />
+                    <img src={'/assets/images/landing-3.jpg'} alt="Dany Garcia" className="home__landing-image home__parallax-image" />
                 </div>
                 <div className="home__landing-image-overlap">
                     <p className="home__landing-caption" style={{ color: '#fff', fontSize: isMobile ? '' : '2rem', fontWeight: 'bold', margin: 'auto' }}>
@@ -142,14 +143,14 @@ export default function Home({ data }: dataObj) {
                     <Button
                         label={lang === 'es' ? 'Ver todo' : 'View all'}
                         handleClick={() => router.push(`/blog?category=inspiration`)}
-                        style={{ transform: 'scale(1.3)', margin: '0 0 4rem' }}
+                        style={{ margin: '0 0 4rem' }}
                     />
                 </div>
             </div>
 
             <div className="home__landing-image-wrapper">
                 <div className="home__parallax-container">
-                    <img src='/assets/images/landing-4.jpg' alt="Dany Garcia" className="home__landing-image home__parallax-image" />
+                    <img src={'/assets/images/landing-4.jpg'} alt="Dany Garcia" className="home__landing-image home__parallax-image" />
                 </div>
                 <div className="home__landing-image-overlap">
                     <p className="home__landing-caption" style={{ color: '#fff', fontSize: isMobile ? '' : '2rem', fontWeight: 'bold', margin: 'auto' }}>
@@ -183,7 +184,7 @@ export default function Home({ data }: dataObj) {
                     <Button
                         label={lang === 'es' ? 'Ver todo' : 'View all'}
                         handleClick={() => router.push(`/blog?category=motherhood`)}
-                        style={{ transform: 'scale(1.3)', margin: '0 0 6rem' }}
+                        style={{ margin: '0 0 6rem' }}
                     />
                 </div>
             </div>
@@ -202,15 +203,15 @@ export default function Home({ data }: dataObj) {
                     <Button
                         label={lang === 'es' ? 'Ver todo' : 'View all'}
                         handleClick={() => router.push(`/blog?category=life_abroad`)}
-                        style={{ transform: 'scale(1.3)', margin: '0 0 4rem' }}
+                        style={{ margin: '0 0 4rem' }}
                     />
                 </div>
             </div>
 
             <div className="home__section-wrapper">
                 <div className="home__section" style={{ height: 'fit-content' }}>
-                    <h2 style={{ fontFamily: '"Madelyn", sans-serif', fontSize: '3rem', margin: '2rem 0 0 0' }}>Stay connected</h2>
-                    <h3 style={{ fontSize: '1rem', fontWeight: 'normal' }}>Receive occasional reflections, updates from Bespoken, and gentle inspiration in your inbox</h3>
+                    <h2 style={{ fontFamily: 'var(--font-madelyn), sans-serif', fontSize: '3rem', margin: '2rem 0 0 0' }}>Stay connected</h2>
+                    <h3 style={{ fontSize: '1rem', fontWeight: 'normal' }}>Receive occasional reflections, updates from Bespoken, and gentle inspiration in your inbox.</h3>
                     <div className="postviewer__subscribe-row">
                         <InputField
                             name='fullname'

@@ -1,3 +1,5 @@
+"use client"
+
 import { useContext, useEffect, useState } from 'react'
 import DataTable from '../../components/DataTable/DataTable'
 import { subscriptionHeaders } from '../../constants/tableHeaders'
@@ -13,6 +15,7 @@ import toast from 'react-hot-toast'
 import Modal from '../../components/Modal/Modal'
 import { subscribe } from '../../services/app'
 import { useRouter } from 'next/navigation'
+import { getUser } from 'src/helpers'
 
 export default function Notifications() {
     const [data, setData] = useState<templateType>({})
@@ -53,7 +56,7 @@ export default function Notifications() {
 
     const getEmails = async () => {
         try {
-            const emails = await getAllEmails()
+            const emails = await getAllEmails(getUser())
             if (emails && Array.isArray(emails)) setAllEmails(emails)
         } catch (error) {
             console.error(error)
@@ -63,7 +66,7 @@ export default function Notifications() {
     const getTemplates = async () => {
         try {
             setLoadingTemplates(true)
-            const templates = await getAllTemplates()
+            const templates = await getAllTemplates(getUser())
             if (templates && Array.isArray(templates)) setAllTemplates(templates)
             setLoadingTemplates(false)
         } catch (error) {
@@ -75,7 +78,7 @@ export default function Notifications() {
     const saveTemplate = async () => {
         try {
             setLoading(true)
-            const saved = await createTemplate({ ...data, html: htmlContent })
+            const saved = await createTemplate({ ...data, html: htmlContent }, getUser())
             if (saved) {
                 toast.success('Template saved!')
                 setSaveAsNew(false)
@@ -97,7 +100,7 @@ export default function Notifications() {
                 ...selectedTemplate,
                 html: htmlContent,
                 subject: data.subject
-            })
+            }, getUser())
             if (saved) {
                 toast.success('Template saved!')
                 getTemplates()
@@ -117,7 +120,7 @@ export default function Notifications() {
                 ...data,
                 html: htmlContent,
                 emailList: allEmails.map(data => data.email || '')
-            })
+            }, getUser())
             if (saved) {
                 toast.success('Emails sent!')
                 setEmailModal(false)
@@ -139,7 +142,7 @@ export default function Notifications() {
                 ...data,
                 html: htmlContent,
                 emailList: emailData.testEmails?.replaceAll(' ', '').split(',')
-            })
+            }, getUser())
             if (saved) {
                 toast.success('Test emails sent!')
                 setEmailModal(false)

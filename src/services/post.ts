@@ -1,21 +1,19 @@
 import axios from 'axios';
-import { postType } from '../app/types';
+import { dataObj, postType } from '../app/types';
 import { retryWithDelay } from '../helpers';
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL
+const API_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
 
-const getHeaders = () => {
-    const { token }: { [key: string | number]: any } = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') || '{}') : {}
-    return { authorization: `Bearer ${token}` }
+const getHeaders = (user: dataObj) => {
+    return { authorization: `Bearer ${user.token}` }
 }
-const getConfig = () => {
-    const { token }: { [key: string | number]: any } = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') || '{}') : {}
-    return { headers: { authorization: `Bearer ${token}` } }
+const getConfig = (user: dataObj) => {
+    return { headers: { authorization: `Bearer ${user.token}` } }
 }
 
-const getAllPosts = async (isAdmin?: boolean) => {
+const getAllPosts = async (user: dataObj) => {
     try {
-        const posts = await retryWithDelay(() => axios.get(`${API_URL}/api/post/getAll`, { params: { isAdmin } }), 5, 100)
+        const posts = await retryWithDelay(() => axios.get(`${API_URL}/api/post/getAll`, { params: { isAdmin: user.isAdmin } }), 5, 100)
         return posts.data
     } catch (err) { console.log(err) }
 }

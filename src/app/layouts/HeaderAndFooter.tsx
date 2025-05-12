@@ -8,11 +8,11 @@ const WithHeaderAndFooter: React.FC<{ children: React.ReactNode }> = ({ children
 
     return (
         <>
-            <Header search={search} setSearch={setSearch} />
-            <main className="page__container">
+            <main className="page__wrapper">
+                <Header search={search} setSearch={setSearch} />
                 {children}
+                <Footer />
             </main>
-            <Footer />
         </>
     );
 };

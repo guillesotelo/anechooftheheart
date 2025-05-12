@@ -16,7 +16,6 @@ export default function ProductCard({ product, style, index }: Props) {
         title,
         images,
         price,
-        description,
         _id
     } = product || {}
 
@@ -25,7 +24,7 @@ export default function ProductCard({ product, style, index }: Props) {
     }, [images])
 
     const goToProductPage = () => {
-        router.push(`/store/product?id=${_id}`)
+        router.push(`/store/product/${_id}`)
     }
 
     const getMainImage = (images?: string) => {

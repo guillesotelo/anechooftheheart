@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useContext, useEffect, useState } from 'react'
 import { AppContext } from '../../app/context/AppContext'
 import { postType } from '../../app/types'

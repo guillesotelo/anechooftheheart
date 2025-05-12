@@ -1,10 +1,10 @@
 import { useContext, useState } from 'react'
 import InputField from '../../components/InputField/InputField'
 import Button from '../../components/Button/Button'
-import { AppContext } from '../context/AppContext'
+import { AppContext } from '../../app/context/AppContext'
 import { TEXT } from '../../constants/lang'
 import { sendContactEmail } from '../../services/app'
-import { onChangeEventType } from '../types'
+import { onChangeEventType } from '../../app/types'
 
 type Props = {}
 
@@ -12,7 +12,7 @@ export default function Contact({ }: Props) {
     const [data, setData] = useState({ email: '', name: '', message: '' })
     const [messageSent, setMessageSent] = useState(false)
     const [loading, setLoading] = useState(false)
-    const { lang, setLang, isMobile } = useContext(AppContext)
+    const { lang } = useContext(AppContext)
 
     const updateData = (key: string, e: onChangeEventType) => {
         const value = e.target.value
@@ -42,10 +42,6 @@ export default function Contact({ }: Props) {
                 <div className="contact__info">
                     <h1>{TEXT[lang]['contact_me']}</h1>
                     <h3>{TEXT[lang]['have_a_question']}</h3>
-                    <br /> <br /> <br /> <br />
-                    <p>
-                    {TEXT[lang]['submit_policy']}
-                    </p>
                 </div>
                 <div className="contact__box">
                     <InputField

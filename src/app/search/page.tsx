@@ -1,9 +1,12 @@
+"use client"
+
 import React, { useContext, useEffect, useState } from 'react'
 import { getAllPosts } from '../../services/post'
 import PostCard from '../../components/PostCard/PostCard'
 import { TEXT } from '../../constants/lang'
 import { AppContext } from '../context/AppContext'
 import { postType } from '../types'
+import { getUser } from 'src/helpers'
 
 type Props = {
     search: string[]
@@ -30,7 +33,7 @@ export default function Blog({ search }: Props) {
     }, [allPosts, filteredPosts])
 
     const getPosts = async () => {
-        const posts = await getAllPosts(isLoggedIn || false)
+        const posts = await getAllPosts(getUser())
         if (posts) setAllPosts(posts.length ? isLoggedIn ?
             posts : posts.filter((post: postType) => post.published) : [])
     }

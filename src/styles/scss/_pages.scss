@@ -1,5 +1,5 @@
 @import '../../app/home/home.scss';
-@import '../../app/policy/privacy.scss';
+@import '../../app/policy/policy.scss';
 @import '../../app/about/about.scss';
 @import '../../app/contact/contact.scss';
 @import '../../app/post/postviewer.scss';
@@ -11,11 +11,11 @@
 @import '../../app/bespoken/bespoken.scss';
 @import '../../app/notifications/notifications.scss';
 @import '../../app/store/store.scss';
-@import '../../app/product/product.scss';
 @import '../../app/store/edit/editstore.scss';
+@import '../../app/store/product/product.scss';
 
 .page {
-    &__container {
+    &__wrapper {
         position: relative;
         min-height: 100vh;
         overflow: hidden;
@@ -38,10 +38,9 @@
 
             &-blog {
                 animation: move-y-up .7s ease-in;
-                font-size: 2rem;
                 margin: 0 0 .5rem 0;
-                font-family: "Playfair Display", serif;
-            }
+                font-family: var(--font-madelyn), sans-serif;
+                font-size: 4rem;            }
         }
 
         &-subtitle {
@@ -53,10 +52,9 @@
 
             &-blog {
                 margin: 0;
-                color: #a5a5a5;
-                font-size: 1.5rem;
                 font-weight: normal;
-                font-family: "Lora", serif;
+                color: #938787;
+                font-size: 1.17em;
             }
         }
     }
