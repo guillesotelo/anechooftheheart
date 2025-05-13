@@ -1,24 +1,11 @@
 import { Metadata } from 'next'
 import Blog from './Blog'
 import { cache } from 'react'
-import { getAllPosts, getPostById } from 'src/services/post'
+import { getAllPosts } from 'src/services/post'
 import { postType } from 'src/app/types'
-import { getPostComments } from 'src/services/comment'
 
 interface PostProps {
     params: { category: string }
-}
-
-const getCachedPosts = cache(async () => {
-    const posts = await getAllPosts({ isAdmin: true })
-    return posts || []
-})
-
-export async function generateStaticParams() {
-    const posts = await getCachedPosts()
-    return posts.map((post: postType) => ({
-        category: post.category
-    }))
 }
 
 export async function generateMetadata({ params }: PostProps): Promise<Metadata> {
@@ -42,12 +29,5 @@ export async function generateMetadata({ params }: PostProps): Promise<Metadata>
 export default async function EditionPage({ params }: PostProps) {
     const { category } = params
 
-    const postsByCategory = (await getCachedPosts() || []).filter((post: postType) => {
-        if (category === 'all' || (post.tags && post.tags.toLowerCase().includes(category.replace(/_/g, '')))
-            || post.category && post.category.toLowerCase().includes(category.replace(/_/g, ' '))) {
-            return post
-        }
-    })
-
-    return <Blog posts={postsByCategory} category={category} />
+    return <Blog category={category} />
 }

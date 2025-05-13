@@ -121,16 +121,17 @@
             animation: fade-in-card 1.5s ease-in;
 
             &:hover {
-                filter: none;
+                filter: none !important;
             }
 
             &:hover .postcard__image {
-                transform: none;
-                filter: none;
+                transform: none !important;
+                filter: none !important;
             }
 
             &:hover .postcard__image-overlap {
-                opacity: 0;
+                opacity: 0 !important;
+                transform: translateY(100%) !important;
             }
         }
 

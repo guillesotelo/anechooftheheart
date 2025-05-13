@@ -72,13 +72,6 @@
             align-items: center;
             margin-top: 2rem;
 
-            &-row {
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                gap: 1rem;
-            }
-
             &-text {
                 margin: 0 0 1rem 0;
                 font-weight: normal;
@@ -97,13 +90,6 @@
             display: flex;
             flex-direction: column;
             position: relative;
-
-            &-row {
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                gap: 1rem;
-            }
 
             &-text {
                 font-size: 1rem;
@@ -411,7 +397,6 @@
             }
 
             &-subitem {
-
                 &-text {
                     text-align: center;
                     color: #fff;

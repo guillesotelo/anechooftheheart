@@ -6,16 +6,23 @@ import { postType } from '../../../app/types'
 import { AppContext } from '../../../app/context/AppContext'
 import { TEXT } from '../../../constants/lang'
 import Switch from '../../../components/Switch/Switch'
+import { getAllPosts } from 'src/services/post'
+import { getUser } from 'src/helpers'
 
 type Props = {
-    posts: postType[]
     category: string
 }
 
-export default function Blog({ posts, category }: Props) {
+export default function Blog({ category }: Props) {
     const [showUp, setShowUp] = useState(false)
     const [showPublished, setShowPublished] = useState(false)
+    const [posts, setPosts] = useState<postType[]>([])
+    const [loading, setLoading] = useState(false)
     const { isLoggedIn, lang, isMobile } = useContext(AppContext)
+
+    useEffect(() => {
+        getPosts()
+    }, [])
 
     useEffect(() => {
         if (posts.length && !showUp) {
@@ -29,6 +36,37 @@ export default function Blog({ posts, category }: Props) {
             setShowUp(true)
         }
     }, [posts])
+
+
+    const getPosts = async () => {
+        setLoading(true)
+
+        const duedate = Number(localStorage.getItem('duedate'))
+        const localPosts = duedate && duedate > new Date().getTime() ?
+            JSON.parse(localStorage.getItem('posts') || 'null') : null
+
+        const posts = localPosts || await getAllPosts(getUser())
+
+        setLoading(false)
+        if (posts && Array.isArray(posts)) {
+            setPosts(posts)
+            if (category) {
+                setShowUp(false)
+                const filtered = posts.filter((post: postType) => {
+                    if (category === 'all' || (post.tags && post.tags.toLowerCase().includes(category.replace(/_/g, ''))
+                        || post.category && post.category.toLowerCase().includes(category.replace(/_/g, ' ')))) {
+                        return post
+                    }
+                })
+                setPosts(filtered)
+            } else {
+                setShowUp(false)
+                setPosts(posts)
+            }
+            localStorage.setItem('posts', JSON.stringify(posts))
+            localStorage.setItem('duedate', String(new Date().getTime() + 1000 * 60 * 15))
+        }
+    }
 
     const parseCategory = (cat: string) => TEXT[lang][cat].split('').map((c, i, a) => i === 0 || (a[i - 1] && a[i - 1] === ' ') ? c.toUpperCase() : c.toLowerCase())
 
@@ -56,10 +94,13 @@ export default function Blog({ posts, category }: Props) {
                     }
                 </p>
             </div>
-            <div className="blog__list">
-                {(showPublished ? posts : posts.filter(p => p.published))
-                    .map((post, i) => <PostCard key={i} index={i} post={post} />)}
-            </div>
+            {loading ? <span className="loader"></span>
+                :
+                <div className="blog__list">
+                    {(showPublished ? posts : posts.filter(p => p.published))
+                        .map((post, i) => <PostCard key={i} index={i} post={post} />)}
+                </div>
+            }
         </div>
     )
 }

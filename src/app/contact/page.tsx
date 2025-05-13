@@ -36,14 +36,14 @@ export default function Contact({ }: Props) {
     return messageSent ?
         <div className="contact__container">
             <h1 className="contact__title" > {TEXT[lang]['thank_you_msg']}</h1>
-            <h4 className="contact__text">{TEXT[lang]['will_respond']}</h4>
+            <p className="contact__text">{TEXT[lang]['will_respond']}</p>
         </div >
         :
         <div className="contact__container">
             <div className="contact__row-container">
                 <div className="contact__info">
                     <h1>{TEXT[lang]['contact_me']}</h1>
-                    <h3>{TEXT[lang]['have_a_question']}</h3>
+                    <p>{TEXT[lang]['have_a_question']}</p>
                 </div>
                 <div className="contact__box">
                     <InputField

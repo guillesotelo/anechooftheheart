@@ -1,9 +1,7 @@
 {
-  "/page": "app/page.js",
-  "/store/product/[productId]/page": "app/store/product/[productId]/page.js",
-  "/store/page": "app/store/page.js",
-  "/bespoken/story/page": "app/bespoken/story/page.js",
   "/blog/[category]/page": "app/blog/[category]/page.js",
-  "/api/product/getAll/route": "app/api/product/getAll/route.js",
-  "/api/post/getAll/route": "app/api/post/getAll/route.js"
+  "/subscribe/page": "app/subscribe/page.js",
+  "/policy/page": "app/policy/page.js",
+  "/contact/page": "app/contact/page.js",
+  "/about/page": "app/about/page.js"
 }
