@@ -72,6 +72,13 @@
             align-items: center;
             margin-top: 2rem;
 
+            &-row {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 1rem;
+            }
+
             &-text {
                 margin: 0 0 1rem 0;
                 font-weight: normal;
@@ -90,6 +97,13 @@
             display: flex;
             flex-direction: column;
             position: relative;
+
+            &-row {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 1rem;
+            }
 
             &-text {
                 font-size: 1rem;
@@ -193,7 +207,7 @@
             transform: translateY(0%);
             top: 0;
             transition: .4s;
-            opacity: 1;
+            opacity: 1 !important;
             pointer-events: initial;
         }
 
@@ -223,7 +237,7 @@
             flex-direction: column;
             align-items: center;
             background-color: #0000005a;
-            opacity: 0;
+            opacity: 0 !important;
             padding: 1.5rem;
             gap: 1rem;
             min-width: 10rem;
@@ -397,6 +411,7 @@
             }
 
             &-subitem {
+
                 &-text {
                     text-align: center;
                     color: #fff;
