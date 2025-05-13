@@ -22,7 +22,7 @@ const getCachedPost = cache(async (id: string) => {
 export async function generateStaticParams() {
     const posts = await getCachedPosts()
     return posts.map((post: postType) => ({
-        postSlug: post.title
+        postSlug: post.slug
     }))
 }
 
