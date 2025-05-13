@@ -207,7 +207,7 @@
             transform: translateY(0%);
             top: 0;
             transition: .4s;
-            opacity: 1 !important;
+            opacity: 1;
             pointer-events: initial;
         }
 
@@ -237,7 +237,7 @@
             flex-direction: column;
             align-items: center;
             background-color: #0000005a;
-            opacity: 0 !important;
+            opacity: 0;
             padding: 1.5rem;
             gap: 1rem;
             min-width: 10rem;
