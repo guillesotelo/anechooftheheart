@@ -152,11 +152,15 @@ export default function PostViewer({ post, comments }: Props) {
                 {category ?
                     <>
                         {!isMobile ? <h4 className='postviewer__routes-link' >&nbsp;-&nbsp;</h4> : ''}
-                        <h4 className='postviewer__routes-link' onClick={() => router.push(`/blog/${category.trim().replaceAll(' ', '_')}`)}>{isMobile ? '.' : ''}{capitalizeFirstLetter(category)}</h4>
+                        <h4 className='postviewer__routes-link' onClick={() => router.push(`/blog/${category.trim().replaceAll(' ', '_')}`)}>
+                            {isMobile ? '.' : ''}{capitalizeFirstLetter(category)}
+                        </h4>
                     </>
                     : ''}
                 {!isMobile ? <h4 className='postviewer__routes-link' >&nbsp;-&nbsp;</h4> : ''}
-                <h4 className='postviewer__routes-link'>{isMobile ? '->' : ''}{lang === 'es' && post.spaTitle ? capitalizeFirstLetter(post.spaTitle) : capitalizeFirstLetter(post.title || '')}</h4>
+                <h4 className='postviewer__routes-link' style={{ cursor: 'auto', opacity: 1 }}>
+                    {isMobile ? '->' : ''}{lang === 'es' && post.spaTitle ? capitalizeFirstLetter(post.spaTitle) : capitalizeFirstLetter(post.title || '')}
+                </h4>
             </div>
             {/* {loading ? <span className="loader" style={{ margin: '10rem auto 60vh' }}></span>
                 :

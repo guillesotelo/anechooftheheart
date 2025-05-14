@@ -32,6 +32,7 @@
         box-shadow: 3px 3px 15px lightgray;
         background-color: #fff;
         border-radius: .5vw;
+        animation: fade-in 1s forwards;
 
         &button {
             justify-self: center;

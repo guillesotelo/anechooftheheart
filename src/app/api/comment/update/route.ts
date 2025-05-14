@@ -4,7 +4,6 @@ import { NextRequest, NextResponse } from 'next/server'
 import axios from 'axios'
 import { retryWithDelay } from 'src/helpers'
 import { getToken } from '../../(helpers)'
-import { revalidatePath } from 'next/cache'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'
 export async function POST(request: NextRequest) {
