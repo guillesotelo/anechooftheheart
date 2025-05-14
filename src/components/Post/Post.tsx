@@ -32,7 +32,7 @@ export default function Post({ headers, content, spaContent, linkLang }: Props) 
     useEffect(() => {
         if (!contentRef.current) return;
         // Defer styling until the DOM has painted the injected HTML
-        setTimeout(() => styleImagesInParagraphs(), 200)
+        setTimeout(() => styleImagesInParagraphs(), 500)
     }, [spaContent, content])
 
     const copyLink = () => {
@@ -49,6 +49,7 @@ export default function Post({ headers, content, spaContent, linkLang }: Props) 
                 if (images.length === 1) {
                     (images[0] as HTMLElement).style.width = '100%';
                     if (isMobile) (images[0] as HTMLElement).style.width = '90%';
+                    (images[0] as HTMLElement).style.transition = '.2s';
                 } else if (images.length > 1) {
                     paragraph.style.textAlign = 'center';
                     const width = 100 / images.length;
@@ -56,6 +57,7 @@ export default function Post({ headers, content, spaContent, linkLang }: Props) 
                         // (image as HTMLElement).style.width = `${width}%`;
                         (image as HTMLElement).style.height = 'auto';
                         (image as HTMLElement).style.display = 'inline';
+                        (image as HTMLElement).style.transition = '.2s';
                         if (isMobile) (image as HTMLElement).style.width = '100%';
                     });
                 }
@@ -67,6 +69,7 @@ export default function Post({ headers, content, spaContent, linkLang }: Props) 
                     const paragraph = image.parentElement
                     paragraph.style.textAlign = 'center';
                     (image as HTMLElement).style.display = 'inline';
+                    (image as HTMLElement).style.transition = '.2s';
                     if (isMobile) (image as HTMLElement).style.width = '100%';
                 }
             })
