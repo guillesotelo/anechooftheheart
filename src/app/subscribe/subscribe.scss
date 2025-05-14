@@ -21,6 +21,7 @@
         align-items: center;
         justify-content: center;
         gap: 2rem;
+        animation: fade-in 1s ease-in forwards;
     }
 
     &__box {
