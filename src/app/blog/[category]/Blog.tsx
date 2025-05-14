@@ -63,7 +63,7 @@ export default function Blog({ category }: Props) {
                 setShowUp(false)
                 setPosts(posts)
             }
-            localStorage.setItem('posts', JSON.stringify(posts))
+            // localStorage.setItem('posts', JSON.stringify(posts))
             localStorage.setItem('duedate', String(new Date().getTime() + 1000 * 60 * 15))
         }
     }

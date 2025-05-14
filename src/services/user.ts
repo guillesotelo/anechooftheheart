@@ -14,11 +14,6 @@ const getConfig = (user: dataObj) => {
 const loginUser = async (data: userType) => {
     try {
         const user = await axios.post(`${API_URL}/api/user/login`, data, { withCredentials: true })
-        const localUser = JSON.parse(localStorage.getItem('user') || '{}')
-        localStorage.setItem('user', JSON.stringify({
-            ...localUser,
-            ...user.data
-        }))
         return user.data
     } catch (err) { console.error(err) }
 }
@@ -40,11 +35,6 @@ const registerUser = async (data: userType) => {
 const updateUser = async (data: userType, user: dataObj) => {
     try {
         const udpated = await axios.post(`${API_URL}/api/user/update`, data, { withCredentials: true, params: { token: user.token } })
-        const localUser = JSON.parse(localStorage.getItem('user') || '{}')
-        localStorage.setItem('user', JSON.stringify({
-            ...localUser,
-            ...udpated.data
-        }))
         return udpated.data
     } catch (err) { console.error(err) }
 }
