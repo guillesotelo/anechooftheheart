@@ -1,6 +1,7 @@
 .contact {
     &__container {
         padding: 2rem;
+        animation: fade-in 1s forwards;
     }
 
     &__row-container {

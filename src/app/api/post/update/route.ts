@@ -14,6 +14,7 @@ export async function POST(request: NextRequest) {
         const data = await request.json()
         const res = await retryWithDelay(() => axios.post(`${API_URL}/api/post/update`, data, config), 5, 100)
         revalidatePath('/')
+        revalidatePath('/blog')
         return NextResponse.json(res.data)
     } catch (err: any) {
         console.error("Next API Error: ", err)

@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import axios from 'axios'
 import { retryWithDelay } from 'src/helpers'
 import { getToken } from '../../(helpers)'
+import { revalidatePath } from 'next/cache'
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'
 export async function POST(request: NextRequest) {
@@ -12,7 +13,8 @@ export async function POST(request: NextRequest) {
         const config = { headers: { authorization: `Bearer ${token}` } }
         const data = await request.json()
         const res = await retryWithDelay(() => axios.post(`${API_URL}/api/product/remove`, data, config), 5, 100)
-
+        revalidatePath('/')
+        revalidatePath('/store')
         return NextResponse.json(res.data)
     } catch (err: any) {
         console.error("Next API Error: ", err)

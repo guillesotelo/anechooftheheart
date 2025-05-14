@@ -13,7 +13,8 @@ export async function POST(request: NextRequest) {
         const config = { headers: { authorization: `Bearer ${token}` } }
         const data = await request.json()
         const res = await retryWithDelay(() => axios.post(`${API_URL}/api/product/updateOrder`, data, config), 5, 100)
-
+        revalidatePath('/')
+        revalidatePath('/store')
         return NextResponse.json(res.data)
     } catch (err: any) {
         console.error("Next API Error: ", err)

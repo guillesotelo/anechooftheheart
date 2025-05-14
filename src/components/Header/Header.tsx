@@ -156,6 +156,14 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
         localStorage.setItem('preferedLang', language)
     }
 
+    const goHome = () => {
+        const a = document.createElement('a')
+        const url = process.env.NODE_ENV !== 'production' ? 'http://localhost:3000' : 'https://anechooftheheart.vercel.app'
+        a.href = url
+        a.click()
+        a.remove()
+    }
+
     const renderMobile = () => {
         return (
             <>
