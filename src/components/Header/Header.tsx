@@ -144,8 +144,8 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
         toast.success(TEXT[lang]['see_you_later'])
         setTimeout(() => {
             setIsLoggedIn(false)
-            const posts = localStorage.getItem('posts') ? JSON.parse(localStorage.getItem('posts') || '[]') : []
-            localStorage.setItem('posts', posts.filter((post: postType) => post.published))
+            // const posts = localStorage.getItem('posts') ? JSON.parse(localStorage.getItem('posts') || '[]') : []
+            // localStorage.setItem('posts', posts.filter((post: postType) => post.published))
             setPostId('')
             router.push('/')
         }, 1500)

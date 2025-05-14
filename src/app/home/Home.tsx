@@ -32,12 +32,12 @@ export default function Home({ data }: dataObj) {
     useEffect(() => {
         if (data.products) {
             setProducts(sortArray(data.products, 'order'))
-            localStorage.setItem('products', JSON.stringify(data.products))
+            // localStorage.setItem('products', JSON.stringify(data.products))
             localStorage.setItem('duedate', String(new Date().getTime() + 1000 * 60 * 15))
         }
         if (data.posts) {
             setAllPosts(isLoggedIn ? data.posts : data.posts.filter((post: postType) => post.published))
-            localStorage.setItem('posts', JSON.stringify(data.posts))
+            // localStorage.setItem('posts', JSON.stringify(data.posts))
             localStorage.setItem('duedate', String(new Date().getTime() + 1000 * 60 * 15))
         }
     }, [data])
