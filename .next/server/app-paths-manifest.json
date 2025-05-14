@@ -1,11 +1,11 @@
 {
   "/page": "app/page.js",
   "/post/[postSlug]/page": "app/post/[postSlug]/page.js",
-  "/blog/[category]/page": "app/blog/[category]/page.js",
+  "/editor/page": "app/editor/page.js",
   "/api/post/getAll/route": "app/api/post/getAll/route.js",
   "/api/post/getById/route": "app/api/post/getById/route.js",
   "/api/comment/getByPostId/route": "app/api/comment/getByPostId/route.js",
   "/api/user/verify/route": "app/api/user/verify/route.js",
   "/api/post/getBySlug/route": "app/api/post/getBySlug/route.js",
-  "/api/product/getAll/route": "app/api/product/getAll/route.js"
+  "/blog/[category]/page": "app/blog/[category]/page.js"
 }

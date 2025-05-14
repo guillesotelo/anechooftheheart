@@ -44,7 +44,6 @@ export default function Post({ headers, content, spaContent, linkLang }: Props) 
     const styleImagesInParagraphs = () => {
         if (contentRef.current) {
             const paragraphs = contentRef.current.querySelectorAll('p');
-            console.log(paragraphs)
             paragraphs.forEach(paragraph => {
                 const images = paragraph.querySelectorAll('img');
                 if (images.length === 1) {
