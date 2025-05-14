@@ -68,8 +68,9 @@ export default function PostViewer({ post, comments }: Props) {
     }
 
     const getCategory = () => {
-        const _category = post.category ? JSON.parse(post.category || '[]')[0] :
-            post.tags ? post.tags.replace(/#/g, '').replace(/_/g, ' ').split(' ')[0] : ''
+        const _category = post.category ? post.category.includes('[') ? JSON.parse(post.category || '[]')[0] :
+            post.category
+            : post.tags ? post.tags.replace(/#/g, '').replace(/_/g, ' ').split(' ')[0] : ''
         if (_category.length) setCategory(_category.toLocaleLowerCase())
     }
 
