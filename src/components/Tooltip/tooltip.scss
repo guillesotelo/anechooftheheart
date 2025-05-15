@@ -8,7 +8,7 @@
         display: none;
         position: absolute;
         z-index: 999999;
-        background: #232323 !important;
+        background: #2f2f2f !important;
         font-size: .9rem;
         color: #fff;
         animation: fade-in .4s ease-in-out forwards;
@@ -23,7 +23,7 @@
             position: absolute;
             top: 0;
             z-index: 999999;
-            background: #232323 !important;
+            background: #2f2f2f !important;
             font-size: .9rem;
             color: #fff;
             animation: fade-in .4s ease-in-out forwards;
@@ -48,7 +48,7 @@
             left: 45%;
             bottom: 100%;
             border: 8px solid transparent;
-            border-bottom: 8px solid #232323;
+            border-bottom: 8px solid #2f2f2f;
         }
 
         &-inline {
@@ -61,7 +61,7 @@
                 right: 100%;
                 transform: rotate(90deg);
                 border: 8px solid transparent;
-                border-top: 8px solid #232323;
+                border-top: 8px solid #2f2f2f;
             }
         }
 
@@ -75,7 +75,7 @@
                 left: 45%;
                 bottom: -50%;
                 border: 8px solid transparent;
-                border-bottom: 8px solid #232323;
+                border-bottom: 8px solid #2f2f2f;
                 transform: rotate(180deg);
             }
         }
