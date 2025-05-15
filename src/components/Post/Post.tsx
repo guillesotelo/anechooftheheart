@@ -31,9 +31,8 @@ export default function Post({ headers, content, spaContent, linkLang }: Props) 
 
     useEffect(() => {
         if (!contentRef.current) return;
-        // Defer styling until the DOM has painted the injected HTML
-        setTimeout(() => styleImagesInParagraphs(), 500)
-    }, [spaContent, content])
+        styleImagesInParagraphs()
+    }, [spaContent, content, headers, contentRef])
 
     const copyLink = () => {
         const currentUrl = window.location.href;

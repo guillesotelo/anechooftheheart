@@ -1,6 +1,6 @@
 "use client"
 
-import { usePathname, useRouter } from "next/navigation"
+import { useSearchParams, useRouter } from "next/navigation"
 import { useContext, useEffect, useState } from "react"
 import { AppContext } from "src/app/context/AppContext"
 import { TEXT } from "src/constants/lang"
@@ -16,7 +16,7 @@ export default function renderProducts() {
     const [pinterestPage, setPinterestPage] = useState('')
     const [loading, setLoading] = useState({ products: false, wedding: false, adornments: false, gifts: false })
     const router = useRouter()
-    const pathname = usePathname()
+    const params = useSearchParams()
     const { lang } = useContext(AppContext)
 
     const adornmentsCaption = `I started composing natural flower crowns at the cottage of my in-laws in the summer of 2021. From that time on, I started learning about flowers and techniques so I could create different designs for crowns and ear-cuffs. Materials: Natural flowers, fabric, cold porcelain, stones, among others.`
@@ -31,15 +31,17 @@ export default function renderProducts() {
     }, [])
 
     useEffect(() => {
-        const category = new URLSearchParams(document.location.search).get('category')
+        const category = params.get('category')
         const categories: { [value: string]: string } = {
             'arrangements': 'Flower Arrangements',
             'adornments': 'Flower Adornments',
             'gifts': 'Bespoken Gifts'
         }
+     
         if (category) setProducts(categories[category])
         else setProducts('')
-    }, [pathname])
+        
+    }, [params])
 
     useEffect(() => {
         const imgs = getName(products, 'arrangements') ? arrangements :
@@ -48,6 +50,11 @@ export default function renderProducts() {
 
         setImages(imgs)
         getPinterestPage()
+
+        console.log('arrangements',arrangements)
+        console.log('adornments',adornments)
+        console.log('gifts',gifts)
+        console.log('products',products)
     }, [products, arrangements, adornments, gifts])
 
     const getPinterestImages = async () => {

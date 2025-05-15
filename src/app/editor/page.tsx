@@ -461,7 +461,7 @@ export default function PostEditor({ }: Props) {
                     initialValue=''
                     value={spaSelected ? spaHtml : html}
                     onEditorChange={handleEditorChange}
-                    apiKey={process.env.REACT_APP_TINYMCE_API_KEY}
+                    apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY}
                     init={{
                         height: 700,
                         width: 700,
