@@ -25,11 +25,6 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/editor/page.js"
-    ],
-    "/bespoken/products/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/bespoken/products/page.js"
     ]
   }
 }
