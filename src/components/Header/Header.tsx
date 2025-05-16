@@ -122,7 +122,7 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
     const handleDeletePost = async () => {
         try {
             await toast.promise(
-                deletePost({ _id: postId }),
+                deletePost({ _id: postId }, getUser()),
                 {
                     loading: TEXT[lang]['deleting_post'],
                     success: <b>Post deleted successfully. Redirecting...</b>,
