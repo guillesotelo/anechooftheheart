@@ -15,7 +15,7 @@ import Switch from '../../components/Switch/Switch'
 import Dropdown from '../../components/Dropdown/Dropdown'
 import { clearDB, getAllRecordsFromDB, saveItemToDB } from '../../indexedDB'
 import imageCompression from 'browser-image-compression';
-import { convertToBase64, createSlug } from '../../helpers'
+import { convertToBase64, createSlug, getUser } from '../../helpers'
 import Tooltip from '../../components/Tooltip/Tooltip'
 import { usePathname, useRouter } from 'next/navigation'
 
@@ -225,7 +225,7 @@ export default function PostEditor({ }: Props) {
                     category: JSON.stringify(selectedCategory),
                     slug: createSlug(title)
                 }
-                const updated = await updatePost(updatedPost)
+                const updated = await updatePost(updatedPost, getUser())
                 if (updated && updated._id) {
                     localStorage.removeItem('posts')
                     toast.success(TEXT[lang]['saving_ok'])
@@ -249,7 +249,7 @@ export default function PostEditor({ }: Props) {
                     category: JSON.stringify(selectedCategory),
                     slug: createSlug(data.title.trim() || data.spaTitle.trim())
                 }
-                const saved = await createPost(postData)
+                const saved = await createPost(postData, getUser())
                 if (saved && saved._id) {
                     localStorage.removeItem('posts')
                     toast.success(TEXT[lang]['saving_ok'])
