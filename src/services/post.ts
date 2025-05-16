@@ -32,23 +32,23 @@ const getPostBySlug = async (slug: string) => {
     } catch (err) { console.log(err) }
 }
 
-const createPost = async (data: postType) => {
+const createPost = async (data: postType, user: dataObj) => {
     try {
-        const post = await retryWithDelay(() => axios.post(`${API_URL}/api/post/create`, data), 5, 100)
+        const post = await retryWithDelay(() => axios.post(`${API_URL}/api/post/create`, data, getConfig(user)), 5, 100)
         return post.data
     } catch (err) { console.log(err) }
 }
 
-const updatePost = async (data: postType) => {
+const updatePost = async (data: postType, user: dataObj) => {
     try {
-        const post = await retryWithDelay(() => axios.post(`${API_URL}/api/post/update`, data), 5, 100)
+        const post = await retryWithDelay(() => axios.post(`${API_URL}/api/post/update`, data, getConfig(user)), 5, 100)
         return post.data
     } catch (err) { console.log(err) }
 }
 
-const deletePost = async (data: postType) => {
+const deletePost = async (data: postType, user: dataObj) => {
     try {
-        const deleted = await retryWithDelay(() => axios.post(`${API_URL}/api/post/remove`, data), 5, 100)
+        const deleted = await retryWithDelay(() => axios.post(`${API_URL}/api/post/remove`, data, getConfig(user)), 5, 100)
         return deleted.data
     } catch (err) { console.log(err) }
 }
