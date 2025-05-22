@@ -84,6 +84,7 @@
             flex-direction: column;
             width: 90vw;
             margin: auto;
+            gap: 2rem;
         }
 
         &__image {
@@ -103,10 +104,11 @@
 
         &__information {
             width: 100%;
+            gap: 1rem;
         }
 
         &__galery {
-            margin-top: 5rem;
+            margin: 5rem 0 1rem;
 
             &-image {
                 width: 90vw;

@@ -6,7 +6,7 @@ import { productType } from '../../../types'
 import Button from '../../../../components/Button/Button'
 import { HashLoader } from 'react-spinners'
 import { AppContext } from '../../../context/AppContext'
-import {  useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 
 type Props = {
     product: productType
@@ -86,6 +86,12 @@ export default function Product({ product }: Props) {
                                 <img key={i} src={image} draggable={false} className='product__galery-image' />
                             )}
                         </div>
+                        {isMobile &&
+                            <Button
+                                label='Buy'
+                                handleClick={buyProduct}
+                                style={{ width: '100%', marginTop: '3rem', fontSize: '1.3rem', padding: '.8rem' }}
+                            />}
                     </div>
             }
         </div>

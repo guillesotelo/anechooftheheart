@@ -35,23 +35,17 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
     const { setIsLoggedIn, isLoggedIn } = useContext(AppContext)
 
     useEffect(() => {
-        const svg = document.querySelector('.header__menu-svg')
-        const container = document.querySelector('.header__container')
-        const list = document.querySelector('.home__postlist')
-        const home = document.querySelector('.home__container')
-        const blog = document.querySelector('.blog__container')
-        window.addEventListener('mouseup', e => {
-            const clicked = e.target
-            // if (clicked !== svg) setMenuToggle(false)
-            if (clicked === container
-                || clicked === home
-                || clicked === blog
-                || clicked === list) {
+        const searchClickEvent = (e: MouseEvent) => {
+            if (!(e.target as HTMLDivElement).outerHTML.includes('header__search')) {
                 setSearchClicked(false)
             }
-        })
+        }
+        
+        window.addEventListener('mouseup', searchClickEvent)
         activateHeaderHeight()
         if (localStorage.getItem('user')) verifyUser()
+
+        return () => window.removeEventListener('mouseup', searchClickEvent)
     }, [])
 
     useEffect(() => {
@@ -229,7 +223,7 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
                                 <div className="header__menu-item">
                                     <h4 className="header__menu-item-text" onClick={() => {
                                         setTimeout(() => setMenuToggle(false), 50)
-                                        router.push('/bespoken/home')
+                                        router.push('/bespoken')
                                     }}>{TEXT[lang]['bespoken']}</h4>
                                 </div>
                                 <div className="header__menu-item">

@@ -51,10 +51,10 @@ export default function renderProducts() {
         setImages(imgs)
         getPinterestPage()
 
-        console.log('arrangements',arrangements)
-        console.log('adornments',adornments)
-        console.log('gifts',gifts)
-        console.log('products',products)
+        // console.log('arrangements',arrangements)
+        // console.log('adornments',adornments)
+        // console.log('gifts',gifts)
+        // console.log('products',products)
     }, [products, arrangements, adornments, gifts])
 
     const getPinterestImages = async () => {

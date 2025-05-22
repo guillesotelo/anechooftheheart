@@ -70,8 +70,9 @@
             text-align: center;
             gap: .5rem;
             // border: 1px solid #d3d3d370;
-            background: #82828236;
-            box-shadow: 5px 7px 20px rgba(0, 0, 0, 0.085);
+            background: transparent;
+            box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.085);
+            border: 1px solid #d3d3d366;
             cursor: pointer;
         }
 
@@ -356,16 +357,16 @@
                 position: relative;
                 text-align: left;
                 width: 100vw;
-                margin: 0 0 0 1rem;
-                left: 0;
+                margin: 1rem;
+                left: 1rem;
                 top: 0;
                 // top: 3.5rem;
                 font-size: .8rem;
                 cursor: pointer;
                 transition: .3s;
-    
+
                 &:hover {
-                    opacity: .7;
+                    color: black;
                 }
             }
 

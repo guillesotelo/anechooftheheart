@@ -98,7 +98,7 @@ export default function Store({ }: Props) {
                     <div className='store__loader'><HashLoader size={15} /><p>Loading products...</p></div>
                     :
                     getFilteredProducts().length ? sortArray(getFilteredProducts(), 'order').map((product, index) =>
-                        <ProductCard product={product} index={index} />)
+                        <ProductCard key={index} product={product} index={index} />)
                         : <p>{category} coming soon...</p>}
             </div>
         </div>
