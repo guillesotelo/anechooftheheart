@@ -24,7 +24,7 @@ export default function PageNotFound() {
           style={{ width: 'fit-content' }}
         />
       </div>
-      <img className="notfound__image" src="https://media.istockphoto.com/id/1470461376/vector/freehand-retro-cartoon-burnt-toast.jpg?s=612x612&w=0&k=20&c=MKftTtB1_JJb0rRkJowNAqa-ugHoJEjLIuerxLgaKhY=" alt="404 - Page Not Found" draggable={false} />
+      <img className="notfound__image" src="/assets/illustrations/not-found.jpg" alt="404 - Page Not Found" draggable={false} />
     </div>
   )
 }
