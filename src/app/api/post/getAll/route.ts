@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
         const { searchParams } = new URL(request.url)
         const queryParams = Object.fromEntries(searchParams.entries()) // Converts to { key1: value1, key2: value2, ... }
 
-        const params = { ...queryParams, isAdmin: true }
+        const params = { ...queryParams }
 
         const config = {
             headers: { authorization: `Bearer ${token}` },

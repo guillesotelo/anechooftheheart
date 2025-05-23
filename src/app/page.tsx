@@ -22,8 +22,8 @@ export const metadata: Metadata = {
 }
 
 const getCachedData = cache(async () => {
-    const posts = await getAllPosts({ isAdmin: true })
-    const products = await getAllProducts({ isAdmin: true })
+    const posts = await getAllPosts({})
+    const products = await getAllProducts({})
     return { posts, products }
 })
 
