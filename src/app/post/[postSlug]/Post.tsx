@@ -16,10 +16,9 @@ import { capitalizeFirstLetter } from 'src/helpers'
 
 type Props = {
     post: postType
-    comments: commentType[]
 }
 
-export default function PostViewer({ post, comments }: Props) {
+export default function PostViewer({ post }: Props) {
     const [data, setData] = useState<commentType>({})
     const [subscribeData, setSubscribeData] = useState({ email: '', fullname: '' })
     const [html, setHtml] = useState('')
@@ -44,8 +43,8 @@ export default function PostViewer({ post, comments }: Props) {
     useEffect(() => {
         if (!html && !spaHtml && post) getPost()
         if (!category) getCategory()
-        if (comments) setPostComments(comments)
-    }, [post, comments])
+        if (post && post._id) getComments(post._id)
+    }, [post])
 
     const updateSubscribeData = (key: string, e: onChangeEventType) => {
         const value = e.target.value

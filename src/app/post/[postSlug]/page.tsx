@@ -1,22 +1,16 @@
 import { Metadata } from 'next'
 import Post from './Post'
 import { cache } from 'react'
-import { getAllPosts, getPostById } from 'src/services/post'
+import { getAllPosts } from 'src/services/post'
 import { postType } from 'src/app/types'
-import { getPostComments } from 'src/services/comment'
 
 interface PostProps {
     params: { postSlug: string }
 }
 
 const getCachedPosts = cache(async () => {
-    const posts = await getAllPosts({ isAdmin: true })
+    const posts = await getAllPosts({ isAdmin: true, getHtml: true })
     return posts || []
-})
-
-const getCachedPost = cache(async (id: string) => {
-    const post = await getPostById(id)
-    return post || {}
 })
 
 // ISR
@@ -63,8 +57,6 @@ export default async function PostPage({ params }: PostProps) {
     const { postSlug } = params
     const posts = await getCachedPosts()
     const post = getPostBySlug(postSlug, posts)
-    const postWithHtml = post._id ? await getCachedPost(post._id) : {}
-    const comments = await getPostComments(post._id || '')
 
-    return <Post post={postWithHtml} comments={comments} />
+    return <Post post={post} />
 }
