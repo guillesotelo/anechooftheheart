@@ -48,6 +48,11 @@ export async function generateStaticParams() {
 
     const categories = new Set<string>()
 
+    if (!Array.isArray(posts)) {
+        console.error('generateStaticParams: posts is not an array', posts)
+        throw new Error('Expected posts to be an array.')
+    }
+
     posts.forEach((post: postType) => {
         if (post.category) {
             categories.add(post.category.toLowerCase().replace(/ /g, '_'))
