@@ -212,11 +212,11 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
                                     }}>{TEXT[lang]['career_insights']}</h4>
                                 <h4
                                     className="header__menu-subitem-text"
-                                    style={{ animationDelay: '.5s' }}
+                                    style={{ animationDelay: '.5s', marginTop: '1rem' }}
                                     onClick={() => {
                                         setTimeout(() => setMenuToggle(false), 50)
                                         router.push('/blog/all')
-                                    }}>All posts</h4>
+                                    }}>ALL POSTS</h4>
                             </div>
                             :
                             <>
