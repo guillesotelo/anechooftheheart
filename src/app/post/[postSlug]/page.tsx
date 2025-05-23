@@ -18,9 +18,8 @@ export const revalidate = 3600
 
 export async function generateStaticParams() {
     const posts = await getCachedPosts()
-    return posts.map((post: postType) => ({
-        postSlug: post.slug
-    }))
+    return posts.filter((p: postType) => p.slug)
+        .map((post: postType) => ({ postSlug: post.slug }))
 }
 
 const getPostBySlug = (slug: string, posts: postType[]) => {
