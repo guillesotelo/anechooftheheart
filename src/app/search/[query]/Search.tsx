@@ -15,7 +15,7 @@ export default function Search({ posts, query }: Props) {
     const [filteredPosts, setFilteredPosts] = useState<postType[]>([])
     const [search, setSearch] = useState('')
     const [showUp, setShowUp] = useState(false)
-    const { lang } = useContext(AppContext)
+    const { lang, isLoggedIn } = useContext(AppContext)
 
     useEffect(() => {
         if (query) {
@@ -48,7 +48,7 @@ export default function Search({ posts, query }: Props) {
         const _posts = posts.filter(post => {
             let matches = false
             query.split(' ').forEach((word: string) => {
-                if (post.published &&
+                if ((isLoggedIn || post.published) &&
                     JSON.stringify(post).toLocaleLowerCase().includes(word.toLocaleLowerCase())) matches = true
             })
             if (matches) return post

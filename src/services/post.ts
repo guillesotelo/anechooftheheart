@@ -13,7 +13,7 @@ const getConfig = (user: dataObj) => {
 
 const getAllPosts = async (user: dataObj) => {
     try {
-        const posts = await retryWithDelay(() => axios.get(`${API_URL}/api/post/getAll`, { params: { isAdmin: user.isAdmin } }), 5, 100)
+        const posts = await retryWithDelay(() => axios.get(`${API_URL}/api/post/getAll`, { params: { ...user } }), 5, 100)
         return posts.data
     } catch (err) { console.log(err) }
 }

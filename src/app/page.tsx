@@ -27,7 +27,6 @@ const getCachedData = cache(async () => {
     return { posts, products }
 })
 
-
 const HomePage = async () => {
     const data = await getCachedData()
 

@@ -13,6 +13,9 @@ const getCachedProducts = cache(async () => {
     return products || []
 })
 
+// ISR
+export const revalidate = 3600
+
 export async function generateStaticParams() {
     const products = await getCachedProducts()
     return products.map((product: productType) => ({

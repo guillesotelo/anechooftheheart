@@ -19,6 +19,9 @@ const getCachedPost = cache(async (id: string) => {
     return post || {}
 })
 
+// ISR
+export const revalidate = 3600
+
 export async function generateStaticParams() {
     const posts = await getCachedPosts()
     return posts.map((post: postType) => ({

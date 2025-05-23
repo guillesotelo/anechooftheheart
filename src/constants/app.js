@@ -1,4 +1,4 @@
-export const APP_VERSION = 'v1.5.0'
+export const APP_VERSION = 'v1.5.1'
 
 export const APP_COLORS = {
     WHITE: '#fff',

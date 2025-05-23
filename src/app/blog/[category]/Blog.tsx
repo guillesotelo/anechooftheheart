@@ -15,7 +15,7 @@ type Props = {
 
 export default function Blog({ category }: Props) {
     const [showUp, setShowUp] = useState(false)
-    const [showPublished, setShowPublished] = useState(false)
+    const [showUnPublished, setShowUnPublished] = useState(false)
     const [posts, setPosts] = useState<postType[]>([])
     const [loading, setLoading] = useState(false)
     const { isLoggedIn, lang, isMobile } = useContext(AppContext)
@@ -77,8 +77,8 @@ export default function Blog({ category }: Props) {
                     label='Show unpublished'
                     on='Yes'
                     off='No'
-                    value={showPublished}
-                    setValue={setShowPublished}
+                    value={showUnPublished}
+                    setValue={setShowUnPublished}
                     style={{ position: 'absolute', right: isMobile ? 0 : '1rem', top: isMobile ? '5rem' : '', transform: 'scale(0.9)' }}
                 /> : ''}
             <div className="page__header">
@@ -97,7 +97,7 @@ export default function Blog({ category }: Props) {
             {loading ? <span className="loader"></span>
                 :
                 <div className="blog__list">
-                    {(showPublished ? posts : posts.filter(p => p.published))
+                    {(showUnPublished ? posts : posts.filter(p => p.published))
                         .map((post, i) => <PostCard key={i} index={i} post={post} />)}
                 </div>
             }
