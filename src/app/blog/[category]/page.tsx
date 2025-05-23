@@ -9,7 +9,7 @@ interface PostProps {
 }
 
 const getCachedPosts = cache(async () => {
-    const posts = await getAllPosts({ isAdmin: true })
+    const posts = await getAllPosts({ isAdmin: true, getHtml: true })
     return posts || []
 })
 
@@ -36,9 +36,10 @@ export const revalidate = 3600
 
 export async function generateStaticParams() {
     const posts = await getCachedPosts()
-    return posts.map((post: postType) => ({
-        postSlug: post.slug
-    }))
+    return posts.filter((p: postType) => p.slug)
+        .map((post: postType) => ({
+            postSlug: post.slug
+        }))
 }
 
 export default async function BlogPage({ params }: PostProps) {
