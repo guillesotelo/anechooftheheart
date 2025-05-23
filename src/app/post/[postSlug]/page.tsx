@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: PostProps): Promise<Metadata>
     const post = getPostBySlug(postSlug, posts)
     const title = `An Echo of The Heart - ${post.title}`
     const description = post.description
-    
+
     if (post && post.title) {
         return {
             title,
@@ -38,7 +38,7 @@ export async function generateMetadata({ params }: PostProps): Promise<Metadata>
             },
         }
     }
-    
+
     return {
         title: 'Post Not Found'
     }
@@ -49,9 +49,10 @@ export const revalidate = 3600
 
 export async function generateStaticParams() {
     const posts = await getCachedPosts()
-    return posts.map((post: postType) => ({ 
-        postSlug: post.slug 
-    }))
+    return posts.filter((p: postType) => p.slug)
+        .map((post: postType) => ({
+            postSlug: post.slug
+        }))
 }
 
 export default async function PostPage({ params }: PostProps) {
