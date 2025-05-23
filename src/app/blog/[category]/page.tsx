@@ -41,7 +41,7 @@ export async function generateStaticParams() {
     }))
 }
 
-export default async function EditionPage({ params }: PostProps) {
+export default async function BlogPage({ params }: PostProps) {
     const { category } = params
     const posts = await getCachedPosts()
 

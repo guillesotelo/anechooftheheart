@@ -6,8 +6,6 @@ import { postType } from '../../../app/types'
 import { AppContext } from '../../../app/context/AppContext'
 import { TEXT } from '../../../constants/lang'
 import Switch from '../../../components/Switch/Switch'
-import { getAllPosts } from 'src/services/post'
-import { getUser } from 'src/helpers'
 
 type Props = {
     category: string

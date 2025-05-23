@@ -9,7 +9,7 @@ import { APP_VERSION } from '../../constants/app'
 import { AppContext } from '../../app/context/AppContext'
 import { TEXT } from '../../constants/lang'
 import { onChangeEventType, postType } from '../../app/types'
-import { getPostBySlug } from '../../services/post'
+import { getPostIdBySlug } from '../../services/post'
 import Tooltip from '../Tooltip/Tooltip'
 import Hamburger from 'hamburger-react'
 import { usePathname, useRouter } from 'next/navigation'
@@ -50,10 +50,9 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
 
     useEffect(() => {
         const isPost = pathname.split('/')[1] === 'post'
-        if (isPost) {
+        if (isPost && !postId) {
             const slug = pathname.split('/')[2]
             if (slug) getPostId(slug)
-            else setPostId('')
         }
     }, [pathname])
 
@@ -72,7 +71,7 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
 
     const getPostId = async (slug: string) => {
         try {
-            const post = await getPostBySlug(slug)
+            const post = await getPostIdBySlug(slug)
             if (post && post._id) setPostId(post._id)
             else setPostId('')
         } catch (error) {

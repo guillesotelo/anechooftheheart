@@ -10,7 +10,16 @@ export async function GET(request: NextRequest) {
     try {
         const token = await getToken(request)
 
-        const config = { headers: { authorization: `Bearer ${token}` }, params: { isAdmin: true } }
+        const { searchParams } = new URL(request.url)
+        const queryParams = Object.fromEntries(searchParams.entries()) // Converts to { key1: value1, key2: value2, ... }
+
+        const params = { ...queryParams, isAdmin: true }
+
+        const config = {
+            headers: { authorization: `Bearer ${token}` },
+            params
+        }
+
         const res = await retryWithDelay(() => axios.get(`${API_URL}/api/post/getAll`, config), 5, 100)
         return NextResponse.json(res.data)
     } catch (err: any) {
