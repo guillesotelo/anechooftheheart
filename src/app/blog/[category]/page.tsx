@@ -44,14 +44,9 @@ export const revalidate = 3600
 
 // Pre-generate all unique category pages
 export async function generateStaticParams() {
-    const posts = await getCachedPosts()
+    const posts = await getAllPosts({ isAdmin: true })
 
     const categories = new Set<string>()
-
-    if (!Array.isArray(posts)) {
-        console.error('generateStaticParams: posts is not an array', posts)
-        throw new Error('Expected posts to be an array.')
-    }
 
     posts.forEach((post: postType) => {
         if (post.category) {
