@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 import Post from './Post'
 import { cache } from 'react'
-import { getAllPosts } from 'src/services/post'
+import { getAllPosts, getPostBySlug } from 'src/services/post'
 import { postType } from 'src/app/types'
 
 interface PostProps {
@@ -9,19 +9,18 @@ interface PostProps {
 }
 
 const getCachedPosts = cache(async () => {
-    const posts = await getAllPosts({ isAdmin: true, getHtml: true })
+    const posts = await getAllPosts({ isAdmin: true })
     return posts || []
 })
 
-
-const getPostBySlug = (slug: string, posts: postType[]) => {
+const getBySlug = (slug: string, posts: postType[]) => {
     return posts.find((p: postType) => p.slug === slug) || {}
 }
 
 export async function generateMetadata({ params }: PostProps): Promise<Metadata> {
     const { postSlug } = params
     const posts = await getCachedPosts()
-    const post = getPostBySlug(postSlug, posts)
+    const post = getBySlug(postSlug, posts)
     const title = `An Echo of The Heart - ${post.title}`
     const description = post.description
 
@@ -57,8 +56,7 @@ export async function generateStaticParams() {
 
 export default async function PostPage({ params }: PostProps) {
     const { postSlug } = params
-    const posts = await getCachedPosts()
-    const post = getPostBySlug(postSlug, posts)
+    const post = await getPostBySlug(postSlug)
 
     return <Post post={post} />
 }

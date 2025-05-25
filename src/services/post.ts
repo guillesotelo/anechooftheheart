@@ -11,9 +11,9 @@ const getConfig = (user: dataObj) => {
     return { headers: { authorization: `Bearer ${user.token}` } }
 }
 
-const getAllPosts = async (user: dataObj) => {
+const getAllPosts = async (params: dataObj) => {
     try {
-        const posts = await retryWithDelay(() => axios.get(`${API_URL}/api/post/getAll`, { params: { ...user } }), 5, 100)
+        const posts = await retryWithDelay(() => axios.get(`${API_URL}/api/post/getAll`, { params }), 5, 100)
         return posts.data
     } catch (err) { console.log(err) }
 }
