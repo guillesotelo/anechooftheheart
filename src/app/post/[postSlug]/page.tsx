@@ -43,9 +43,6 @@ export async function generateMetadata({ params }: PostProps): Promise<Metadata>
     }
 }
 
-// ISR
-export const revalidate = 3600
-
 export async function generateStaticParams() {
     const posts = await getCachedPosts()
     return posts.filter((p: postType) => p.slug)

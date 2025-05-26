@@ -46,7 +46,7 @@ export default function PostViewer({ post }: Props) {
         if (post && (post.html || post.spaHtml)) {
             setHtml(post.html || '')
             setspaHtml(post.spaHtml || '')
-        } else getPost()
+        } else if (post._id) getPost()
 
         if (!category) getCategory()
         if (post && post._id) getComments(post._id)
