@@ -33,7 +33,6 @@ export async function generateMetadata({ params }: ProductProps): Promise<Metada
     const product = getById(productId, products)
     const title = `${product.title}`
     const description = product.description
-    const image = product.previewImage || 'https://www.anechooftheheart.com/static/media/landing-1.c9e189a7c1b0d856d4aa.jpg'
 
     if (product && product.title) {
         return {
@@ -42,7 +41,7 @@ export async function generateMetadata({ params }: ProductProps): Promise<Metada
             openGraph: {
                 title,
                 description,
-                images: [{ url: image || '' }],
+                images: [{ url: product.previewImage || 'https://www.anechooftheheart.com/static/media/landing-1.c9e189a7c1b0d856d4aa.jpg' }],
                 url: `https://anechooftheheart.com/store/product/${productId}`,
                 type: 'website',
             },
@@ -53,6 +52,9 @@ export async function generateMetadata({ params }: ProductProps): Promise<Metada
         title: 'Product Not Found'
     }
 }
+
+// SSR
+export const dynamic = 'force-dynamic'
 
 export default async function ProductPage({ params }: ProductProps) {
     const { productId } = params
