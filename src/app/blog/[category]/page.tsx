@@ -35,7 +35,7 @@ export async function generateMetadata({ params }: PostProps): Promise<Metadata>
 export const revalidate = 3600
 
 export async function generateStaticParams() {
-    const posts = await getAllPosts({ isAdmin: true })
+    const posts = await getCachedPosts()
 
     if (!Array.isArray(posts)) {
         throw new Error('generateStaticParams: Expected posts to be an array.')
