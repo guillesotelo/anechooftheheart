@@ -43,13 +43,10 @@ export default function PostViewer({ post }: Props) {
     }, [pathname])
 
     useEffect(() => {
-        if (post && (post.html || post.spaHtml)) {
-            setHtml(post.html || '')
-            setspaHtml(post.spaHtml || '')
-        } else if (post._id) getPost()
+        if (post._id && (!html && !spaHtml)) getPost()
 
         if (!category) getCategory()
-        if (post && post._id) getComments(post._id)
+        if (post._id && !postComments.length) getComments(post._id)
     }, [post])
 
     const updateSubscribeData = (key: string, e: onChangeEventType) => {

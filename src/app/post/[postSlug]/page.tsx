@@ -1,31 +1,20 @@
 import { Metadata } from 'next'
 import Post from './Post'
 import { cache } from 'react'
-import { getAllPosts, getPostById } from 'src/services/post'
-import { postType } from 'src/app/types'
+import { getMetadataBySlug } from 'src/services/post'
 
 interface PostProps {
     params: { postSlug: string }
 }
 
-const getCachedPosts = cache(async () => {
-    const posts = await getAllPosts({ isAdmin: true })
-    return posts || []
-})
-
-const getCachedPost = cache(async (id: string) => {
-    const post = await getPostById(id)
+const getCachedPost = cache(async (slug: string) => {
+    const post = await getMetadataBySlug(slug)
     return post || {}
 })
 
-const getBySlug = (slug: string, posts: postType[]) => {
-    return posts.find((p: postType) => p.slug === slug) || {}
-}
-
 export async function generateMetadata({ params }: PostProps): Promise<Metadata> {
     const { postSlug } = params
-    const posts = await getCachedPosts()
-    const post = getBySlug(postSlug, posts)
+    const post = await getCachedPost(postSlug)
     const title = `An Echo of The Heart - ${post.title || post.spaTitle}`
     const description = post.description
 
@@ -50,9 +39,7 @@ export async function generateMetadata({ params }: PostProps): Promise<Metadata>
 
 export default async function PostPage({ params }: PostProps) {
     const { postSlug } = params
-    const posts = await getCachedPosts()
-    const post = getBySlug(postSlug, posts)
-    const postWithHtml = post._id ? await getCachedPost(post._id) : {}
+    const post = await getCachedPost(postSlug)
 
-    return <Post post={postWithHtml} />
+    return <Post post={post} />
 }

@@ -25,6 +25,13 @@ const getProductById = async (_id: string) => {
     } catch (err) { console.log(err) }
 }
 
+const getMetadataById = async (_id: string) => {
+    try {
+        const product = await retryWithDelay(() => axios.get(`${API_URL}/api/product/getMetadataById`, { params: { _id } }), 5, 100)
+        return product.data
+    } catch (err) { console.log(err) }
+}
+
 const createProduct = async (data: productType, user: dataObj) => {
     try {
         const product = await retryWithDelay(() => axios.post(`${API_URL}/api/product/create`, data, getConfig(user)), 5, 100)
@@ -57,6 +64,7 @@ export {
     getAllProducts,
     createProduct,
     getProductById,
+    getMetadataById,
     updateProduct,
     deleteProduct,
     updateProductOrder
