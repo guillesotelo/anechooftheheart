@@ -1,8 +1,9 @@
 import { Metadata } from 'next'
 import Blog from './Blog'
 import { cache } from 'react'
-import { getAllPosts } from 'src/services/post'
+import { getAllPosts, getPostById } from 'src/services/post'
 import { postType } from 'src/app/types'
+import { capitalizeFirstLetter } from 'src/helpers'
 
 interface PostProps {
     params: { category: string }
@@ -15,7 +16,7 @@ const getCachedPosts = cache(async () => {
 
 export async function generateMetadata({ params }: PostProps): Promise<Metadata> {
     const { category } = params
-    const title = `An Echo of The Heart - Open Journal`
+    const title = `An Echo of The Heart - ${capitalizeFirstLetter(category.replaceAll('-', ' '))}`
     const description = `'In each post, there is a little spark of joy and personal experience. There are photos that try to complement the story and a closing that wishes for connection.`
 
     return {
@@ -30,9 +31,6 @@ export async function generateMetadata({ params }: PostProps): Promise<Metadata>
         },
     }
 }
-
-// ISR
-export const revalidate = 3600
 
 export async function generateStaticParams() {
     const posts = await getCachedPosts()
@@ -55,13 +53,13 @@ export async function generateStaticParams() {
                 if (Array.isArray(parsed)) {
                     parsed.forEach((cat) => {
                         if (typeof cat === 'string') {
-                            categories.add(cat.toLowerCase().replace(/ /g, '_'))
+                            categories.add(cat.trim().toLowerCase().replace(/ /g, '-'))
                         }
                     })
                 }
             } else {
                 // Single category string
-                categories.add(raw.toLowerCase().replace(/ /g, '_'))
+                categories.add(raw.trim().toLowerCase().replace(/ /g, '-'))
             }
         } catch (e) {
             console.warn('Failed to parse category:', raw)
@@ -93,7 +91,7 @@ export default async function BlogPage({ params }: PostProps) {
                         cat.toLowerCase().includes(normalizedCategory)
                     )
             } else {
-                return raw.toLowerCase().includes(normalizedCategory)
+                return raw.toLowerCase().includes(normalizedCategory) || raw === 'all'
             }
         } catch {
             return false

@@ -54,6 +54,13 @@
                 opacity: .5;
             }
         }
+
+        &-separator {
+            font-size: .9rem;
+            font-weight: normal;
+            transition: .3s;
+            margin: 0;
+        }
     }
 
     &__row {

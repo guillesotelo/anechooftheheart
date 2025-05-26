@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { productType } from '../../app/types'
 import { useRouter } from 'next/navigation'
 import { HashLoader } from 'react-spinners'
+import { imagePlaceholder } from 'src/constants/app'
 
 type Props = {
     product?: productType
@@ -46,7 +47,7 @@ export default function ProductCard({ product, style, index }: Props) {
             }}>
             <div className="productcard__image-frame">
                 <div className="productcard__image-wrapper">
-                    <img src={previewImage} alt={title} className="productcard__image" />
+                    <img src={previewImage || imagePlaceholder} alt={title} className="productcard__image" />
                     {loading && <div className='productcard__loader'><HashLoader size={40} color='gray'/></div>}
                 </div>
             </div>

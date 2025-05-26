@@ -1,5 +1,3 @@
-import { File } from "buffer"
-
 export const shuffleArray = (array: any[]) => {
     const newArr = [...array]
     let currentIndex = newArr.length, randomIndex

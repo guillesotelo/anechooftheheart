@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 import Post from './Post'
 import { cache } from 'react'
-import { getAllPosts, getPostBySlug } from 'src/services/post'
+import { getAllPosts, getPostById } from 'src/services/post'
 import { postType } from 'src/app/types'
 
 interface PostProps {
@@ -11,6 +11,11 @@ interface PostProps {
 const getCachedPosts = cache(async () => {
     const posts = await getAllPosts({ isAdmin: true })
     return posts || []
+})
+
+const getCachedPost = cache(async (id: string) => {
+    const post = await getPostById(id)
+    return post || {}
 })
 
 const getBySlug = (slug: string, posts: postType[]) => {
@@ -53,7 +58,9 @@ export async function generateStaticParams() {
 
 export default async function PostPage({ params }: PostProps) {
     const { postSlug } = params
-    const post = await getPostBySlug(postSlug)
+    const posts = await getCachedPosts()
+    const post = getBySlug(postSlug, posts)
+    const postWithHtml = post._id ? await getCachedPost(post._id) : {}
 
-    return <Post post={post} />
+    return <Post post={postWithHtml} />
 }

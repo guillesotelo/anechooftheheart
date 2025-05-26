@@ -9,3 +9,5 @@ export const APP_COLORS = {
     LIGHTBLUE: '#BAD9D9',
     BLUEGREEN: "#5d8c8c",
 }
+
+export const imagePlaceholder = '/assets/logos/isologo.png'
