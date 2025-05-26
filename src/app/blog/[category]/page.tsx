@@ -32,48 +32,6 @@ export async function generateMetadata({ params }: PostProps): Promise<Metadata>
     }
 }
 
-export async function generateStaticParams() {
-    const posts = await getCachedPosts()
-
-    if (!Array.isArray(posts)) {
-        throw new Error('generateStaticParams: Expected posts to be an array.')
-    }
-
-    const categories = new Set<string>()
-
-    posts.forEach((post: postType) => {
-        const raw = post.category
-
-        if (!raw) return
-
-        try {
-            // If category is a stringified array, parse and add each item
-            if (typeof raw === 'string' && raw.trim().startsWith('[')) {
-                const parsed = JSON.parse(raw)
-                if (Array.isArray(parsed)) {
-                    parsed.forEach((cat) => {
-                        if (typeof cat === 'string') {
-                            categories.add(cat.trim().toLowerCase().replace(/ /g, '-'))
-                        }
-                    })
-                }
-            } else {
-                // Single category string
-                categories.add(raw.trim().toLowerCase().replace(/ /g, '-'))
-            }
-        } catch (e) {
-            console.warn('Failed to parse category:', raw)
-        }
-    })
-
-    return Array.from(categories).map((category) => ({
-        category
-    }))
-}
-
-// SSR
-export const dynamic = 'force-dynamic'
-
 export default async function BlogPage({ params }: PostProps) {
     const { category } = params
     const posts = await getCachedPosts()

@@ -18,13 +18,6 @@ const getCachedProduct = cache(async (id: string) => {
     return product || {}
 })
 
-export async function generateStaticParams() {
-    const products = await getCachedProducts()
-    return products.map((product: productType) => ({
-        productId: product._id
-    }))
-}
-
 const getById = (id: string, products: productType[]) => products.find((p: productType) => p._id === id) || {}
 
 export async function generateMetadata({ params }: ProductProps): Promise<Metadata> {
@@ -52,9 +45,6 @@ export async function generateMetadata({ params }: ProductProps): Promise<Metada
         title: 'Product Not Found'
     }
 }
-
-// SSR
-export const dynamic = 'force-dynamic'
 
 export default async function ProductPage({ params }: ProductProps) {
     const { productId } = params

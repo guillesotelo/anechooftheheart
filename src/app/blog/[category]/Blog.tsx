@@ -18,7 +18,6 @@ export default function Blog({ posts, category }: Props) {
     const [loading, setLoading] = useState(false)
     const { isLoggedIn, lang, isMobile } = useContext(AppContext)
 
-
     useEffect(() => {
         if (posts.length && !showUp) {
             const cards = Array.from(document.getElementsByClassName('postcard__container') as HTMLCollectionOf<HTMLElement>)

@@ -48,17 +48,6 @@ export async function generateMetadata({ params }: PostProps): Promise<Metadata>
     }
 }
 
-export async function generateStaticParams() {
-    const posts = await getCachedPosts()
-    return posts.filter((p: postType) => p.slug)
-        .map((post: postType) => ({
-            postSlug: post.slug
-        }))
-}
-
-// SSR
-export const dynamic = 'force-dynamic'
-
 export default async function PostPage({ params }: PostProps) {
     const { postSlug } = params
     const posts = await getCachedPosts()

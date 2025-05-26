@@ -22,8 +22,8 @@ type Props = {
 export default function PostViewer({ post }: Props) {
     const [data, setData] = useState<commentType>({})
     const [subscribeData, setSubscribeData] = useState({ email: '', fullname: '' })
-    const [html, setHtml] = useState('')
-    const [spaHtml, setspaHtml] = useState('')
+    const [html, setHtml] = useState(post.html || '')
+    const [spaHtml, setspaHtml] = useState(post.spaHtml || '')
     const [sideImages, setSideImages] = useState<string[]>([])
     const [postComments, setPostComments] = useState<commentType[]>([])
     const [sideImgStyles, setSideImgStyles] = useState<React.CSSProperties[]>([])
