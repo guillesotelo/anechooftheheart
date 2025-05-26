@@ -13,7 +13,7 @@ import { TEXT } from '../../../constants/lang'
 import { subscribe } from '../../../services/app'
 import { usePathname, useRouter } from 'next/navigation'
 import { capitalizeFirstLetter } from 'src/helpers'
-import { getPostById } from 'src/services/post'
+import { getContentBySlug, getPostById } from 'src/services/post'
 
 type Props = {
     post: postType
@@ -43,7 +43,7 @@ export default function PostViewer({ post }: Props) {
     }, [pathname])
 
     useEffect(() => {
-        if (post._id && (!html && !spaHtml)) getPost()
+        if (post.slug && (!html && !spaHtml)) getPost()
 
         if (!category) getCategory()
         if (post._id && !postComments.length) getComments(post._id)
@@ -79,7 +79,7 @@ export default function PostViewer({ post }: Props) {
     const getPost = async () => {
         try {
             setLoading(true)
-            const _post = await getPostById(post._id || '')
+            const _post = await getContentBySlug(post.slug || '')
             if (_post && _post._id) {
                 if (_post.unpublished && !isLoggedIn === false) router.back()
 
