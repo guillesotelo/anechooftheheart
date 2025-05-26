@@ -10,29 +10,19 @@ type Props = {
 }
 
 export default function ProductCard({ product, style, index }: Props) {
-    const [mainImage, setMainImage] = useState('')
     const [loading, setLoading] = useState(false)
     const router = useRouter()
 
     const {
         title,
-        images,
+        previewImage,
         price,
         _id
     } = product || {}
 
-    useEffect(() => {
-        setMainImage(getMainImage(images))
-    }, [images])
-
     const goToProductPage = () => {
         setLoading(true)
         router.push(`/store/product/${_id}`)
-    }
-
-    const getMainImage = (images?: string) => {
-        const imgs = JSON.parse(images || '[]')
-        return imgs[0] || ''
     }
 
     const getPrice = (price?: number) => {
@@ -56,7 +46,7 @@ export default function ProductCard({ product, style, index }: Props) {
             }}>
             <div className="productcard__image-frame">
                 <div className="productcard__image-wrapper">
-                    <img src={mainImage} alt={title} className="productcard__image" />
+                    <img src={previewImage} alt={title} className="productcard__image" />
                     {loading && <div className='productcard__loader'><HashLoader size={40} color='gray'/></div>}
                 </div>
             </div>

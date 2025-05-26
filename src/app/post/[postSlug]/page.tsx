@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: PostProps): Promise<Metadata>
             openGraph: {
                 title,
                 description,
-                images: [{ url: post.imageUrl || '' }],
+                images: [{ url: post.previewImage || '' }],
                 url: `https://anechooftheheart.com/post/${postSlug}`,
                 type: 'article',
             },

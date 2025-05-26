@@ -27,6 +27,7 @@ export type postType = {
     sideImgs?: string
     sideStyles?: string
     imageUrl?: string
+    previewImage?: string
     type?: string
     spaTitle?: string
     spaSubtitle?: string
@@ -122,6 +123,7 @@ export type productType = {
     price?: number
     description?: string
     images?: string
+    previewImage?: string
     active?: boolean
     stock?: number
     currency?: string

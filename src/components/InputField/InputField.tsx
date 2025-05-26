@@ -90,7 +90,7 @@ export default function InputField(props: Props) {
                 let imgArray = []
                 for (let i = 0; i < files.length; i++) {
                     const compressOptions = {
-                        maxSizeMB: 0.45,
+                        maxSizeMB: 0.35,
                         maxWidthOrHeight: 1000,
                         useWebWorker: true
                     }

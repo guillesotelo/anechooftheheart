@@ -22,10 +22,6 @@ export default function PostCard({ post, index, style }: Props) {
         setSpanish(lang === 'es')
     }, [])
 
-    const getPreview = () => {
-        return post.imageUrl || JSON.parse(post.sideImgs || '[]')[0] || '/assets/logos/isologo.png'
-    }
-
     const getOverlap = () => {
         const readMore = spanish ? 'Leer post' : 'Read post'
         return spanish && post.spaOverlap ? post.spaOverlap : post.overlap ? post.overlap : spanish && post.spaDescription ? post.spaDescription : post.description || readMore
@@ -46,14 +42,14 @@ export default function PostCard({ post, index, style }: Props) {
                 {!post.published ? <img src={'/assets/icons/lock.svg'} alt="Not Published" className="postcard__image-lock" /> : ''}
                 <h4 className="postcard__image-overlap">{getOverlap()}</h4>
                 <img
-                    src={getPreview()}
+                    src={post.previewImage}
                     alt="Post Image"
                     className="postcard__image"
                     draggable={false}
                     style={{
-                        objectFit: !post.imageUrl && !JSON.parse(post.sideImgs || '[]')[0] ? 'contain' : 'cover',
-                        minWidth: !post.imageUrl && !JSON.parse(post.sideImgs || '[]')[0] ? '50%' : '100%',
-                        height: !post.imageUrl && !JSON.parse(post.sideImgs || '[]')[0] ? '50%' : '100%',
+                        objectFit: !post.previewImage && !JSON.parse(post.sideImgs || '[]')[0] ? 'contain' : 'cover',
+                        minWidth: !post.previewImage && !JSON.parse(post.sideImgs || '[]')[0] ? '50%' : '100%',
+                        height: !post.previewImage && !JSON.parse(post.sideImgs || '[]')[0] ? '50%' : '100%',
                     }}
                 />
                 {loading && <div className='productcard__loader'><HashLoader size={40} color='gray' /></div>}
