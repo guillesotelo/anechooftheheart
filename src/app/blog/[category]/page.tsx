@@ -71,6 +71,9 @@ export async function generateStaticParams() {
     }))
 }
 
+// SSR
+export const dynamic = 'force-dynamic'
+
 export default async function BlogPage({ params }: PostProps) {
     const { category } = params
     const posts = await getCachedPosts()

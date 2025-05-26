@@ -26,10 +26,10 @@ export async function generateMetadata({ params }: PostProps): Promise<Metadata>
     const { postSlug } = params
     const posts = await getCachedPosts()
     const post = getBySlug(postSlug, posts)
-    const title = `An Echo of The Heart - ${post.title}`
+    const title = `An Echo of The Heart - ${post.title || post.spaTitle}`
     const description = post.description
 
-    if (post && post.title) {
+    if (post && (post.title || post.spaTitle)) {
         return {
             title,
             description,
@@ -55,6 +55,9 @@ export async function generateStaticParams() {
             postSlug: post.slug
         }))
 }
+
+// SSR
+export const dynamic = 'force-dynamic'
 
 export default async function PostPage({ params }: PostProps) {
     const { postSlug } = params
