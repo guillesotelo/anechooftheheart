@@ -91,7 +91,7 @@ export default function InputField(props: Props) {
                 for (let i = 0; i < files.length; i++) {
                     const compressOptions = {
                         maxSizeMB: 0.3,
-                        maxWidthOrHeight: 800,
+                        maxWidthOrHeight: 600,
                         useWebWorker: true
                     }
 

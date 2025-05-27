@@ -86,7 +86,7 @@ export default function Product({ product }: Props) {
                                 <img key={i} src={image} draggable={false} className='product__galery-image' />
                             )}
                         </div>
-                        {isMobile &&
+                        {isMobile && getImages(product.images).length &&
                             <Button
                                 label='Buy'
                                 handleClick={buyProduct}
