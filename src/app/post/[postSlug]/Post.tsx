@@ -184,7 +184,7 @@ export default function PostViewer({ post }: Props) {
                     />
                     {post.video?.trim() ?
                         <div style={{ textAlign: 'center', margin: '0 0 6rem 0' }}>
-                            <iframe src={parseYTLink(post.video)} width={isMobile ? '90%' : "700"} height={isMobile ? 'auto' : "400"} frameBorder={0} allowFullScreen />
+                            <iframe src={parseYTLink(post.video)} width={isMobile ? '90%' : "700"} height={isMobile ? '350' : "400"} frameBorder={0} allowFullScreen />
                         </div>
                         : ''}
                     <div className="postviewer__row">

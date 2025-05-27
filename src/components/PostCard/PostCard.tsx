@@ -4,6 +4,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { AppContext } from '../../app/context/AppContext'
 import { postType } from '../../app/types'
 import { HashLoader } from 'react-spinners'
+import { imagePlaceholder } from 'src/constants/app'
 
 type Props = {
     post: postType
@@ -42,7 +43,7 @@ export default function PostCard({ post, index, style }: Props) {
                 {!post.published ? <img src={'/assets/icons/lock.svg'} alt="Not Published" className="postcard__image-lock" /> : ''}
                 <h4 className="postcard__image-overlap">{getOverlap()}</h4>
                 <img
-                    src={post.previewImage}
+                    src={post.previewImage || imagePlaceholder}
                     alt="Post Image"
                     className="postcard__image"
                     draggable={false}

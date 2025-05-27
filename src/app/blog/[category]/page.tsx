@@ -36,28 +36,27 @@ export default async function BlogPage({ params }: PostProps) {
     const { category } = params
     const posts = await getCachedPosts()
 
-    const normalizedCategory = category.toLowerCase().replace(/_/g, ' ')
+    posts.forEach((p: postType, i: number) => console.log(`${i} - ${p.title || p.spaTitle} (${p.category})`))
+
+    const normalizedCategory = category.toLowerCase().replace(/_/g, ' ').trim()
 
     const filteredPosts = posts.filter((post: postType) => {
-        const raw = post.category
-
-        if (!raw) return false
-
+        if (category === 'all') return true
+        const raw = post.category || ''
         try {
-            if (typeof raw === 'string' && raw.trim().startsWith('[')) {
+            if (raw.trim().startsWith('[')) {
                 const parsed = JSON.parse(raw)
                 return Array.isArray(parsed) &&
-                    parsed.some((cat) =>
-                        typeof cat === 'string' &&
-                        cat.toLowerCase().includes(normalizedCategory)
-                    )
+                    parsed.some((cat) => cat.toLowerCase().includes(normalizedCategory))
             } else {
-                return raw.toLowerCase().includes(normalizedCategory) || raw === 'all'
+                return raw.toLowerCase().includes(normalizedCategory)
             }
         } catch {
             return false
         }
     })
+
+    console.log('filtered:', filteredPosts.length)
 
     return <Blog posts={filteredPosts} category={category} />
 }

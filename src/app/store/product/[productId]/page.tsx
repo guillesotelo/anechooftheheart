@@ -1,20 +1,25 @@
 import { Metadata } from 'next'
 import Product from './Product'
 import { cache } from 'react'
-import { getMetadataById } from 'src/services/product'
+import { getMetadataById, getProductById } from 'src/services/product'
 
 interface ProductProps {
     params: { productId: string }
 }
 
-const getCachedProduct = cache(async (id: string) => {
+const getCachedProductMetadata = cache(async (id: string) => {
     const product = await getMetadataById(id)
+    return product || {}
+})
+
+const getCachedProduct = cache(async (id: string) => {
+    const product = await getProductById(id)
     return product || {}
 })
 
 export async function generateMetadata({ params }: ProductProps): Promise<Metadata> {
     const { productId } = params
-    const product = await getCachedProduct(productId)
+    const product = await getCachedProductMetadata(productId)
     const title = `${product.title}`
     const description = product.description
 
@@ -40,7 +45,6 @@ export async function generateMetadata({ params }: ProductProps): Promise<Metada
 export default async function ProductPage({ params }: ProductProps) {
     const { productId } = params
     const product = await getCachedProduct(productId)
-    const productWithImages = product._id ? getCachedProduct(product._id) : {}
 
-    return <Product product={productWithImages} />
+    return <Product product={product} />
 }
