@@ -1,7 +1,7 @@
 .editor {
     &__container {
-        margin: 6vw 4vw 30vw 4vw;
-        padding-bottom: 10vw;
+        margin: 1rem 0 0 0;
+        padding-bottom: 60vh;
         transition: .3s;
         display: flex;
         flex-direction: row;
@@ -10,7 +10,7 @@
     }
 
     &__left-col {
-        width: 700px;
+        width: fit-content;
     }
 
     &__right-col {
@@ -187,6 +187,14 @@
     }
 
 }
+
+.tox-editor-header--fixed {
+    position: fixed !important;
+    margin: 4rem 0 0 1rem !important;
+    top: 0 !important;
+    padding-right: 1px !important;
+}
+
 
 @media only screen and (max-width: 640px) {
     .editor {

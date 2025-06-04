@@ -21,6 +21,23 @@ export default function Post({ headers, content, spaContent, linkLang }: Props) 
     const contentRef = useRef<null | HTMLDivElement>(null)
 
     useEffect(() => {
+        if (!contentRef.current) return
+
+        const observer = new MutationObserver(() => {
+            styleImagesInParagraphs()
+        })
+
+        observer.observe(contentRef.current, {
+            childList: true,
+            subtree: true,
+        })
+
+        styleImagesInParagraphs()
+
+        return () => observer.disconnect()
+    }, [])
+
+    useEffect(() => {
         setSpanish(lang === 'es' || linkLang === 'es')
     }, [lang])
 
@@ -28,11 +45,6 @@ export default function Post({ headers, content, spaContent, linkLang }: Props) 
         if (headers.sideImages) setSideImages(headers.sideImages)
         if (headers.sideImgStyles) setSideImgStyles(headers.sideImgStyles)
     }, [content])
-
-    useEffect(() => {
-        if (!contentRef.current) return;
-        styleImagesInParagraphs()
-    }, [spaContent, content, headers, contentRef])
 
     const copyLink = () => {
         const currentUrl = window.location.href;
@@ -44,34 +56,33 @@ export default function Post({ headers, content, spaContent, linkLang }: Props) 
         if (contentRef.current) {
             const paragraphs = contentRef.current.querySelectorAll('p');
             paragraphs.forEach(paragraph => {
+                paragraph.childNodes.forEach(node => {
+                    if (node.nodeType === Node.TEXT_NODE) {
+                        node.textContent = node.textContent?.replace(/\u00A0/g, ' ').trim() ?? ''
+                    }
+                })
+
                 const images = paragraph.querySelectorAll('img');
                 if (images.length === 1) {
                     (images[0] as HTMLElement).style.width = '100%';
                     if (isMobile) (images[0] as HTMLElement).style.width = '90%';
                     (images[0] as HTMLElement).style.transition = '.2s';
                 } else if (images.length > 1) {
-                    paragraph.style.textAlign = 'center';
-                    const width = 100 / images.length;
+                    paragraph.style.display = 'flex';
+                    paragraph.style.flexDirection = 'row';
+                    paragraph.style.justifyContent = 'space-between';
+
+                    const width = 98 / images.length;
                     images.forEach(image => {
-                        // (image as HTMLElement).style.width = `${width}%`;
+                        (image as HTMLElement).style.width = `${width}%`;
                         (image as HTMLElement).style.height = 'auto';
                         (image as HTMLElement).style.display = 'inline';
                         (image as HTMLElement).style.transition = '.2s';
                         if (isMobile) (image as HTMLElement).style.width = '100%';
                     });
+
                 }
             });
-
-            const paragraphsWithImages = Array.from(document.querySelectorAll('p > img'))
-            paragraphsWithImages.forEach((image) => {
-                if (image.parentElement instanceof HTMLElement) {
-                    const paragraph = image.parentElement
-                    paragraph.style.textAlign = 'center';
-                    (image as HTMLElement).style.display = 'inline';
-                    (image as HTMLElement).style.transition = '.2s';
-                    if (isMobile) (image as HTMLElement).style.width = '100%';
-                }
-            })
         }
     }
 

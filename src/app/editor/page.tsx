@@ -131,12 +131,12 @@ export default function PostEditor({ }: Props) {
                 const itemPosition = item.getBoundingClientRect().top
                 const scrollTop = document.documentElement.scrollTop
 
-                if (itemPosition < 28 && !item.classList.contains('--fixed')) {
+                if (itemPosition < 40 && !item.classList.contains('tox-editor-header--fixed')) {
                     position = scrollTop
-                    item.classList.add('--fixed')
+                    item.classList.add('tox-editor-header--fixed')
                 } else {
-                    if (item.classList.contains('--fixed') && position >= scrollTop) {
-                        item.classList.remove('--fixed')
+                    if (item.classList.contains('tox-editor-header--fixed') && position >= scrollTop) {
+                        item.classList.remove('tox-editor-header--fixed')
                     }
                 }
             }
@@ -463,8 +463,8 @@ export default function PostEditor({ }: Props) {
                     onEditorChange={handleEditorChange}
                     apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY}
                     init={{
-                        height: 700,
-                        width: 700,
+                        height: 1000,
+                        width: 750,
                         menubar: true,
                         plugins: 'link image lists wordcount emoticons',
                         statusbar: false,
