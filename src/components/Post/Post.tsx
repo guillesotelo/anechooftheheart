@@ -79,14 +79,14 @@ export default function Post({ headers, content, spaContent, linkLang }: Props) 
 
                 if (images.length === 1) {
                     const imgEl = images[0] as HTMLElement;
-                    imgEl.style.width = isMobile ? '90%' : '100%';
+                    imgEl.style.width = '100%';
                     imgEl.style.transition = '.2s';
                 } else if (images.length > 1) {
                     paragraph.style.display = 'flex';
                     paragraph.style.flexDirection = 'row';
                     paragraph.style.justifyContent = 'space-between';
 
-                    const width = isMobile ? 100 : 98 / images.length;
+                    const width = 98 / images.length;
                     images.forEach(image => {
                         const imgEl = image as HTMLElement;
                         imgEl.style.width = `${width}%`;
