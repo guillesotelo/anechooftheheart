@@ -5,9 +5,8 @@ import { getAllPosts, getPostById } from 'src/services/post'
 import { postType } from 'src/app/types'
 import { capitalizeFirstLetter } from 'src/helpers'
 
-// ISR
-export const dynamic = 'force-static'
-export const revalidate = 3600
+// SSR
+export const dynamic = 'force-dynamic'
 
 interface PostProps {
     params: { category: string }

@@ -15,7 +15,7 @@ export default function Search({ posts, query }: Props) {
     const [filteredPosts, setFilteredPosts] = useState<postType[]>([])
     const [search, setSearch] = useState('')
     const [showUp, setShowUp] = useState(false)
-    const { lang, isLoggedIn } = useContext(AppContext)
+    const { lang, isLoggedIn, isMobile } = useContext(AppContext)
 
     useEffect(() => {
         if (query) {
@@ -57,9 +57,10 @@ export default function Search({ posts, query }: Props) {
     }
 
     const render = () => {
+        console.log(filterPosts.length)
         setTimeout(() => applyAnimation(), 50)
         return filteredPosts.length ?
-            filteredPosts.map((post, i) => <PostCard index={i} key={i} post={post} />)
+            filteredPosts.map((post, i) => <PostCard style={{ width: isMobile ? '' : 'fit-content' }} index={i} key={i} post={post} />)
             : search.length ?
                 <h4 className='search__no-results'>{TEXT[lang]['no_results_for']} <strong>{search}</strong></h4>
                 :
@@ -67,7 +68,7 @@ export default function Search({ posts, query }: Props) {
     }
 
     return (
-        <div className='blog__container'>
+        <div className='blog__container' style={{ paddingTop: '2rem' }}>
             <div className="page__header">
                 <h4 className="page__header-title">{search.length ? TEXT[lang]['search_title'] : TEXT[lang]['search_title2']}</h4>
             </div>

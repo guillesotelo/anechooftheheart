@@ -14,6 +14,7 @@ import Tooltip from '../Tooltip/Tooltip'
 import Hamburger from 'hamburger-react'
 import { usePathname, useRouter } from 'next/navigation'
 import { getUser } from 'src/helpers'
+import { HashLoader } from 'react-spinners'
 
 type Props = {
     search: string[]
@@ -30,6 +31,7 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
     const [blogToggle, setBlogToggle] = useState(false)
     const [searchClicked, setSearchClicked] = useState(false)
     const [bigHeader, setBigHeader] = useState(true)
+    const [searchLoading, setSearchLoading] = useState(false)
     const router = useRouter()
     const pathname = usePathname()
     const { setIsLoggedIn, isLoggedIn } = useContext(AppContext)
@@ -105,10 +107,16 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
     const triggerSearch = () => {
         if (isMobile) setSearchClicked(true)
         if (prompt.trim()) {
-            setSearchClicked(false)
+            setSearchLoading(true)
+            if (!isMobile) setSearchClicked(false)
             setSearch(prompt.split(' '))
             router.push(`/search/${encodeURIComponent(prompt.trim())}`)
             setPrompt('')
+
+            setTimeout(() => {
+                setSearchLoading(false)
+                setSearchClicked(false)
+            }, 3000)
         }
     }
 
@@ -311,6 +319,7 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
                             if (e.key === 'Enter') triggerSearch()
                         }} />
                         : ''}
+                    {searchLoading && <div className='header__search-loader'><HashLoader size={40} color='#d3d3d3' /></div>}
                 </div>
             </>
         )
@@ -494,6 +503,7 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
                                 if (e.key === 'Enter') triggerSearch()
                             }} />
                             : ''}
+                        {searchLoading && <div className='header__search-loader'><HashLoader size={20} color='#d3d3d3' /></div>}
                     </div>
                 </div>
             </>)

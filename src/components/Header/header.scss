@@ -323,6 +323,10 @@
         margin: 0 1vw;
         animation: move-y-down 1s ease-in;
 
+        &-loader {
+            position: absolute;
+        }
+
         &-svg {
             height: 1rem;
             margin: .5rem;
