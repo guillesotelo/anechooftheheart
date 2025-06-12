@@ -190,7 +190,7 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
                         <div className="header__menu-item">
                             <h4 className="header__menu-item-text" onClick={() => {
                                 // setTimeout(() => setMenuToggle(false), 50)
-                                // router.push('/blog')
+                                // router.push('/blog/all')
                                 setBlogToggle(!blogToggle)
                             }}>{TEXT[lang]['blog']}</h4>
                         </div>

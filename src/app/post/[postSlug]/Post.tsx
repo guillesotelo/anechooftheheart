@@ -159,19 +159,15 @@ export default function PostViewer({ post }: Props) {
     return (
         <div className='postviewer__container'>
             <div className="postviewer__routes">
-                <h4 className='postviewer__routes-link' onClick={() => router.push('/blog')}>Open Journal</h4>
+                <a className='postviewer__routes-link' href={`/blog/all`}>Open Journal</a>
                 {category ?
                     <>
-                        {!isMobile ? <h4 className='postviewer__routes-separator'>&nbsp;-&nbsp;</h4> : ''}
-                        <h4 className='postviewer__routes-link' onClick={() => router.push(`/blog/${category.trim().replaceAll(' ', '_')}`)}>
-                            {isMobile ? '.' : ''}{capitalizeFirstLetter(category)}
-                        </h4>
+                        <p style={{ margin: 0, color: 'gray' }}>{">"}</p>
+                        <a className='postviewer__routes-link' href={`/blog/${category.trim().replaceAll(' ', '_')}`}>{capitalizeFirstLetter(category)}</a>
+                        {/* <p style={{ margin: 0, color: 'gray' }}>{">"}</p>
+                        <a className='postviewer__routes-link' href={`/blog/${category.trim().replaceAll(' ', '_')}/${post.slug}`}>{post.title || post.spaTitle}</a> */}
                     </>
                     : ''}
-                {!isMobile ? <h4 className='postviewer__routes-separator' >&nbsp;-&nbsp;</h4> : ''}
-                <h4 className='postviewer__routes-link' style={{ cursor: 'auto', opacity: 1 }}>
-                    {isMobile ? '->' : ''}{lang === 'es' && post.spaTitle ? capitalizeFirstLetter(post.spaTitle) : capitalizeFirstLetter(post.title || '')}
-                </h4>
             </div>
             {loading ?
                 <span className="loader" style={{ margin: '10rem auto 60vh' }}></span>
