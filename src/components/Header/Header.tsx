@@ -30,8 +30,8 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
     const [menuToggle, setMenuToggle] = useState(false)
     const [blogToggle, setBlogToggle] = useState(false)
     const [searchClicked, setSearchClicked] = useState(false)
-    const [bigHeader, setBigHeader] = useState(true)
     const [searchLoading, setSearchLoading] = useState(false)
+    const [loadingPage, setLoadingPage] = useState('')
     const router = useRouter()
     const pathname = usePathname()
     const { setIsLoggedIn, isLoggedIn } = useContext(AppContext)
@@ -44,7 +44,6 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
         }
 
         window.addEventListener('mouseup', searchClickEvent)
-        activateHeaderHeight()
         if (localStorage.getItem('user')) verifyUser()
 
         return () => window.removeEventListener('mouseup', searchClickEvent)
@@ -56,6 +55,8 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
             const slug = pathname.split('/')[2]
             if (slug) getPostId(slug)
         }
+        setLoadingPage('')
+        setMenuToggle(false)
     }, [pathname])
 
     useEffect(() => {
@@ -89,14 +90,6 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
         } catch (err) {
             console.error(err)
         }
-    }
-
-    const activateHeaderHeight = () => {
-        window.addEventListener('scroll', function () {
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop
-            if (scrollTop > 200) setBigHeader(false)
-            else setBigHeader(true)
-        })
     }
 
     const handleSearch = (e: onChangeEventType) => {
@@ -165,6 +158,17 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
         a.remove()
     }
 
+    const loadMenuItem = (page: string) => {
+        setLoadingPage(page)
+        router.push(page)
+        setTimeout(() => {
+            setMenuToggle(false)
+        }, 3000)
+        setTimeout(() => {
+            setLoadingPage('')
+        }, 4000)
+    }
+
     const renderMobile = () => {
         return (
             <>
@@ -177,9 +181,11 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
                         {window.location.pathname !== '/' &&
                             <div className="header__menu-item">
                                 <h4 className="header__menu-item-text" onClick={() => {
-                                    setTimeout(() => setMenuToggle(false), 50)
-                                    router.push('/')
+                                    // setTimeout(() => setMenuToggle(false), 50)
+                                    // router.push('/')
+                                    loadMenuItem('/')
                                 }}>HOME</h4>
+                                {loadingPage === '/' && <HashLoader size={15} color='#d3d3d3' />}
                             </div>}
                         <div className="header__menu-item">
                             <h4 className="header__menu-item-text" onClick={() => {
@@ -190,54 +196,78 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
                         </div>
                         {blogToggle ?
                             <div className="header__menu-subitem">
-                                <h4
-                                    className="header__menu-subitem-text"
-                                    onClick={() => {
-                                        setTimeout(() => setMenuToggle(false), 50)
-                                        router.push('/blog/inspiration')
-                                    }}>{TEXT[lang]['inspiration']}</h4>
-                                <h4
-                                    className="header__menu-subitem-text"
-                                    style={{ animationDelay: '.2s' }}
-                                    onClick={() => {
-                                        setTimeout(() => setMenuToggle(false), 50)
-                                        router.push('/blog/motherhood')
-                                    }}>{TEXT[lang]['motherhood']}</h4>
-                                <h4
-                                    className="header__menu-subitem-text"
-                                    style={{ animationDelay: '.4s' }}
-                                    onClick={() => {
-                                        setTimeout(() => setMenuToggle(false), 50)
-                                        router.push('/blog/life_abroad')
-                                    }}>{TEXT[lang]['life_abroad']}</h4>
-                                <h4
-                                    className="header__menu-subitem-text"
-                                    style={{ animationDelay: '.5s' }}
-                                    onClick={() => {
-                                        setTimeout(() => setMenuToggle(false), 50)
-                                        router.push('/blog/career_insights')
-                                    }}>{TEXT[lang]['career_insights']}</h4>
-                                <h4
-                                    className="header__menu-subitem-text"
-                                    style={{ animationDelay: '.5s', marginTop: '1rem' }}
-                                    onClick={() => {
-                                        setTimeout(() => setMenuToggle(false), 50)
-                                        router.push('/blog/all')
-                                    }}>ALL POSTS</h4>
+                                <div className="header__menu-subitem-row">
+                                    <h4
+                                        className="header__menu-subitem-text"
+                                        onClick={() => {
+                                            // setTimeout(() => setMenuToggle(false), 50)
+                                            // router.push('/blog/inspiration')
+                                            loadMenuItem('/blog/inspiration')
+                                        }}>{TEXT[lang]['inspiration']}</h4>
+                                    {loadingPage === '/blog/inspiration' && <HashLoader size={15} color='#d3d3d3' />}
+                                </div>
+                                <div className="header__menu-subitem-row">
+                                    <h4
+                                        className="header__menu-subitem-text"
+                                        style={{ animationDelay: '.2s' }}
+                                        onClick={() => {
+                                            // setTimeout(() => setMenuToggle(false), 50)
+                                            // router.push('/blog/motherhood')
+                                            loadMenuItem('/blog/motherhood')
+                                        }}>{TEXT[lang]['motherhood']}</h4>
+                                    {loadingPage === '/blog/motherhood' && <HashLoader size={15} color='#d3d3d3' />}
+                                </div>
+                                <div className="header__menu-subitem-row">
+                                    <h4
+                                        className="header__menu-subitem-text"
+                                        style={{ animationDelay: '.4s' }}
+                                        onClick={() => {
+                                            // setTimeout(() => setMenuToggle(false), 50)
+                                            // router.push('/blog/life_abroad')
+                                            loadMenuItem('/blog/life_abroad')
+                                        }}>{TEXT[lang]['life_abroad']}</h4>
+                                    {loadingPage === '/blog/life_abroad' && <HashLoader size={15} color='#d3d3d3' />}
+                                </div>
+                                <div className="header__menu-subitem-row">
+                                    <h4
+                                        className="header__menu-subitem-text"
+                                        style={{ animationDelay: '.5s' }}
+                                        onClick={() => {
+                                            // setTimeout(() => setMenuToggle(false), 50)
+                                            // router.push('/blog/career_insights')
+                                            loadMenuItem('/blog/career_insights')
+                                        }}>{TEXT[lang]['career_insights']}</h4>
+                                    {loadingPage === '/blog/career_insights' && <HashLoader size={15} color='#d3d3d3' />}
+                                </div>
+                                <div className="header__menu-subitem-row">
+                                    <h4
+                                        className="header__menu-subitem-text"
+                                        style={{ animationDelay: '.5s', margin: '1.5rem 0' }}
+                                        onClick={() => {
+                                            // setTimeout(() => setMenuToggle(false), 50)
+                                            // router.push('/blog/all')
+                                            loadMenuItem('/blog/all')
+                                        }}>ALL POSTS</h4>
+                                    {loadingPage === '/blog/all' && <HashLoader size={15} color='#d3d3d3' />}
+                                </div>
                             </div>
                             :
                             <>
                                 <div className="header__menu-item">
                                     <h4 className="header__menu-item-text" onClick={() => {
-                                        setTimeout(() => setMenuToggle(false), 50)
-                                        router.push('/bespoken')
+                                        // setTimeout(() => setMenuToggle(false), 50)
+                                        // router.push('/bespoken')
+                                        loadMenuItem('/bespoken')
                                     }}>{TEXT[lang]['bespoken']}</h4>
+                                    {loadingPage === '/blog/bespoken' && <HashLoader size={15} color='#d3d3d3' />}
                                 </div>
-                                <div className="header__menu-item">
-                                    <h4 className="header__menu-item-text" style={{ paddingBottom: '8vw' }} onClick={() => {
-                                        setTimeout(() => setMenuToggle(false), 50)
-                                        router.push('/about')
+                                <div className="header__menu-item" style={{ paddingBottom: '8vw' }}>
+                                    <h4 className="header__menu-item-text" onClick={() => {
+                                        // setTimeout(() => setMenuToggle(false), 50)
+                                        // router.push('/about')
+                                        loadMenuItem('/about')
                                     }}>{TEXT[lang]['about_greeting']}</h4>
+                                    {loadingPage === '/about' && <HashLoader size={15} color='#d3d3d3' />}
                                 </div>
                                 {/* <div className="header__menu-item header__language">
                                     <div className="header__menu-item-text" onClick={() => {
@@ -332,31 +362,36 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
                     <div className="header__item">
                         <h4 className="header__item-text no-pointer">{TEXT[lang]['blog']}</h4>
                         <img className="header__item-svg" src={'/assets/icons/chevron-down.svg'} />
-                        <div className="header__item-dropdown" style={{ background: bigHeader ? '#00000099' : '#00000092' }}>
-                            <div className="header__item-dropdown-row" onClick={() => router.push('/blog/inspiration')}>
+                        <div className="header__item-dropdown">
+                            <div className="header__item-dropdown-row" onClick={() => loadMenuItem('/blog/inspiration')}>
                                 <h4 className="header__item-dropdown-text">
                                     {TEXT[lang]['inspiration']}
                                 </h4>
+                                {loadingPage === '/blog/inspiration' && <HashLoader size={20} color='#d3d3d3' />}
                             </div>
-                            <div className="header__item-dropdown-row" onClick={() => router.push('/blog/motherhood')}>
+                            <div className="header__item-dropdown-row" onClick={() => loadMenuItem('/blog/motherhood')}>
                                 <h4 className="header__item-dropdown-text">
                                     {TEXT[lang]['motherhood']}
                                 </h4>
+                                {loadingPage === '/blog/motherhood' && <HashLoader size={20} color='#d3d3d3' />}
                             </div>
-                            <div className="header__item-dropdown-row" onClick={() => router.push('/blog/life_abroad')}>
+                            <div className="header__item-dropdown-row" onClick={() => loadMenuItem('/blog/life_abroad')}>
                                 <h4 className="header__item-dropdown-text">
                                     {TEXT[lang]['life_abroad']}
                                 </h4>
+                                {loadingPage === '/blog/life_abroad' && <HashLoader size={20} color='#d3d3d3' />}
                             </div>
-                            <div className="header__item-dropdown-row" onClick={() => router.push('/blog/\career_insights')}>
+                            <div className="header__item-dropdown-row" onClick={() => loadMenuItem('/blog/career_insights')}>
                                 <h4 className="header__item-dropdown-text">
                                     {TEXT[lang]['career_insights']}
                                 </h4>
+                                {loadingPage === '/blog/career_insights' && <HashLoader size={20} color='#d3d3d3' />}
                             </div>
-                            <div className="header__item-dropdown-row" onClick={() => router.push('/blog/all')}>
+                            <div className="header__item-dropdown-row" onClick={() => loadMenuItem('/blog/all')}>
                                 <h4 className="header__item-dropdown-text">
                                     {TEXT[lang]['see_all']}
                                 </h4>
+                                {loadingPage === '/blog/all' && <HashLoader size={20} color='#d3d3d3' />}
                             </div>
                             {/* <div className="header__item-dropdown-row">
                                     <h4 className="header__item-dropdown-text" onClick={() => router.push('/subscribe')}>
@@ -368,21 +403,24 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
                     <div className="header__item">
                         <h4 className="header__item-text">{TEXT[lang]['bespoken']}</h4>
                         <img className="header__item-svg" src={'/assets/icons/chevron-down.svg'} />
-                        <div className="header__item-dropdown" style={{ background: bigHeader ? '#00000099' : '#00000092' }}>
-                            <div className="header__item-dropdown-row" onClick={() => router.push('/store')}>
+                        <div className="header__item-dropdown">
+                            <div className="header__item-dropdown-row" onClick={() => loadMenuItem('/store')}>
                                 <h4 className="header__item-dropdown-text">
                                     STORE
                                 </h4>
+                                {loadingPage === '/store' && <HashLoader size={20} color='#d3d3d3' />}
                             </div>
-                            <div className="header__item-dropdown-row" onClick={() => router.push('/bespoken/story')}>
+                            <div className="header__item-dropdown-row" onClick={() => loadMenuItem('/bespoken/story')}>
                                 <h4 className="header__item-dropdown-text">
                                     {TEXT[lang]['story_of_brand']}
                                 </h4>
+                                {loadingPage === '/bespoken/story' && <HashLoader size={20} color='#d3d3d3' />}
                             </div>
-                            <div className="header__item-dropdown-row" onClick={() => router.push('/bespoken/products')}>
+                            <div className="header__item-dropdown-row" onClick={() => loadMenuItem('/bespoken/products')}>
                                 <h4 className="header__item-dropdown-text">
                                     {TEXT[lang]['products']}
                                 </h4>
+                                {loadingPage === '/bespoken/products' && <HashLoader size={20} color='#d3d3d3' />}
                             </div>
                             {/* <div className="header__item-dropdown-row" onClick={() => router.push('/bespoken/our_handcrafted_wedding')}>
                                 <h4 className="header__item-dropdown-text">
@@ -396,8 +434,9 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
                                 </div> */}
                         </div>
                     </div>
-                    <div className="header__item" onClick={() => router.push('/about')}>
+                    <div className="header__item" onClick={() => loadMenuItem('/about')}>
                         <h4 className="header__item-text">{TEXT[lang]['about_greeting']}</h4>
+                        {loadingPage === '/about' && <HashLoader size={20} color='#d3d3d3' />}
                     </div>
                 </div>
 
@@ -510,7 +549,7 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
     }
 
     return (
-        <div className='header__container' style={{ background: bigHeader ? '#00000099' : '#00000092' }}>
+        <div className='header__container'>
             {deleteModal ?
                 <div className='header__delete-modal'>
                     <h4 className="header__delete-modal-text">Are you sure you want to delete this post?</h4>
