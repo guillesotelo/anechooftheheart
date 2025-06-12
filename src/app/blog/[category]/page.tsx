@@ -5,6 +5,10 @@ import { getAllPosts, getPostById } from 'src/services/post'
 import { postType } from 'src/app/types'
 import { capitalizeFirstLetter } from 'src/helpers'
 
+// ISR
+export const dynamic = 'force-static'
+export const revalidate = 3600
+
 interface PostProps {
     params: { category: string }
 }
@@ -36,8 +40,6 @@ export default async function BlogPage({ params }: PostProps) {
     const { category } = params
     const posts = await getCachedPosts()
 
-    posts.forEach((p: postType, i: number) => console.log(`${i} - ${p.title || p.spaTitle} (${p.category})`))
-
     const normalizedCategory = category.toLowerCase().replace(/_/g, ' ').trim()
 
     const filteredPosts = posts.filter((post: postType) => {
@@ -55,8 +57,6 @@ export default async function BlogPage({ params }: PostProps) {
             return false
         }
     })
-
-    console.log('filtered:', filteredPosts.length)
 
     return <Blog posts={filteredPosts} category={category} />
 }

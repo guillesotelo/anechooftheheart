@@ -55,36 +55,50 @@ export default function Post({ headers, content, spaContent, linkLang }: Props) 
     const styleImagesInParagraphs = () => {
         if (contentRef.current) {
             const paragraphs = contentRef.current.querySelectorAll('p');
+
             paragraphs.forEach(paragraph => {
-                paragraph.childNodes.forEach(node => {
-                    if (node.nodeType === Node.TEXT_NODE) {
-                        node.textContent = node.textContent?.replace(/\u00A0/g, ' ').trim() ?? ''
+                const images = paragraph.querySelectorAll('img');
+                const onlyImagesAndSpaces = Array.from(paragraph.childNodes).every(node => {
+                    if (node.nodeType === Node.ELEMENT_NODE) {
+                        return (node as HTMLElement).tagName.toLowerCase() === 'img'
+                    } else if (node.nodeType === Node.TEXT_NODE) {
+                        // Allow only whitespace (regular or non-breaking)
+                        return /^[\s\u00A0]*$/.test(node.textContent ?? '')
                     }
+                    return false
                 })
 
-                const images = paragraph.querySelectorAll('img');
+                // Only modify text nodes if the paragraph contains *only images and spacing*
+                if (onlyImagesAndSpaces) {
+                    paragraph.childNodes.forEach(node => {
+                        if (node.nodeType === Node.TEXT_NODE) {
+                            node.textContent = node.textContent?.replace(/\u00A0/g, ' ').trim() ?? '';
+                        }
+                    })
+                }
+
                 if (images.length === 1) {
-                    (images[0] as HTMLElement).style.width = '100%';
-                    if (isMobile) (images[0] as HTMLElement).style.width = '90%';
-                    (images[0] as HTMLElement).style.transition = '.2s';
+                    const imgEl = images[0] as HTMLElement;
+                    imgEl.style.width = isMobile ? '90%' : '100%';
+                    imgEl.style.transition = '.2s';
                 } else if (images.length > 1) {
                     paragraph.style.display = 'flex';
                     paragraph.style.flexDirection = 'row';
                     paragraph.style.justifyContent = 'space-between';
 
-                    const width = 98 / images.length;
+                    const width = isMobile ? 100 : 98 / images.length;
                     images.forEach(image => {
-                        (image as HTMLElement).style.width = `${width}%`;
-                        (image as HTMLElement).style.height = 'auto';
-                        (image as HTMLElement).style.display = 'inline';
-                        (image as HTMLElement).style.transition = '.2s';
-                        if (isMobile) (image as HTMLElement).style.width = '100%';
+                        const imgEl = image as HTMLElement;
+                        imgEl.style.width = `${width}%`;
+                        imgEl.style.height = 'auto';
+                        imgEl.style.display = 'inline';
+                        imgEl.style.transition = '.2s';
                     });
-
                 }
             });
         }
     }
+
 
     return (
         <div className='post__container' style={{

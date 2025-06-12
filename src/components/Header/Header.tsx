@@ -40,7 +40,7 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
                 setSearchClicked(false)
             }
         }
-        
+
         window.addEventListener('mouseup', searchClickEvent)
         activateHeaderHeight()
         if (localStorage.getItem('user')) verifyUser()
@@ -107,7 +107,7 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
         if (prompt.trim()) {
             setSearchClicked(false)
             setSearch(prompt.split(' '))
-            router.push('/search')
+            router.push(`/search/${encodeURIComponent(prompt.trim())}`)
             setPrompt('')
         }
     }
