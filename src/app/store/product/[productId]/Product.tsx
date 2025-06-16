@@ -104,7 +104,7 @@ export default function Product({ product }: Props) {
                             <div className="product__gallery">
                                 {getImages(product.images).map((image: string, i: number) =>
                                     i !== 0 &&
-                                    <img key={i} src={image} draggable={false} onClick={() => setImageModal(i)} className='product__gallery-image' />
+                                    <img key={i} src={image} draggable={false} onClick={() => isMobile ? null : setImageModal(i)} className='product__gallery-image' />
                                 )}
                             </div>
                             {isMobile && getImages(product.images).length &&

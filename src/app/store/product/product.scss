@@ -97,7 +97,11 @@
     .product {
         &__container {
             margin: 1rem;
-            padding-top: 3rem;
+            // padding-top: 3rem;
+        }
+
+        &__wrapper {
+            margin: .5rem 0 0;
         }
 
         &__row {
@@ -131,8 +135,8 @@
             margin: 5rem 0 1rem;
 
             &-image {
-                width: 90vw;
-                height: auto;
+                max-width: 90vw;
+                max-height: 75vh;
             }
         }
     }
