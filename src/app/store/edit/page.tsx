@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from 'react'
 import { AppContext } from '../../context/AppContext'
 import DataTable from '../../../components/DataTable/DataTable'
 import { productHeaders } from '../../../constants/tableHeaders'
-import { createProduct, deleteProduct, getAllProducts, updateProduct, updateProductOrder } from '../../../services/product'
+import { createProduct, deleteProduct, getAllProducts, getProductById, updateProduct, updateProductOrder } from '../../../services/product'
 import { productType } from '../../types'
 import Modal from '../../../components/Modal/Modal'
 import InputField from '../../../components/InputField/InputField'
@@ -37,12 +37,33 @@ export default function EditStore({ }: Props) {
     }, [])
 
     useEffect(() => {
-        if (selectedProduct !== -1) {
-            setProduct(products[selectedProduct])
-            setOpenModal(true)
-        }
+        if (selectedProduct !== -1) getProduct(products[selectedProduct]._id || '')
         else setProduct({ active: true })
     }, [selectedProduct])
+
+    useEffect(() => {
+        const body = document.querySelector('body')
+        if (selectedProduct !== -1) {
+            if (body) body.style.overflowY = 'hidden'
+        } else {
+            if (body) body.style.overflowY = 'auto'
+        }
+    }, [selectedProduct])
+
+    const getProduct = async (id: string) => {
+        try {
+            setLoadingImages(true)
+            const _product = await getProductById(id)
+            if (_product && _product._id) {
+                setProduct(_product)
+                setOpenModal(true)
+            }
+            setLoadingImages(false)
+        } catch (error) {
+            setLoadingImages(false)
+            console.error(error)
+        }
+    }
 
     const getProducts = async () => {
         try {
@@ -298,7 +319,7 @@ export default function EditStore({ }: Props) {
                         />}
                     </div>
                 </Modal>}
-            <div className="editstore__row">
+            <div className="editstore__row" style={{ filter: openModal ? 'blur(4px)' : '' }}>
                 <Button
                     label='View store'
                     handleClick={() => {

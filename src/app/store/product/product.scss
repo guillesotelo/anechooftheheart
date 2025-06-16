@@ -3,6 +3,12 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+    }
+
+    &__wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         min-height: 120vh;
         padding-bottom: 20rem;
         margin: 4rem;
@@ -24,6 +30,7 @@
         object-position: 0 0;
         transition: 1s;
         animation: fade-in 1s ease-in forwards;
+
         &-wrapper {
             display: flex;
             flex-direction: column;
@@ -50,10 +57,10 @@
     &__description {
         max-height: 40vh;
         overflow-y: scroll;
-       
+
     }
 
-    &__galery {
+    &__gallery {
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
@@ -66,7 +73,20 @@
             max-width: 30rem;
             width: fit-content;
             height: fit-content;
+            cursor: pointer;
 
+            &-modal {
+                height: 70vh;
+                width: auto;
+                max-width: 90vw;
+
+                &-content {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                }
+            }
 
             &-wrapper {}
         }
@@ -107,7 +127,7 @@
             gap: 1rem;
         }
 
-        &__galery {
+        &__gallery {
             margin: 5rem 0 1rem;
 
             &-image {

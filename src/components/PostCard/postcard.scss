@@ -85,7 +85,7 @@
 
         &-subtitle {
             font-size: .8rem;
-            font-family: 'Lora', serif;
+            font-family: var(--font-lora), serif;
             color: #8c776b;
             font-weight: normal;
             margin: 1rem 0 0 0;
@@ -104,7 +104,7 @@
         &-description {
             font-size: .8rem;
             font-weight: normal;
-            font-family: "Lora", serif;
+            font-family: var(--font-lora), serif;
             font-style: italic;
             margin: 0;
             text-overflow: ellipsis;
@@ -120,27 +120,11 @@
             margin-bottom: 1rem;
             animation: fade-in-card 1.5s ease-in;
             
-
             &:hover {
                 filter: none ;
             }
 
-            &:hover .postcard__image {
-                transform: none;
-                filter: none;
-            }
 
-            &:hover .postcard__image-overlap {
-                opacity: 0;
-                transform: translateY(100%);
-            }
-        }
-
-        &__image {
-
-            &-overlap {
-                font-size: 4.5rem;
-            }
         }
 
         &__text {
@@ -149,11 +133,11 @@
             white-space: normal;
 
             &-subtitle {
-                font-size: .6rem;
+                font-size: .8rem;
             }
 
             &-title {
-                font-size: .9rem;
+                font-size: 1rem;
             }
 
             &-description {

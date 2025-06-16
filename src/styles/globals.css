@@ -7,7 +7,7 @@ html {
 
 body {
   margin: 0;
-  font-family: "Lora", serif;
+  font-family: var(--font-lora), serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overscroll-behavior-y: none;
