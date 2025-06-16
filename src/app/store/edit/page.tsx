@@ -29,6 +29,7 @@ export default function EditStore({ }: Props) {
     const [removeProduct, setRemoveProduct] = useState(false)
     const [loadingImages, setLoadingImages] = useState(false)
     const [changeOrder, setChangeOrder] = useState(false)
+    const [compress, setCompress] = useState(false)
     const { isLoggedIn, isMobile } = useContext(AppContext)
     const router = useRouter()
 
@@ -104,7 +105,7 @@ export default function EditStore({ }: Props) {
         try {
             if (checkData()) return toast.error('Check required fields.')
             setLoading(true)
-            const saved = await updateProduct(product, getUser())
+            const saved = await updateProduct({ ...product, compress }, getUser())
             if (saved) {
                 toast.success('Product updated successfully!')
                 setSelectedProduct(-1)
@@ -268,7 +269,10 @@ export default function EditStore({ }: Props) {
                                     name='image'
                                     type='file'
                                     images={getImages(product.images)}
-                                    setImages={images => updateData('images', { target: { value: JSON.stringify(images) } })}
+                                    setImages={images => {
+                                        setCompress(true)
+                                        updateData('images', { target: { value: JSON.stringify(images) } })
+                                    }}
                                     disabled={loading || loadingImages}
                                     multiple={true}
                                     setLoadingImages={setLoadingImages}

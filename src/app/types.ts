@@ -129,4 +129,5 @@ export type productType = {
     currency?: string
     category?: string
     order?: number
+    compress?: boolean
 }
