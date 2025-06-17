@@ -29,7 +29,6 @@ export default function EditStore({ }: Props) {
     const [removeProduct, setRemoveProduct] = useState(false)
     const [loadingImages, setLoadingImages] = useState(false)
     const [changeOrder, setChangeOrder] = useState(false)
-    const [compress, setCompress] = useState(false)
     const { isLoggedIn, isMobile } = useContext(AppContext)
     const router = useRouter()
 
@@ -38,16 +37,13 @@ export default function EditStore({ }: Props) {
     }, [])
 
     useEffect(() => {
-        if (selectedProduct !== -1) getProduct(products[selectedProduct]._id || '')
-        else setProduct({ active: true })
-    }, [selectedProduct])
-
-    useEffect(() => {
         const body = document.querySelector('body')
         if (selectedProduct !== -1) {
+            if (selectedProduct !== -1) getProduct(products[selectedProduct]._id || '')
             if (body) body.style.overflowY = 'hidden'
         } else {
             if (body) body.style.overflowY = 'auto'
+            setProduct({ active: true })
         }
     }, [selectedProduct])
 
@@ -105,7 +101,7 @@ export default function EditStore({ }: Props) {
         try {
             if (checkData()) return toast.error('Check required fields.')
             setLoading(true)
-            const saved = await updateProduct({ ...product, compress }, getUser())
+            const saved = await updateProduct(product, getUser())
             if (saved) {
                 toast.success('Product updated successfully!')
                 setSelectedProduct(-1)
@@ -147,7 +143,6 @@ export default function EditStore({ }: Props) {
         setSelectedProduct(-1)
         setIsNew(false)
         setRemoveProduct(false)
-        setCompress(false)
     }
 
     const deleteSelectedProduct = async () => {
@@ -270,10 +265,7 @@ export default function EditStore({ }: Props) {
                                     name='image'
                                     type='file'
                                     images={getImages(product.images)}
-                                    setImages={images => {
-                                        setCompress(true)
-                                        updateData('images', { target: { value: JSON.stringify(images) } })
-                                    }}
+                                    setImages={images => updateData('images', { target: { value: JSON.stringify(images) } })}
                                     disabled={loading || loadingImages}
                                     multiple={true}
                                     setLoadingImages={setLoadingImages}
