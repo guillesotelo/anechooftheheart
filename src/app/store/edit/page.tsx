@@ -147,6 +147,7 @@ export default function EditStore({ }: Props) {
         setSelectedProduct(-1)
         setIsNew(false)
         setRemoveProduct(false)
+        setCompress(false)
     }
 
     const deleteSelectedProduct = async () => {

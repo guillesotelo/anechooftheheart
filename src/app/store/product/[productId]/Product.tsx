@@ -1,10 +1,8 @@
 "use client"
 
-import React, { useContext, useEffect, useState } from 'react'
-import { getProductById } from '../../../../services/product'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import { productType } from '../../../types'
 import Button from '../../../../components/Button/Button'
-import { HashLoader } from 'react-spinners'
 import { AppContext } from '../../../context/AppContext'
 import { useRouter } from 'next/navigation'
 import Modal from 'src/components/Modal/Modal'
@@ -17,6 +15,7 @@ export default function Product({ product }: Props) {
     const [imageModal, setImageModal] = useState(-1)
     const { isMobile } = useContext(AppContext)
     const router = useRouter()
+    const imageModalRef = useRef(null)
 
     useEffect(() => {
         const body = document.querySelector('body')
@@ -56,6 +55,34 @@ export default function Product({ product }: Props) {
         return text?.replaceAll('\n', '<br />') || ''
     }
 
+    const changeImage = (to: string) => {
+        if (to === 'left') {
+            if (imageModalRef.current) {
+                (imageModalRef.current as HTMLImageElement).classList.remove('fade-in');
+                (imageModalRef.current as HTMLImageElement).classList.add('fade-out');
+            }
+            setTimeout(() => {
+                if (imageModalRef.current) {
+                    (imageModalRef.current as HTMLImageElement).classList.remove('fade-out');
+                    (imageModalRef.current as HTMLImageElement).classList.add('fade-in');
+                }
+                setImageModal(prev => prev === 0 ? getImages(product.images).length - 1 : prev - 1)
+            }, 20)
+        }
+        if (to === 'right') {
+            if (imageModalRef.current) {
+                (imageModalRef.current as HTMLImageElement).classList.remove('fade-in');
+                (imageModalRef.current as HTMLImageElement).classList.add('fade-out');
+            }
+            setTimeout(() => {
+                if (imageModalRef.current) {
+                    (imageModalRef.current as HTMLImageElement).classList.remove('fade-out');
+                    (imageModalRef.current as HTMLImageElement).classList.add('fade-in');
+                }
+                setImageModal(prev => prev === getImages(product.images).length - 1 ? 0 : prev + 1)
+            }, 20)
+        }
+    }
     return (
         <div className="product__wrapper">
             {imageModal !== -1 &&
@@ -64,7 +91,13 @@ export default function Product({ product }: Props) {
                     subtitle={`[${imageModal + 1}/${getImages(product.images).length}]`}
                     onClose={() => setImageModal(-1)} style={{ minWidth: 'auto' }}>
                     <div className='product__gallery-image-modal-content'>
-                        <img src={getImages(product.images)[imageModal]} alt="Product Image" className='product__gallery-image-modal' />
+                        <div
+                            className="product__gallery-image-modal-arrow-left"
+                            onClick={() => changeImage('left')}>〈</div>
+                        <div
+                            className="product__gallery-image-modal-arrow-right"
+                            onClick={() => changeImage('right')}>〉</div>
+                        <img src={getImages(product.images)[imageModal]} alt="Product Image" className='product__gallery-image-modal' ref={imageModalRef} />
                     </div>
                 </Modal>}
             <div className="product__container" style={{ filter: imageModal !== -1 ? 'blur(5px) grayscale(1)' : '' }}>

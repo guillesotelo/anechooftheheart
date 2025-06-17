@@ -57,7 +57,6 @@ export default function Search({ posts, query }: Props) {
     }
 
     const render = () => {
-        console.log(filterPosts.length)
         setTimeout(() => applyAnimation(), 50)
         return filteredPosts.length ?
             filteredPosts.map((post, i) => <PostCard style={{ width: isMobile ? '' : 'fit-content' }} index={i} key={i} post={post} />)

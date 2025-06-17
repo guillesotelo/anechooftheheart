@@ -125,6 +125,16 @@
     }
 }
 
+@keyframes fade-out {
+    0% {
+        opacity: 1;
+    }
+    
+    100% {
+        opacity: 0;
+    }
+}
+
 @keyframes fade-in-down {
     0% {
         opacity: 0;
@@ -221,4 +231,12 @@
     100% {
         transform: translateY(-35%);
     }
+}
+
+.fade-in {
+    animation: fade-in .05s ease-in forwards;
+}
+
+.fade-out {
+    animation: fade-out .05s ease-in forwards;
 }
