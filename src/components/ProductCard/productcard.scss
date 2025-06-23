@@ -9,9 +9,65 @@
         cursor: pointer;
         opacity: 0;
         animation: fade-in-down .5s ease-in forwards;
+        position: relative;
 
         &:hover .productcard__image {
             transform: scale(1.1);
+        }
+
+        &:hover .productcard__edit {
+            opacity: 1;
+        }
+
+        &--oos {
+            display: flex;
+            flex-direction: column;
+            height: 20rem;
+            width: 17rem;
+            align-items: center;
+            gap: 1rem;
+            opacity: 0;
+            animation: fade-in-down .5s ease-in forwards;
+            position: relative;
+
+            &:hover .productcard__image {
+                filter: grayscale(1) brightness(0.5);
+            }
+
+            &:hover .productcard__image-oos {
+                opacity: 1;
+            }
+
+            &:hover .productcard__edit {
+                opacity: 1;
+            }
+        }
+    }
+
+    &__edit {
+        font-size: 1rem;
+        background-color: #ece7e6;
+        width: fit-content;
+        padding: .5rem;
+        border-radius: .5rem;
+        cursor: pointer;
+        font-weight: normal;
+        transition: .2s;
+        border: none;
+        border: 1px solid transparent;
+        color: black;
+        place-content: center;
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        opacity: 0;
+        z-index: 5;
+
+        &:hover {
+            filter: brightness(110%);
+            background-color: white !important;
+            color: rgb(41, 41, 41) !important;
+            border: 1px solid rgb(41, 41, 41) !important;
         }
     }
 
@@ -39,6 +95,21 @@
             min-width: 17rem;
             overflow: hidden;
             position: relative;
+        }
+
+        &-oos {
+            position: absolute;
+            opacity: 0;
+            transition: 0.2s;
+            font-family: var(--font-madelyn), sans-serif;
+            font-size: 4rem;
+            top: 0;
+            height: 15rem;
+            width: 17rem;
+            text-align: center;
+            place-content: center;
+            color: #fff;
+            margin: 0;
         }
 
         &-frame {

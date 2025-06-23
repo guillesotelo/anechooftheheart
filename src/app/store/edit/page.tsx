@@ -33,8 +33,15 @@ export default function EditStore({ }: Props) {
     const router = useRouter()
 
     useEffect(() => {
-        getProducts()
+        const id = new URLSearchParams(document.location.search).get('id')
+        if (id) setSelectedProduct
+        getProducts(true)
     }, [])
+
+    useEffect(() => {
+        const id = new URLSearchParams(document.location.search).get('id')
+        if (id && products.length) setSelectedProduct(products.findIndex(p => p._id === id))
+    }, [products])
 
     useEffect(() => {
         const body = document.querySelector('body')
@@ -62,11 +69,14 @@ export default function EditStore({ }: Props) {
         }
     }
 
-    const getProducts = async () => {
+    const getProducts = async (load = false) => {
         try {
+            if (load) setLoading(true)
             const _products = await getAllProducts(getUser())
             if (_products && Array.isArray(_products)) setProducts(_products)
+            setLoading(false)
         } catch (error) {
+            setLoading(false)
             console.error(error)
         }
     }
@@ -242,7 +252,7 @@ export default function EditStore({ }: Props) {
                             />
                             <Dropdown
                                 label='Stock'
-                                options={Array.from({ length: 30 }).map((_, i) => i + 1)}
+                                options={Array.from({ length: 31 }).map((_, i) => i)}
                                 selected={product.stock}
                                 value={product.stock}
                                 setSelected={value => updateData('stock', { target: { value } })}

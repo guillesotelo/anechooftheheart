@@ -89,7 +89,7 @@ export default function Product({ product }: Props) {
                 <Modal
                     title={`${product.title}`}
                     subtitle={`[${imageModal + 1}/${getImages(product.images).length}]`}
-                    onClose={() => setImageModal(-1)} style={{ minWidth: 'auto' }}>
+                    onClose={() => setImageModal(-1)} style={{ minWidth: 'auto', maxHeight: '95vw' }}>
                     <div className='product__gallery-image-modal-content'>
                         <div
                             className="product__gallery-image-modal-arrow-left"
