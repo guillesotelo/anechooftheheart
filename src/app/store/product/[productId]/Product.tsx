@@ -140,12 +140,13 @@ export default function Product({ product }: Props) {
                                     <img key={i} src={image} draggable={false} onClick={() => isMobile ? null : setImageModal(i)} className='product__gallery-image' />
                                 )}
                             </div>
-                            {isMobile && getImages(product.images).length &&
+                            {isMobile && getImages(product.images).length > 2 &&
                                 <Button
                                     label='Buy'
                                     handleClick={buyProduct}
                                     style={{ width: '100%', marginTop: '3rem', fontSize: '1.3rem', padding: '.8rem' }}
                                 />}
+                                <a href="/store"><p style={{ margin: '2rem auto', textAlign: 'center' }}>Back to the store</p></a>
                         </div>
                 }
             </div>
