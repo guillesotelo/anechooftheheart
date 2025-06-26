@@ -1,5 +1,5 @@
 // hooks/gtag.ts
-export const GA_TRACKING_ID = 'G-'
+export const GA_TRACKING_ID = 'G-M92VPE29C8'
 
 // Function to track pageviews
 export const pageview = (url: string) => {
