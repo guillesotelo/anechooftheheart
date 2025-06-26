@@ -18,6 +18,16 @@ export default function Product({ product }: Props) {
     const imageModalRef = useRef(null)
 
     useEffect(() => {
+        const imageControls = (e: KeyboardEvent) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') changeImage('right')
+            if (e.key === 'ArrowLeft') changeImage('left')
+        }
+
+        window.addEventListener('keydown', imageControls)
+        return () => window.removeEventListener('keydown', imageControls)
+    }, [])
+
+    useEffect(() => {
         const body = document.querySelector('body')
         if (imageModal !== -1) {
             if (body) body.style.overflowY = 'hidden'
@@ -66,7 +76,7 @@ export default function Product({ product }: Props) {
                     (imageModalRef.current as HTMLImageElement).classList.remove('fade-out');
                     (imageModalRef.current as HTMLImageElement).classList.add('fade-in');
                 }
-                setImageModal(prev => prev === 0 ? getImages(product.images).length - 1 : prev - 1)
+                setImageModal(prev => prev !== -1 ? prev === 0 ? getImages(product.images).length - 1 : prev - 1 : prev)
             }, 20)
         }
         if (to === 'right') {
@@ -79,10 +89,11 @@ export default function Product({ product }: Props) {
                     (imageModalRef.current as HTMLImageElement).classList.remove('fade-out');
                     (imageModalRef.current as HTMLImageElement).classList.add('fade-in');
                 }
-                setImageModal(prev => prev === getImages(product.images).length - 1 ? 0 : prev + 1)
+                setImageModal(prev => prev !== -1 ? prev === getImages(product.images).length - 1 ? 0 : prev + 1 : prev)
             }, 20)
         }
     }
+
     return (
         <div className="product__wrapper">
             {imageModal !== -1 &&
@@ -146,7 +157,7 @@ export default function Product({ product }: Props) {
                                     handleClick={buyProduct}
                                     style={{ width: '100%', marginTop: '3rem', fontSize: '1.3rem', padding: '.8rem' }}
                                 />}
-                                <a href="/store"><p style={{ margin: '2rem auto', textAlign: 'center' }}>Back to the store</p></a>
+                            <a href="/store"><p style={{ margin: '2rem auto', textAlign: 'center' }}>Back to the store</p></a>
                         </div>
                 }
             </div>
