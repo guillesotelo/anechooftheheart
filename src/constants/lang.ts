@@ -134,7 +134,7 @@ export const TEXT: { [key: string]: { [key: string]: string } } = {
         <p className="policy__text">Es posible que actualicemos esta política de privacidad de vez en cuando para reflejar, por ejemplo, cambios en nuestras prácticas u otras razones operativas, legales o regulatorias.</p>
     
         <h2 className="policy__subtitle">Contáctanos</h2>
-        <p className="policy__text">Para obtener más información sobre nuestras prácticas de privacidad, si tienes preguntas o si deseas presentar una queja, contáctanos por correo electrónico a <a href="mailto:bespoken.ar@gmail.com" style="color: #5D8C8C;">bespoken.ar@gmail.com</a>.</p>`,
+        <p className="policy__text">Para obtener más información sobre nuestras prácticas de privacidad, si tienes preguntas o si deseas presentar una queja, contáctanos por correo electrónico a <a href="mailto:hello@anechooftheheart.com" style="color: #5D8C8C;">hello@anechooftheheart.com</a>.</p>`,
 
         //ABOUT
         'about_me': `Sobre mí`,
@@ -275,7 +275,7 @@ export const TEXT: { [key: string]: { [key: string]: string } } = {
         <p className="policy__text">We may update this privacy policy from time to time in order to reflect, for example, changes to our practices or for other operational, legal, or regulatory reasons.</p>
 
         <h2 className="policy__subtitle">Contact us</h2>
-        <p className="policy__text">For more information about our privacy practices, if you have questions, or if you would like to make a complaint, please contact us by email at <a href="mailto:bespoken.ar@gmail.com" style="color: #5D8C8C;">bespoken.ar@gmail.com</a>.</p>`,
+        <p className="policy__text">For more information about our privacy practices, if you have questions, or if you would like to make a complaint, please contact us by email at <a href="mailto:hello@anechooftheheart.com" style="color: #5D8C8C;">hello@anechooftheheart.com</a>.</p>`,
 
         //ABOUT
         'about_me': `About me`,
