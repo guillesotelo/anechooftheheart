@@ -64,7 +64,7 @@ export default function Store({ }: Props) {
                         I specialize in boho-inspired floral designs, created with care, creativity, and a love for natural beauty. In addition to my original floral pieces, I source unique, artisan-made bohemian jewelry that flows seamlessly with the aesthetic—earthy and free-spirited.
                         <br />
                         <br />
-                        Thanks for being here — I hope you find something that speaks to your heart.
+                        Thanks for being here! I hope you find something that speaks to your heart.
                     </p>
                 </div>
             </div>

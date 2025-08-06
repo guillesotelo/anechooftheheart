@@ -106,7 +106,18 @@ export default function Home({ data }: dataObj) {
             <div className="home__landing-image-wrapper">
                 <div className="home__landing-image-overlap">
                     <h4 className="header__logo-text">An Echo of the Heart</h4>
-                    {/* <p className="home__landing-title" style={{ fontSize: '2rem', margin: '15vh auto 0 auto', color: '#fff', background: '#000', width: 'fit-content', padding: '0 .5rem' }}>One heart's story, resonating with many.</p> */}
+                    <p
+                        className="home__landing-title"
+                        style={{
+                            fontSize: '2rem',
+                            margin: '15vh auto 0 auto',
+                            color: '#fff',
+                            backgroundImage: 'linear-gradient(to right, rgba(0, 0, 0, 0), rgb(0 0 0 / 30%) 20%, rgba(0, 0, 0, 0.5) 50%, rgba(0, 0, 0, 0))',
+                            width: 'fit-content',
+                            padding: '0 .5rem'
+                        }}>
+                        One heart's story, resonating with many.
+                    </p>
                 </div>
                 <div className="home__parallax-container">
                     <img src={'/assets/images/landing-1.jpg'} alt="Dany Garcia" className="home__landing-image home__parallax-image" />
@@ -116,8 +127,8 @@ export default function Home({ data }: dataObj) {
                 <div className="home__section">
                     <p className="home__landing-title" style={{ fontSize: '1.5rem', margin: '.5rem', fontFamily: 'Lora' }}>A blog by Daniela García | Travel, Motherhood, Inspired Living & Bespoken Flower Design</p>
                     <div className="home__landing-text-container">
-                        <p className="home__landing-text">Welcome—I'm Dany García. I created An Echo of the Heart as a gentle space for storytelling, motherhood, travel reflections, and personal growth. I also run Bespoken, where I design with floweres.</p>
-                        <p className="home__landing-text">Here, I share what moves me—writing from a place of authenticity, hoping my words may echo something in you, too.</p>
+                        <p className="home__landing-text">Hello, I'm Daniela! I created An Echo of the Heart as a gentle space for storytelling, motherhood, travel reflections, and personal growth. I also run Bespoken, where I design floral gifts and handcrafted details.</p>
+                        <p className="home__landing-text">Here, I share what moves me… in an attempt to write from a place of authenticity, and hoping my words may echo something in you, too.</p>
                     </div>
 
                     <Button
