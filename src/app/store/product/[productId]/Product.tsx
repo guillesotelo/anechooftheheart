@@ -118,18 +118,7 @@ export default function Product({ product }: Props) {
                     !product ? <p>An error occurred while getting the product information. Please <a href='https://store.anechooftheheart.com/'>go back to the store</a> and try again</p>
                         :
                         <div className="product__col">
-                            <Button
-                                label='← Back to the store'
-                                handleClick={() => {
-                                    router.push('/store')
-                                }}
-                                bgColor='transparent'
-                                style={{
-                                    left: isMobile ? '-1rem' : '-3rem',
-                                    top: isMobile ? '-1rem' : '-3.25rem',
-                                    position: 'absolute'
-                                }}
-                            />
+                            <span className='product__routes'><a href="/store">Store</a> / {product?.title}</span>
                             <div className="product__row">
                                 <div className="product__image-wrapper">
                                     <img src={product ? getMainImage(product.images) : ''} alt={product?.title} className="product__image" />
@@ -137,12 +126,15 @@ export default function Product({ product }: Props) {
                                 <div className="product__information">
                                     <p className="product__title">{product?.title}</p>
                                     <p className="product__price">{getPrice(product.price)}</p>
+                                    {!product.stock ? <p className='product__oos'>OUT OF STOCK</p> : ''}
                                     <div className="product__description" dangerouslySetInnerHTML={{ __html: parseText(product?.description) }} />
-                                    <Button
-                                        label='Buy'
-                                        handleClick={buyProduct}
-                                        style={{ width: '100%', marginTop: '3rem', fontSize: '1.3rem', padding: '.8rem' }}
-                                    />
+                                    {product.stock ?
+                                        <Button
+                                            label='Buy'
+                                            handleClick={buyProduct}
+                                            style={{ width: '100%', marginTop: '3rem', fontSize: '1.3rem', padding: '.8rem' }}
+                                        />
+                                        : ''}
                                 </div>
                             </div>
                             <div className="product__gallery">
@@ -151,12 +143,13 @@ export default function Product({ product }: Props) {
                                     <img key={i} src={image} draggable={false} onClick={() => isMobile ? null : setImageModal(i)} className='product__gallery-image' />
                                 )}
                             </div>
-                            {isMobile && getImages(product.images).length > 2 &&
+                            {isMobile && getImages(product.images).length > 2 && product.stock ?
                                 <Button
                                     label='Buy'
                                     handleClick={buyProduct}
                                     style={{ width: '100%', marginTop: '3rem', fontSize: '1.3rem', padding: '.8rem' }}
-                                />}
+                                />
+                                : ''}
                             <a href="/store"><p style={{ margin: '2rem auto', textAlign: 'center' }}>Back to the store</p></a>
                         </div>
                 }

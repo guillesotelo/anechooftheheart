@@ -58,7 +58,7 @@ export default function ProductCard({ product, style, index }: Props) {
     return (
         <div
             className={`productcard__container${stock === 0 ? '--oos' : ''}`}
-            onClick={stock === 0 ? () => null : goToProductPage}
+            onClick={goToProductPage}
             style={{
                 ...style,
                 animationDelay: String(index ? index / 20 : 0) + 's'
