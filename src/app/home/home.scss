@@ -123,6 +123,7 @@
         &-title {
             margin: 0;
             font-family: "Playfair Display", serif;
+            animation: fade-in .5s ease-in forwards;
         }
 
         &-subtitle {
