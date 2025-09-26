@@ -465,6 +465,7 @@ export default function PostEditor({ }: Props) {
                     init={{
                         height: 1000,
                         width: 750,
+                        margin: 'auto',
                         menubar: true,
                         plugins: 'link image lists wordcount emoticons',
                         statusbar: false,
