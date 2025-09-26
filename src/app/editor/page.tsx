@@ -465,7 +465,6 @@ export default function PostEditor({ }: Props) {
                     init={{
                         height: 1000,
                         width: 750,
-                        margin: 'auto',
                         menubar: true,
                         plugins: 'link image lists wordcount emoticons',
                         statusbar: false,
@@ -475,7 +474,7 @@ export default function PostEditor({ }: Props) {
                     }}
                 />
                 {!isMobile ?
-                    <div className="editor__btns">
+                    <div className="editor__btns" style={{ width: 750 }}>
                         <Button
                             label='Discard'
                             handleClick={() => isUpdate ? router.back() : router.refresh()}
