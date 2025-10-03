@@ -26,7 +26,7 @@ export default function Home({ data }: dataObj) {
     const [showUp, setShowUp] = useState(false)
     const [subscribeData, setSubscribeData] = useState({ email: '', fullname: '' })
     const [allPosts, setAllPosts] = useState<any[]>([])
-    const [showPlayer, setShowPlayer] = useState(true)
+    const [showPlayer, setShowPlayer] = useState(false)
     const [products, setProducts] = useState<productType[]>([])
     const { lang, isMobile, isLoggedIn } = useContext(AppContext)
     const router = useRouter()
