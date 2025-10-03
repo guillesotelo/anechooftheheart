@@ -129,8 +129,8 @@ export default function Home({ data }: dataObj) {
                 <div className="home__section" style={{ margin: '5rem 0' }}>
                     <p className="home__landing-title" style={{ fontSize: '1.5rem', margin: '.5rem', fontFamily: 'Lora' }}>A blog by Daniela García | Travel, Motherhood, Inspired Living & Bespoken Flower Design</p>
                     <div className="home__landing-text-container">
-                        <p className="home__landing-text">Hello, I'm Daniela! I created An Echo of the Heart as a gentle space for storytelling, motherhood, travel reflections, and personal growth. I also run Bespoken, where I design floral gifts and handcrafted details.</p>
-                        <p className="home__landing-text">Here, I share what moves me… in an attempt to write from a place of authenticity, where I design floral gifts and handcrafted adornments.</p>
+                        <p className="home__landing-text">Hello, I'm Daniela! I created An Echo of the Heart as a gentle space for storytelling, motherhood, travel reflections, and personal growth. I also run Bespoken, where I design floral gifts and handcrafted adornments.</p>
+                        <p className="home__landing-text">Here, I share what moves me… in an attempt to write from a place of authenticity, and hoping my words may echo something in you, too.</p>
                     </div>
 
                     <Button

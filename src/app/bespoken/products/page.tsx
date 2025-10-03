@@ -106,7 +106,7 @@ export default function renderProducts() {
                 <h1
                     className="page__header-title"
                     style={{ cursor: 'pointer' }}>
-                    {products || lang === 'es' ? 'Trabajos Previos' : 'Previous Work'}
+                    Previous Work
                 </h1>
                 {!products ?
                     <div className="bespoken__product-cards">
