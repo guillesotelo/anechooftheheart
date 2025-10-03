@@ -18,6 +18,7 @@ import toast from 'react-hot-toast'
 import { TEXT } from '../../constants/lang'
 import { subscribe } from '../../services/app'
 import { useRouter } from 'next/navigation'
+import SpotifyPlaylist from 'src/components/SpotifyPlaylist/SpotifyPlaylist'
 // const Track1 = require('../../assets/audio/Jamie-Duffy_Solas.mp3')
 // const Track2 = require('../../assets/audio/Je-Te-Laisserai_Des-Mots.mp3')
 
@@ -25,6 +26,7 @@ export default function Home({ data }: dataObj) {
     const [showUp, setShowUp] = useState(false)
     const [subscribeData, setSubscribeData] = useState({ email: '', fullname: '' })
     const [allPosts, setAllPosts] = useState<any[]>([])
+    const [showPlayer, setShowPlayer] = useState(true)
     const [products, setProducts] = useState<productType[]>([])
     const { lang, isMobile, isLoggedIn } = useContext(AppContext)
     const router = useRouter()
@@ -56,9 +58,9 @@ export default function Home({ data }: dataObj) {
         return () => window.removeEventListener('scroll', parallaxScroll)
     }, [])
 
-    // useEffect(() => {
-    // if (isLoggedIn) setTimeout(() => setShowPlayer(true), 2000)
-    // }, [isLoggedIn])
+    useEffect(() => {
+        if (isLoggedIn) setTimeout(() => setShowPlayer(true), 2000)
+    }, [isLoggedIn])
 
     useEffect(() => {
         if (allPosts.length && !showUp) {
@@ -106,7 +108,7 @@ export default function Home({ data }: dataObj) {
             <div className="home__landing-image-wrapper">
                 <div className="home__landing-image-overlap">
                     <h4 className="header__logo-text">An Echo of the Heart</h4>
-                    <p
+                    {/* <p
                         className="home__landing-title"
                         style={{
                             fontSize: '2rem',
@@ -117,18 +119,18 @@ export default function Home({ data }: dataObj) {
                             padding: '0 .5rem'
                         }}>
                         One heart's story, resonating with many.
-                    </p>
+                    </p> */}
                 </div>
                 <div className="home__parallax-container">
                     <img src={'/assets/images/landing-1.jpg'} alt="Dany Garcia" className="home__landing-image home__parallax-image" />
                 </div>
             </div>
             <div className="home__section-wrapper">
-                <div className="home__section">
+                <div className="home__section" style={{ margin: '5rem 0' }}>
                     <p className="home__landing-title" style={{ fontSize: '1.5rem', margin: '.5rem', fontFamily: 'Lora' }}>A blog by Daniela García | Travel, Motherhood, Inspired Living & Bespoken Flower Design</p>
                     <div className="home__landing-text-container">
                         <p className="home__landing-text">Hello, I'm Daniela! I created An Echo of the Heart as a gentle space for storytelling, motherhood, travel reflections, and personal growth. I also run Bespoken, where I design floral gifts and handcrafted details.</p>
-                        <p className="home__landing-text">Here, I share what moves me… in an attempt to write from a place of authenticity, and hoping my words may echo something in you, too.</p>
+                        <p className="home__landing-text">Here, I share what moves me… in an attempt to write from a place of authenticity, where I design floral gifts and handcrafted adornments.</p>
                     </div>
 
                     <Button
@@ -254,5 +256,6 @@ export default function Home({ data }: dataObj) {
             </div>
         </div>
         {/* {showPlayer ? <Player filePath={[Track1, Track2]} setShowPlayer={setShowPlayer} /> : ''} */}
+        {showPlayer ? <SpotifyPlaylist /> : ''}
     </div>
 }
