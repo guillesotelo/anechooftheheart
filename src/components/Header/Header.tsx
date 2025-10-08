@@ -239,10 +239,21 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
                                         }}>{TEXT[lang]['career_insights']}</h4>
                                     {loadingPage === '/blog/career_insights' && <HashLoader size={15} color='#d3d3d3' />}
                                 </div>
+                                  <div className="header__menu-subitem-row">
+                                    <h4
+                                        className="header__menu-subitem-text"
+                                        style={{ animationDelay: '.6s' }}
+                                        onClick={() => {
+                                            // setTimeout(() => setMenuToggle(false), 50)
+                                            // router.push('/blog/recipe_collection')
+                                            loadMenuItem('/blog/recipe_collection')
+                                        }}>RECIPE COLLECTION</h4>
+                                    {loadingPage === '/blog/recipe_collection' && <HashLoader size={15} color='#d3d3d3' />}
+                                </div>
                                 <div className="header__menu-subitem-row">
                                     <h4
                                         className="header__menu-subitem-text"
-                                        style={{ animationDelay: '.5s', margin: '1.5rem 0' }}
+                                        style={{ animationDelay: '.7s', margin: '1.5rem 0' }}
                                         onClick={() => {
                                             // setTimeout(() => setMenuToggle(false), 50)
                                             // router.push('/blog/all')
@@ -386,6 +397,12 @@ export default function Header({ search, setSearch, bespokenLogo }: Props) {
                                     {TEXT[lang]['career_insights']}
                                 </h4>
                                 {loadingPage === '/blog/career_insights' && <HashLoader size={20} color='#d3d3d3' />}
+                            </div>
+                            <div className="header__item-dropdown-row" onClick={() => loadMenuItem('/blog/recipe_collection')}>
+                                <h4 className="header__item-dropdown-text">
+                                    RECIPE COLLECTION
+                                </h4>
+                                {loadingPage === '/blog/recipe_collection' && <HashLoader size={20} color='#d3d3d3' />}
                             </div>
                             <div className="header__item-dropdown-row" onClick={() => loadMenuItem('/blog/all')}>
                                 <h4 className="header__item-dropdown-text">
