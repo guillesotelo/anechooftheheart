@@ -61,7 +61,7 @@ export default function Blog({ posts, category }: Props) {
                 :
                 <div className="blog__list">
                     {(showUnPublished ? posts : posts.filter(p => p.published))
-                        .map((post, i) => <PostCard key={post._id} index={i} post={post} />)}
+                        .map((post, i, arr) => <PostCard key={post._id} index={i} post={post} style={{ width: arr.length < 5 ? '100%' : '' }}/>)}
                 </div>
             }
         </div>
