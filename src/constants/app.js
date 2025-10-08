@@ -10,6 +10,13 @@ export const APP_COLORS = {
     BLUEGREEN: "#5d8c8c",
 }
 
+export const BLOG_CATEGORIES = [
+    'Career Insights',
+     'Inspiration', 
+     'Life Abroad', 
+     'Motherhood',
+     'Recipe Collection'
+    ]
 export const imagePlaceholder = '/assets/logos/isologo.png'
 
 export const SPOTIFY_PLAYLIST = 'https://open.spotify.com/embed/playlist/37i9dQZF1E8MvCNkmKtFkR?utm_source=generator&theme=0'
