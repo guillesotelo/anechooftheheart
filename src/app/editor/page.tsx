@@ -18,6 +18,7 @@ import imageCompression from 'browser-image-compression';
 import { convertToBase64, createSlug, getUser } from '../../helpers'
 import Tooltip from '../../components/Tooltip/Tooltip'
 import { usePathname, useRouter } from 'next/navigation'
+import { BLOG_CATEGORIES } from 'src/constants/app'
 
 type Props = {}
 const voidData = {
@@ -361,7 +362,7 @@ export default function PostEditor({ }: Props) {
                     <div className='editor__switch-btns'>
                         <Dropdown
                             label='Categories'
-                            options={['Career Insights', 'Inspiration', 'Life Abroad', 'Motherhood']}
+                            options={BLOG_CATEGORIES}
                             selected={selectedCategory}
                             value={selectedCategory}
                             setSelected={setSelectedCategory}
