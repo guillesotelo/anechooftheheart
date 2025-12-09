@@ -1,4 +1,5 @@
 "use client"
+export const dynamic = "force-dynamic"; // invalidate any cache for login
 
 import React, { useContext, useState } from 'react'
 import { loginUser } from '../../services/user'
