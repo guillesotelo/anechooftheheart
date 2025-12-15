@@ -2,13 +2,14 @@ import { Metadata } from 'next'
 import Search from './Search'
 import { cache } from 'react'
 import { getAllPosts } from 'src/services/post'
+import { postType } from 'src/app/types'
 
 interface PostProps {
     params: { query: string }
 }
 
 const getCachedPosts = cache(async () => {
-    const posts = await getAllPosts({ isAdmin: true })
+    const posts = (await getAllPosts({ isAdmin: true })).filter((p: postType) => !p.type || p.type === 'Post')
     return posts || []
 })
 

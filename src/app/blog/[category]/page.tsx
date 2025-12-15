@@ -13,7 +13,7 @@ interface PostProps {
 }
 
 const getCachedPosts = cache(async () => {
-    const posts = await getAllPosts({ isAdmin: true })
+    const posts = (await getAllPosts({ isAdmin: true })).filter((p: postType) => !p.type || p.type === 'Post')
     return posts || []
 })
 
