@@ -11,6 +11,10 @@ const getConfig = (user: dataObj) => {
     return { headers: { authorization: `Bearer ${user.token}` } }
 }
 
+const getConfigPost = (user: dataObj) => {
+    return { headers: { authorization: `Bearer ${user.token}` }, 'Content-Type': 'multipart/form-data' }
+}
+
 const getAllPosts = async (params: dataObj) => {
     try {
         const posts = await retryWithDelay(() => axios.get(`${API_URL}/api/post/getAll`, { params }), 5, 100)
@@ -53,16 +57,16 @@ const getPostIdBySlug = async (slug: string) => {
     } catch (err) { console.log(err) }
 }
 
-const createPost = async (data: postType, user: dataObj) => {
+const createPost = async (data: FormData, user: dataObj) => {
     try {
-        const post = await retryWithDelay(() => axios.post(`${API_URL}/api/post/create`, data, getConfig(user)), 5, 100)
+        const post = await retryWithDelay(() => axios.post(`${API_URL}/api/post/create`, data, getConfigPost(user)), 5, 100)
         return post.data
     } catch (err) { console.log(err) }
 }
 
-const updatePost = async (data: postType, user: dataObj) => {
+const updatePost = async (data: FormData, user: dataObj) => {
     try {
-        const post = await retryWithDelay(() => axios.post(`${API_URL}/api/post/update`, data, getConfig(user)), 5, 100)
+        const post = await retryWithDelay(() => axios.post(`${API_URL}/api/post/update`, data, getConfigPost(user)), 5, 100)
         return post.data
     } catch (err) { console.log(err) }
 }

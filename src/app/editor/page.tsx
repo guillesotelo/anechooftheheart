@@ -35,7 +35,9 @@ const voidData = {
     spaDescription: '',
     spaOverlap: '',
     video: '',
-    imageUrlTitle: ''
+    imageUrlTitle: '',
+    pdf: null,
+    pdfTitle: ''
 }
 
 export default function PostEditor({ }: Props) {
@@ -52,10 +54,12 @@ export default function PostEditor({ }: Props) {
     const [hasAutosave, setHasAutosave] = useState(false)
     const [showSide, setShowSide] = useState(false)
     const [selectedCategory, setSelectedCategory] = useState(['Inspiration'])
+    const [selectedType, setSelectedType] = useState('Post')
     const router = useRouter()
     const pathname = usePathname()
     const { lang, isMobile, isLoggedIn } = useContext(AppContext)
     const imageUrlRef = useRef<HTMLInputElement | null>(null)
+    const pdfUrlRef = useRef<HTMLInputElement | null>(null)
 
     useEffect(() => {
         if (isLoggedIn !== null && !isLoggedIn) return router.push('/')
@@ -212,25 +216,36 @@ export default function PostEditor({ }: Props) {
                 return toast.error('Please enter a title')
             }
 
+            const title = data.title.trim() || data.spaTitle.trim() || data.pdfTitle.replace('.pdf', '') || `New Post [${(Math.random() * 10000).toFixed(0)}]`
+            const postData = {
+                ...data,
+                title: data.title.trim(),
+                spaTitle: data.spaTitle.trim(),
+                sideImgs,
+                sideStyles,
+                html,
+                spaHtml,
+                published,
+                category: JSON.stringify(selectedCategory),
+                slug: createSlug(title),
+                type: selectedType
+            }
+            const formData = new FormData()
+
+            Object.entries(postData).forEach(([key, value]) => {
+                formData.append(key, typeof value === 'string' ? value : JSON.stringify(value))
+            })
+
+            if (data.pdf) formData.append('pdf', data.pdf);
+
             if (isUpdate) {
-                const title = data.title.trim() || data.spaTitle.trim() || `New Post [${(Math.random() * 10000).toFixed(0)}]`
-                const updatedPost: postType = {
-                    ...data,
-                    title,
-                    spaTitle: data.spaTitle.trim(),
-                    sideImgs,
-                    sideStyles,
-                    html,
-                    spaHtml,
-                    published,
-                    category: JSON.stringify(selectedCategory),
-                    slug: createSlug(title)
-                }
-                const updated = await updatePost(updatedPost, getUser())
+
+                const updated = await updatePost(formData, getUser())
+
                 if (updated && updated._id) {
                     localStorage.removeItem('posts')
                     toast.success(TEXT[lang]['saving_ok'])
-                    setTimeout(() => router.push(`/post/${updated.slug}`), 1500)
+                    setTimeout(() => router.push(data.pdf ? `/pdf/${updated.slug}` : `/post/${updated.slug}`), 1500)
                 }
                 else {
                     toast.error(TEXT[lang]['error_saving'])
@@ -238,23 +253,11 @@ export default function PostEditor({ }: Props) {
                 }
                 getPost(postId)
             } else {
-                const postData = {
-                    ...data,
-                    title: data.title.trim(),
-                    spaTitle: data.spaTitle.trim(),
-                    sideImgs,
-                    sideStyles,
-                    html,
-                    spaHtml,
-                    published,
-                    category: JSON.stringify(selectedCategory),
-                    slug: createSlug(data.title.trim() || data.spaTitle.trim())
-                }
-                const saved = await createPost(postData, getUser())
+                const saved = await createPost(formData, getUser())
                 if (saved && saved._id) {
                     localStorage.removeItem('posts')
                     toast.success(TEXT[lang]['saving_ok'])
-                    setTimeout(() => router.push(`/post/${saved.slug}`), 1500)
+                    setTimeout(() => router.push(data.pdf ? `/pdf/${saved.slug}` : `/post/${saved.slug}`), 1500)
                 } else {
                     toast.error(TEXT[lang]['error_saving'])
                     return toast.remove(loading)
@@ -315,6 +318,20 @@ export default function PostEditor({ }: Props) {
         }
     }
 
+    const uploadPDF = async (e: any) => {
+        if (e.target.files) {
+            const file = e.target.files[0]
+            const title = file.name
+
+            setData(data => ({
+                ...data,
+                pdf: file,
+                pdfTitle: title
+            }))
+            setIsEdited(true)
+        }
+    }
+
     const filePickerCallback = (callback: any) => {
         const input = document.createElement('input')
         input.setAttribute('type', 'file')
@@ -338,9 +355,15 @@ export default function PostEditor({ }: Props) {
         input.click()
     }
 
-    const openFilePicker = () => {
+    const openImagePicker = () => {
         if (imageUrlRef.current) {
             imageUrlRef.current.click()
+        }
+    }
+
+    const openPDFPicker = () => {
+        if (pdfUrlRef.current) {
+            pdfUrlRef.current.click()
         }
     }
 
@@ -382,6 +405,14 @@ export default function PostEditor({ }: Props) {
                             off='No'
                             value={showSide}
                             setValue={setShowSide}
+                        />
+                        <Dropdown
+                            label='Type'
+                            options={['Post', 'PDF']}
+                            selected={selectedType}
+                            value={selectedType}
+                            setSelected={setSelectedType}
+                            style={{ maxWidth: '4rem' }}
                         />
                     </div>
                 </div>
@@ -428,7 +459,7 @@ export default function PostEditor({ }: Props) {
                             <Tooltip tooltip='Upload image'>
                                 <Button
                                     svg={'/assets/icons/upload.svg'}
-                                    handleClick={openFilePicker}
+                                    handleClick={openImagePicker}
                                     bgColor='transparent'
                                     textColor='#fff'
                                 />
@@ -449,31 +480,47 @@ export default function PostEditor({ }: Props) {
                         />
                     </div>
                 </div>
-                <div className="editor__data-input">
-                    <InputField
-                        name='video'
-                        value={data.video}
-                        updateData={updateData}
-                        placeholder='Video URL'
-                        style={{ width: '100%' }}
-                    />
-                </div>
-                <Editor
-                    initialValue=''
-                    value={spaSelected ? spaHtml : html}
-                    onEditorChange={handleEditorChange}
-                    apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY}
-                    init={{
-                        height: 1000,
-                        width: 750,
-                        menubar: true,
-                        plugins: 'link image lists wordcount emoticons',
-                        statusbar: false,
-                        toolbar:
-                            'undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image emoticons wordcount',
-                        file_picker_callback: filePickerCallback
-                    }}
-                />
+                {selectedType === 'PDF' ?
+                    <div>
+                        <p>{data.pdfTitle || 'Upload PDF'}</p>
+                        <Tooltip tooltip='Upload PDF'>
+                            <Button
+                                svg={'/assets/icons/upload.svg'}
+                                handleClick={openPDFPicker}
+                                bgColor='transparent'
+                                textColor='#fff'
+                            />
+                        </Tooltip>
+                        <input ref={pdfUrlRef} type='file' accept='application/pdf' onChange={uploadPDF} style={{ display: 'none' }} />
+                    </div>
+                    :
+                    <div className="editor__data-input">
+                        <InputField
+                            name='video'
+                            value={data.video}
+                            updateData={updateData}
+                            placeholder='Video URL'
+                            style={{ width: '100%' }}
+                        />
+                    </div>
+                }
+                {selectedType === 'Post' ?
+                    <Editor
+                        initialValue=''
+                        value={spaSelected ? spaHtml : html}
+                        onEditorChange={handleEditorChange}
+                        apiKey={process.env.NEXT_PUBLIC_TINYMCE_API_KEY}
+                        init={{
+                            height: 1000,
+                            width: 750,
+                            menubar: true,
+                            plugins: 'link image lists wordcount emoticons',
+                            statusbar: false,
+                            toolbar:
+                                'undo redo | bold italic underline | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image emoticons wordcount',
+                            file_picker_callback: filePickerCallback
+                        }}
+                    /> : ''}
                 {!isMobile ?
                     <div className="editor__btns" style={{ width: 750 }}>
                         <Button
@@ -492,7 +539,7 @@ export default function PostEditor({ }: Props) {
                     </div>
                     : ''}
             </div>
-            {showSide ?
+            {showSide && selectedType === 'Post' ?
                 <div className="editor__right-col">
                     <h1 className="editor__side-images-title">Side Images</h1>
                     <div className="editor__side-images-list">
