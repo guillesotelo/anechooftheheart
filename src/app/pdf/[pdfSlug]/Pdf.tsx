@@ -1,3 +1,5 @@
+"use client"
+
 import React, { useContext, useEffect, useState } from 'react'
 import { capitalizeFirstLetter } from 'src/helpers'
 import { Document, Page, pdfjs } from 'react-pdf';
