@@ -61,7 +61,7 @@ const getPostIdBySlug = async (slug: string) => {
 
 const getPdfBlobBySlug = async (slug: string) => {
     try {
-        const res = await axios.get(`${API_URL}/api/post/getPdfContentBySlug`,
+        const res = await axios.get(`${SERVER_API_URL}/api/post/getPdfBlobBySlug`,
             {
                 params: { slug },
                 responseType: 'blob',
