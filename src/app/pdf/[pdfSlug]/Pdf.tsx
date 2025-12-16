@@ -1,10 +1,8 @@
 "use client"
 
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { capitalizeFirstLetter } from 'src/helpers'
 import { postType } from '../../types';
-import { AppContext } from '../../context/AppContext';
-import { useRouter } from 'next/navigation';
 import PdfViewer from './PdfViewer';
 import { getPdfBlobBySlug } from 'src/services/post'
 
@@ -15,9 +13,6 @@ type Props = {
 export default function Pdf({ post }: Props) {
     const [category, setCategory] = useState('')
     const [pdfUrl, setPdfUrl] = useState<string | null>(null)
-    const [data, setData] = useState(null)
-    const { lang, isMobile, isLoggedIn } = useContext(AppContext)
-    const router = useRouter()
 
     useEffect(() => {
         if (!post?.slug) return
@@ -42,7 +37,7 @@ export default function Pdf({ post }: Props) {
     }
 
     return (
-        <div className='postviewer__container'>
+        <div className='pdf__container'>
             <div className="postviewer__routes">
                 <a className='postviewer__routes-link' href={`/blog/all`}>Open Journal</a>
                 {category ?
@@ -55,7 +50,7 @@ export default function Pdf({ post }: Props) {
                     : ''}
             </div>
             {pdfUrl ?
-                <div className='post__container'>
+                <div className='pdf__viewer-container'>
                     <PdfViewer file={pdfUrl} />
                 </div>
                 :
