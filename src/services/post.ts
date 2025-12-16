@@ -57,6 +57,17 @@ const getPostIdBySlug = async (slug: string) => {
     } catch (err) { console.log(err) }
 }
 
+const getPdfBlobBySlug = async (slug: string) => {
+    try {
+        const res = await axios.get(`${API_URL}/api/post/getPdfContentBySlug`,
+            {
+                params: { slug },
+                responseType: 'blob',
+            })
+        return res.data as Blob
+    } catch (err) { console.log(err) }
+}
+
 const createPost = async (data: FormData, user: dataObj) => {
     try {
         const post = await retryWithDelay(() => axios.post(`${API_URL}/api/post/create`, data, getConfigPost(user)), 5, 100)
@@ -86,6 +97,7 @@ export {
     getPostIdBySlug,
     getContentBySlug,
     getMetadataBySlug,
+    getPdfBlobBySlug,
     updatePost,
     deletePost
 }

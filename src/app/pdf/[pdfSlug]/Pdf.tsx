@@ -2,28 +2,11 @@
 
 import React, { useContext, useEffect, useState } from 'react'
 import { capitalizeFirstLetter } from 'src/helpers'
-import { Document, Page, pdfjs } from 'react-pdf';
 import { postType } from '../../types';
-import { getContentBySlug } from 'src/services/post';
 import { AppContext } from '../../context/AppContext';
 import { useRouter } from 'next/navigation';
-
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-    'pdfjs-dist/build/pdf.worker.min.js',
-    import.meta.url
-).toString();
-
-type PdfViewerType = {
-    file: File
-}
-
-function PdfViewer({ file }: PdfViewerType) {
-    return (
-        <Document file={file}>
-            <Page pageNumber={1} />
-        </Document>
-    );
-}
+import PdfViewer from './PdfViewer';
+import { getPdfBlobBySlug } from 'src/services/post'
 
 type Props = {
     post: postType
@@ -31,27 +14,31 @@ type Props = {
 
 export default function Pdf({ post }: Props) {
     const [category, setCategory] = useState('')
-    const [pdf, setPdf] = useState(null)
+    const [pdfUrl, setPdfUrl] = useState<string | null>(null)
     const [data, setData] = useState(null)
     const { lang, isMobile, isLoggedIn } = useContext(AppContext)
     const router = useRouter()
 
     useEffect(() => {
-        if (post.slug && (!pdf)) getPost()
-    }, [post])
+        if (!post?.slug) return
+        loadPdf()
+        return () => cleanUpPdf()
+    }, [post?.slug])
 
-    const getPost = async () => {
+    const loadPdf = async () => {
         try {
-            const _post = await getContentBySlug(post.slug || '')
-            if (_post && _post._id) {
-                if (_post.unpublished && !isLoggedIn === false) router.back()
-
-                if (_post.pdf) setPdf(_post.pdf)
-                setData(_post)
+            const blob = await getPdfBlobBySlug(post.slug || '')
+            if (blob) {
+                const url = URL.createObjectURL(blob)
+                setPdfUrl(url)
             }
-        } catch (error) {
-            console.error(error)
+        } catch (err) {
+            console.error(err)
         }
+    }
+
+    const cleanUpPdf = () => {
+        if (pdfUrl) URL.revokeObjectURL(pdfUrl)
     }
 
     return (
@@ -67,9 +54,9 @@ export default function Pdf({ post }: Props) {
                     </>
                     : ''}
             </div>
-            {pdf ?
+            {pdfUrl ?
                 <div className='post__container'>
-                    <PdfViewer file={pdf} />
+                    <PdfViewer url={pdfUrl} />
                 </div>
                 :
                 <span className="loader" style={{ margin: '10rem auto 60vh' }}></span>
