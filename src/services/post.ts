@@ -1,8 +1,10 @@
 import axios from 'axios';
 import { dataObj, postType } from '../app/types';
 import { retryWithDelay } from '../helpers';
+import { revalidatePath } from 'next/cache'
 
 const API_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000'
+const SERVER_API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'
 
 const getHeaders = (user: dataObj) => {
     return { authorization: `Bearer ${user.token}` }
@@ -70,14 +72,18 @@ const getPdfBlobBySlug = async (slug: string) => {
 
 const createPost = async (data: FormData, user: dataObj) => {
     try {
-        const post = await retryWithDelay(() => axios.post(`${API_URL}/api/post/create`, data, getConfigPost(user)), 5, 100)
+        const post = await retryWithDelay(() => axios.post(`${SERVER_API_URL}/api/post/create`, data, getConfigPost(user)), 5, 100)
+        revalidatePath('/')
+        revalidatePath('/blog')
         return post.data
     } catch (err) { console.log(err) }
 }
 
 const updatePost = async (data: FormData, user: dataObj) => {
     try {
-        const post = await retryWithDelay(() => axios.post(`${API_URL}/api/post/update`, data, getConfigPost(user)), 5, 100)
+        const post = await retryWithDelay(() => axios.post(`${SERVER_API_URL}/api/post/update`, data, getConfigPost(user)), 5, 100)
+        revalidatePath('/')
+        revalidatePath('/blog')
         return post.data
     } catch (err) { console.log(err) }
 }

@@ -239,8 +239,7 @@ export default function PostEditor({ }: Props) {
             if (data.pdf) formData.append('pdf', data.pdf);
 
             if (isUpdate) {
-
-                const updated = await updatePost(formData, getUser())
+                const updated =  await updatePost(formData, getUser())
 
                 if (updated && updated._id) {
                     localStorage.removeItem('posts')
