@@ -1,16 +1,13 @@
-// components/PdfViewer.tsx
 'use client';
 
 import { Document, Page, pdfjs } from 'react-pdf';
 
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-  'pdfjs-dist/build/pdf.worker.min.mjs',
-  import.meta.url
-).toString();
+// Point directly to public file
+pdfjs.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.js';
 
-export default function PdfViewer({ url }: { url: string }) {
+export default function PdfViewer({ file }: { file: string }) {
   return (
-    <Document file={url}>
+    <Document file={file}>
       <Page pageNumber={1} />
     </Document>
   );

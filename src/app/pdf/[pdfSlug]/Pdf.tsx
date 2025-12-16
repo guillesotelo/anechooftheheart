@@ -56,7 +56,7 @@ export default function Pdf({ post }: Props) {
             </div>
             {pdfUrl ?
                 <div className='post__container'>
-                    <PdfViewer url={pdfUrl} />
+                    <PdfViewer file={pdfUrl} />
                 </div>
                 :
                 <span className="loader" style={{ margin: '10rem auto 60vh' }}></span>
