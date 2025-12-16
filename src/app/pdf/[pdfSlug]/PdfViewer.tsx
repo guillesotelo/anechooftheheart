@@ -1,17 +1,20 @@
 'use client';
 
+import { useRouter } from 'next/navigation';
 import { useContext, useLayoutEffect, useRef, useState } from 'react';
 import { Document, Page, pdfjs } from 'react-pdf';
 import { AppContext } from 'src/app/context/AppContext';
+import { postType } from 'src/app/types';
 
 // Worker from /public
 pdfjs.GlobalWorkerOptions.workerSrc = '/pdf.worker.min.js';
 
 type Props = {
   file: string;
+  metadata: postType;
 };
 
-export default function PdfViewer({ file }: Props) {
+export default function PdfViewer({ file, metadata }: Props) {
   const [numPages, setNumPages] = useState<number>(0);
   const [pageNumber, setPageNumber] = useState<number>(1);
   const [height, setHeight] = useState<number | null>(null);
@@ -19,6 +22,7 @@ export default function PdfViewer({ file }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [renderKey, setRenderKey] = useState(0);
   const { isMobile } = useContext(AppContext)
+  const router = useRouter()
 
   useLayoutEffect(() => {
     const el = containerRef.current;
@@ -53,6 +57,11 @@ export default function PdfViewer({ file }: Props) {
     setPageNumber(1);
   };
 
+  const switchLanguage = () => {
+    if (!metadata.secondarySlug) return
+    router.push(`/pdf/${metadata.secondarySlug}`)
+  }
+
   return (
     <div className='pdf__viewer' ref={containerRef}
       style={{ height: isMobile ? 'auto' : '100%', width: isMobile ? '100%' : 'auto' }}>
@@ -70,6 +79,12 @@ export default function PdfViewer({ file }: Props) {
           disabled={pageNumber === numPages}
           className='pdf__controls-arrow-right'>
           〉
+        </button> : ''}
+      {metadata.secondarySlug ?
+        <button
+          onClick={switchLanguage}
+          className='pdf__controls-language'>
+          {metadata.language === 'es' ? 'English' : 'Español'}
         </button> : ''}
       <Document key={renderKey} file={file} onLoadSuccess={onLoadSuccess}>
         <Page

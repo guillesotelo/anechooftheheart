@@ -83,6 +83,13 @@
         gap: .5vw;
     }
 
+    &__input-row {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-end;
+        gap: 1rem;
+    }
+
     &__input-image {
         display: flex;
         flex-direction: row;
@@ -186,6 +193,17 @@
         }
     }
 
+    &__pdf {
+        &-container {
+            border-top: 1px solid gray;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: .5rem;
+            margin-bottom: 1rem;
+        }
+    }
 }
 
 .tox-editor-header--fixed {

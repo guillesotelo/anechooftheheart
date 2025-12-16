@@ -41,6 +41,8 @@ export type postType = {
     sideImages?: string[]
     sideImgsStyles?: React.CSSProperties[]
     unpublished?: boolean
+    language?: string
+    secondarySlug?: string
 }
 
 export type userType = {

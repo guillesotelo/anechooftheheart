@@ -73,8 +73,7 @@ const getPdfBlobBySlug = async (slug: string) => {
 const createPost = async (data: FormData, user: dataObj) => {
     try {
         const post = await retryWithDelay(() => axios.post(`${SERVER_API_URL}/api/post/create`, data, getConfigPost(user)), 5, 100)
-        revalidatePath('/')
-        revalidatePath('/blog')
+        await axios.get(`${API_URL}/api/app/revalidatePaths`)
         return post.data
     } catch (err) { console.log(err) }
 }
@@ -82,8 +81,7 @@ const createPost = async (data: FormData, user: dataObj) => {
 const updatePost = async (data: FormData, user: dataObj) => {
     try {
         const post = await retryWithDelay(() => axios.post(`${SERVER_API_URL}/api/post/update`, data, getConfigPost(user)), 5, 100)
-        revalidatePath('/')
-        revalidatePath('/blog')
+        await axios.get(`${API_URL}/api/app/revalidatePaths`)
         return post.data
     } catch (err) { console.log(err) }
 }

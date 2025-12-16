@@ -37,7 +37,9 @@ const voidData = {
     video: '',
     imageUrlTitle: '',
     pdf: null,
-    pdfTitle: ''
+    pdfTitle: '',
+    secondarySlug: '',
+    language: 'en'
 }
 
 export default function PostEditor({ }: Props) {
@@ -55,6 +57,7 @@ export default function PostEditor({ }: Props) {
     const [showSide, setShowSide] = useState(false)
     const [selectedCategory, setSelectedCategory] = useState(['Inspiration'])
     const [selectedType, setSelectedType] = useState('Post')
+    const [selectedLang, setSelectedLang] = useState('en')
     const router = useRouter()
     const pathname = usePathname()
     const { lang, isMobile, isLoggedIn } = useContext(AppContext)
@@ -183,6 +186,12 @@ export default function PostEditor({ }: Props) {
                     const sideStyles = JSON.parse(_post.sideStyles)
                     setSideImgStyles(sideStyles)
                 }
+                if (_post.type) {
+                    setSelectedType(_post.type)
+                }
+                if (_post.language) {
+                    setSelectedLang(_post.language)
+                }
                 setPublished(_post.published || false)
                 setSelectedCategory(_post.category.includes('[') ? JSON.parse(_post.category || '[]') : [_post.category])
                 // This is a horrible fix, but lets stay with this for now:
@@ -228,7 +237,9 @@ export default function PostEditor({ }: Props) {
                 published,
                 category: JSON.stringify(selectedCategory),
                 slug: createSlug(title),
-                type: selectedType
+                type: selectedType,
+                language: selectedLang,
+                secondarySlug: (data.secondarySlug || '').replaceAll(' ', '-')
             }
             const formData = new FormData()
 
@@ -239,7 +250,7 @@ export default function PostEditor({ }: Props) {
             if (data.pdf) formData.append('pdf', data.pdf);
 
             if (isUpdate) {
-                const updated =  await updatePost(formData, getUser())
+                const updated = await updatePost(formData, getUser())
 
                 if (updated && updated._id) {
                     localStorage.removeItem('posts')
@@ -377,10 +388,12 @@ export default function PostEditor({ }: Props) {
                         flexDirection: isMobile ? 'column' : 'row',
                         gap: isMobile ? '1rem' : ''
                     }}>
-                    <div className="editor__tab-container">
-                        <h4 className={`editor__tab-item ${!spaSelected ? 'editor__tab--selected' : ''}`} onClick={() => setSpaSelected(false)}>English (default)</h4>
-                        <h4 className={`editor__tab-item ${spaSelected ? 'editor__tab--selected' : ''}`} onClick={() => setSpaSelected(true)}>Español</h4>
-                    </div>
+                    {!selectedType || selectedType === 'Post' ?
+                        <div className="editor__tab-container">
+                            <h4 className={`editor__tab-item ${!spaSelected ? 'editor__tab--selected' : ''}`} onClick={() => setSpaSelected(false)}>English (default)</h4>
+                            <h4 className={`editor__tab-item ${spaSelected ? 'editor__tab--selected' : ''}`} onClick={() => setSpaSelected(true)}>Español</h4>
+                        </div>
+                        : ''}
                     <div className='editor__switch-btns'>
                         <Dropdown
                             label='Categories'
@@ -411,7 +424,7 @@ export default function PostEditor({ }: Props) {
                             selected={selectedType}
                             value={selectedType}
                             setSelected={setSelectedType}
-                            style={{ maxWidth: '4rem' }}
+                            style={{ maxWidth: '5rem' }}
                         />
                     </div>
                 </div>
@@ -480,17 +493,40 @@ export default function PostEditor({ }: Props) {
                     </div>
                 </div>
                 {selectedType === 'PDF' ?
-                    <div>
-                        <p>{data.pdfTitle || 'Upload PDF'}</p>
-                        <Tooltip tooltip='Upload PDF'>
-                            <Button
-                                svg={'/assets/icons/upload.svg'}
-                                handleClick={openPDFPicker}
-                                bgColor='transparent'
-                                textColor='#fff'
-                            />
-                        </Tooltip>
-                        <input ref={pdfUrlRef} type='file' accept='application/pdf' onChange={uploadPDF} style={{ display: 'none' }} />
+                    <div className='editor__pdf-container'>
+                        <div className="editor__data-input" style={{ alignItems: 'flex-end' }}>
+                            <div className="editor__input-col">
+                                <Tooltip tooltip='Upload PDF'>
+                                    <p>{data.pdfTitle || 'Upload PDF'}</p>
+                                    <Button
+                                        svg={'/assets/icons/upload.svg'}
+                                        handleClick={openPDFPicker}
+                                        bgColor='transparent'
+                                        textColor='#fff'
+                                        style={{ marginLeft: '1rem' }}
+                                    />
+                                </Tooltip>
+                                <input ref={pdfUrlRef} type='file' accept='application/pdf' onChange={uploadPDF} style={{ display: 'none' }} />
+                            </div>
+                            <div className="editor__input-col">
+                                <div className='editor__input-row'>
+                                    <InputField
+                                        name='secondarySlug'
+                                        value={data.secondarySlug}
+                                        updateData={updateData}
+                                        placeholder='Secondary-slug-or-name'
+                                    />
+                                    <Dropdown
+                                        label='Language'
+                                        options={['en', 'es']}
+                                        selected={selectedLang}
+                                        value={selectedLang}
+                                        setSelected={setSelectedLang}
+                                        style={{ maxWidth: '5rem' }}
+                                    />
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     :
                     <div className="editor__data-input">
