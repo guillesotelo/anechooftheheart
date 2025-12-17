@@ -59,6 +59,13 @@ const getPostIdBySlug = async (slug: string) => {
     } catch (err) { console.log(err) }
 }
 
+const getAllPdfs = async () => {
+    try {
+        const pdfs = await retryWithDelay(() => axios.get(`${SERVER_API_URL}/api/post/getAllPdfs`), 5, 100)
+        return pdfs.data
+    } catch (err) { console.log(err) }
+}
+
 const getPdfBlobBySlug = async (slug: string) => {
     try {
         const res = await axios.get(`${SERVER_API_URL}/api/post/getPdfBlobBySlug`,
@@ -102,6 +109,7 @@ export {
     getContentBySlug,
     getMetadataBySlug,
     getPdfBlobBySlug,
+    getAllPdfs,
     updatePost,
     deletePost
 }

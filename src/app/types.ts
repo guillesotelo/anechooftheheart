@@ -43,6 +43,8 @@ export type postType = {
     unpublished?: boolean
     language?: string
     secondarySlug?: string
+    pdf?: string
+    pdfTitle?: string
 }
 
 export type userType = {
