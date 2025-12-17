@@ -102,7 +102,9 @@
 }
 
 .pdfs {
-  &__container {}
+  &__container {
+    padding-bottom: 25vh;
+  }
 
   &__list {
     display: flex;
@@ -175,6 +177,20 @@
     &__container {
       height: 90vh;
       padding: 1rem 0 20rem 0;
+    }
+  }
+
+  .pdfs {
+    &__container {
+      padding-bottom: 50vh;
+    }
+
+    &__list {
+      gap: 2rem;
+    }
+
+    &__item {
+      width: 75vw;
     }
   }
 }
