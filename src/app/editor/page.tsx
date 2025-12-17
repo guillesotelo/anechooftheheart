@@ -39,7 +39,8 @@ const voidData = {
     pdf: null,
     pdfTitle: '',
     secondarySlug: '',
-    language: 'en'
+    language: 'en',
+    previewImage: ''
 }
 
 export default function PostEditor({ }: Props) {
@@ -58,6 +59,7 @@ export default function PostEditor({ }: Props) {
     const [selectedCategory, setSelectedCategory] = useState(['Inspiration'])
     const [selectedType, setSelectedType] = useState('Post')
     const [selectedLang, setSelectedLang] = useState('en')
+    const [previewUpdated, setPreviewUpdated] = useState(false)
     const router = useRouter()
     const pathname = usePathname()
     const { lang, isMobile, isLoggedIn } = useContext(AppContext)
@@ -206,6 +208,7 @@ export default function PostEditor({ }: Props) {
         if (!isEdited) setIsEdited(true)
         const value = e.target.value
         setData({ ...data, [key]: value })
+        if (key === 'imageUrl') setPreviewUpdated(true)
     }
 
     const handleEditorChange = (state: string) => {
@@ -239,7 +242,8 @@ export default function PostEditor({ }: Props) {
                 slug: createSlug(title),
                 type: selectedType,
                 language: selectedLang,
-                secondarySlug: (data.secondarySlug || '').replaceAll(' ', '-')
+                secondarySlug: (data.secondarySlug || '').replaceAll(' ', '-'),
+                previewUpdated
             }
             const formData = new FormData()
 
@@ -461,13 +465,13 @@ export default function PostEditor({ }: Props) {
                         <div className='editor__input-image'>
                             <InputField
                                 name='imageUrl'
-                                value={data.imageUrlTitle || data.imageUrl}
+                                value={data.imageUrlTitle || data.imageUrl || data.previewImage}
                                 updateData={updateData}
                                 placeholder='Image URL (https://example.com/image.png)'
                                 style={{ width: '90%' }}
                                 disabled={Boolean(data.imageUrlTitle)}
                             />
-                            {data.imageUrl ? <img src={data.imageUrl} alt='Image URL' className='editor__image-url' /> : ''}
+                            {data.imageUrl || data.previewImage ? <img src={data.imageUrl || data.previewImage} alt='Image URL' className='editor__image-url' /> : ''}
                             <Tooltip tooltip='Upload image'>
                                 <Button
                                     svg={'/assets/icons/upload.svg'}
