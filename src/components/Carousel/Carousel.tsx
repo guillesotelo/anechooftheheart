@@ -5,9 +5,10 @@ type Props = {
     title?: string
     caption?: string
     cards?: cardType[]
+    style?: React.CSSProperties
 }
 
-export default function Carousel({ title, caption, cards = [] }: Props) {
+export default function Carousel({ title, caption, cards = [], style }: Props) {
     const [allCards, setAllCards] = useState<any[]>(cards)
     const [currentIndex, setCurrentIndex] = useState<number>(0)
     const [miliseconds, setMiliseconds] = useState<number>(0)
@@ -25,12 +26,12 @@ export default function Carousel({ title, caption, cards = [] }: Props) {
     }
 
     useEffect(() => {
-            const interval = runAnimation()
-            return () => clearInterval(interval)
+        const interval = runAnimation()
+        return () => clearInterval(interval)
     }, [currentIndex])
 
     const stopAnimation = () => {
-        if(intervalId) clearInterval(intervalId)
+        if (intervalId) clearInterval(intervalId)
     }
 
     const runAnimation = () => {
@@ -44,12 +45,12 @@ export default function Carousel({ title, caption, cards = [] }: Props) {
     }
 
     return (
-        <div className="carousel__container">
+        <div className="carousel__container" style={style}>
             <h1 className="carousel__title"></h1>
             <div className="carousel__list-wrapper">
                 <div
                     className="carousel__list"
-                    style={{ transform: `translateX(-${(currentIndex * 5) - miliseconds}px)` }}
+                    style={{ transform: `translateX(-${(currentIndex * 5) - miliseconds}px)`, ...style }}
                     onMouseEnter={stopAnimation}
                     onMouseLeave={restartAnimation}>
                     {allCards.map((card, i) =>

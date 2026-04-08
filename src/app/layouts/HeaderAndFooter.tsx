@@ -15,6 +15,10 @@ const WithHeaderAndFooter: React.FC<{ children: React.ReactNode }> = ({ children
         else setBespokenLogo('')
     }, [pathname])
 
+    if (pathname === '/family/bienvenida-abril') {
+        return <>{children}</>;
+    }
+
     return (
         <>
             <main className="page__wrapper" style={{ paddingTop: pathname === '/' ? 0 : '' }}>
