@@ -59,9 +59,10 @@ export default function BienvenidaAbril() {
     return (
         <div className="bienvenida-abril__container">
             <div className="bienvenida-abril__content">
-                <h1><strong>Bienvenida chiquitina</strong></h1>
-                <p>📅 Fecha probable de parto: 24 de abril de 2026</p>
-                <p>✨ Significado del nombre:<br />
+                <h1 className='bienvenida-abril__title'>Bienvenida chiquitina</h1>
+                <p className='bienvenida-abril__subtitle'>Fecha probable de parto: 24 de abril de 2026</p>
+                <h3>Significado del nombre</h3>
+                <p>
                     Abril nace del latín Aprilis, el mes en que la tierra despierta y la vida vuelve a florecer. Su nombre evoca la apertura de la primavera: renovación, esperanza y nuevos comienzos.
                 </p>
                 <p>
@@ -85,53 +86,60 @@ export default function BienvenidaAbril() {
                 <p>
                     Todos los mensajes que recibamos serán impresos y guardados en su libro del primer año.
                 </p>
-                <p>
+                <p style={{ marginTop: '2rem' }}>
                     Acá les dejamos unas fotitos de nuestro photo shoot.
                 </p>
             </div>
 
             <div className='bienvenida-abril-carousel'>
-                <Carousel cards={carouselImages} style={{ height: '70vh' }} />
+                <Carousel cards={carouselImages} speed={180} style={{ height: '70vh' }} />
             </div>
             <div className="bienvenida-abril__content">
-                <p>
-                    💌 Déjale un mensaje
-                </p>
+                <h3>Deja un mensaje</h3>
                 {status === 'sent' ? '' : <div className="bienvenida-abril__message">
-                    <img src="/assets/images/abril/box-msg.png" width='700' height='450' className='bienvenida-abril__image' />
+                    {/* <img src="/assets/images/abril/box-msg.png" width='700' height='450' className='bienvenida-abril__image' /> */}
                     <textarea value={message} onChange={e => setMessage(e.target.value)} className="bienvenida-abril__message-input" rows={20} cols={55} />
                 </div>}
-                {status === 'sent' ? '' : <Button
-                    label={status === 'sending' ? 'Enviando...' : 'Enviar'}
-                    handleClick={sendMessage}
-                    style={{
-                        fontSize: '1.5rem',
-                        display: 'flex',
-                        justifySelf: 'center',
-                        marginTop: '1.5rem'
-                    }} />}
-                {status === 'sent' && <p style={{ textAlign: 'center', marginTop: '1rem', color: 'darkgreen' }}>Mensaje enviado 💚</p>}
-                {status === 'error' && <p style={{ textAlign: 'center', marginTop: '1rem', color: 'red' }}>Ocurrió un error, intenta de nuevo!</p>}
+                <div className='bienvenida-abril__row'>
+                    {status === 'sent' ? '' :
+                        <Button
+                            label={status === 'sending' ? 'Enviando...' : 'Enviar'}
+                            handleClick={sendMessage}
+                        />}
+                    {status === 'sent' && <p style={{ color: 'darkgreen' }}>Mensaje enviado 💚</p>}
+                    {status === 'error' && <p style={{ color: 'red' }}>Ocurrió un error, intenta de nuevo!</p>}
+                </div>
             </div>
-            <div className="bienvenida-abril__content">
-                <p>
-                    Fotos del primer añito:
-                </p>
-                <p>
+            <div className="bienvenida-abril__content" style={{ marginBottom: '10rem' }}>
+                <h3>Fotos del primer añito</h3>
+                <p style={{ fontFamily: 'Playfair Display, serif', color: '#938787' }}>
                     Coming soon...
                 </p><br />
-                <p>
-                    🎁 Regalo opcional
+                <h3>¿Querés hacerle un regalito?</h3>
+                <p style={{ textAlign: 'left' }}>
+                    Si querés dejarlo, podés hacerlo a través de este link: <span><a href='https://revolut.me/dgarciasanguino' target='_blank'>https://revolut.me/dgarciasanguino</a> 🫶🏼</span> o a nuestras cuentas bancarias personales en Colombia o Argentina.
                 </p>
+                <div className='bienvenida-abril__row' style={{ margin: '2rem 0 4rem 0', justifyContent: 'center' }}>
+                    <div className='bienvenida-abril__bankcard'>
+                        <p>
+                            <strong>Colombia</strong><br /><br />
+                            C/A: 4884 3649 0327<br />
+                            Luz Angela Sanguino Garcia
+                        </p>
+                    </div>
+                    <div className='bienvenida-abril__bankcard'>
+                        <p>
+                            <strong>Argentina</strong><br /><br />
+                            Alias: mp.guillermo.sotelo
+                        </p>
+                    </div>
+                </div>
+
                 <p>
-                    Si te gustaría dejar un regalo, puedes hacerlo a través de este link:<br />
-                    <a href='https://revolut.me/dgarciasanguino' target='_blank'>https://revolut.me/dgarciasanguino</a> 🫶🏼<br />
-                    o a nuestras cuentas bancarias personales en Colombia o Argentina.
-                </p><br />
-                <p style={{ marginBottom: '10rem' }}>
                     Un abrazo enorme a todos, y GRACIAS por ser parte de esta bienvenida junto a nosotros.<br />
-                    Los amamos 💛
                 </p>
+                <p>Los amamos,</p>
+                <p style={{ fontFamily: 'var(--font-madelyn), sans-serif', fontSize: '2.5rem' }}>Familia Sotelo Garcia</p>
             </div>
         </div>
     )

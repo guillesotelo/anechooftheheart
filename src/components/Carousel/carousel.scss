@@ -1,3 +1,8 @@
+@keyframes carousel-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+
 .carousel {
     &__container {
         display: flex;
@@ -23,7 +28,13 @@
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
-        transition: 300ms;
+        will-change: transform;
+        animation: carousel-scroll linear infinite;
+        animation-duration: var(--carousel-speed, 30s);
+
+        &:hover {
+            animation-play-state: paused;
+        }
     }
 
     &__card {
@@ -36,7 +47,7 @@
             height: 100%;
             width: 100%;
             object-fit: cover;
-            transition: .4s;
+            transition: filter .4s;
 
             &:hover {
                 filter: grayscale(100%);
@@ -67,21 +78,12 @@
 
 @media only screen and (max-width: 640px) {
     .carousel {
-        &__card {
-            &-container {
-                width: 45vw;
-            }
-        }
-
         &__list {
-            width: fit-content;
             height: 70vw;
-            gap: 1rem;
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: space-between;
-            transition: 300ms;
+
+            &:hover {
+                animation-play-state: running;
+            }
         }
 
         &__card {
@@ -94,13 +96,7 @@
                 height: 100%;
                 width: 100%;
                 object-fit: cover;
-                transition: .4s;
-
-                &:hover {
-                    filter: none;
-                }
             }
         }
-
     }
 }
