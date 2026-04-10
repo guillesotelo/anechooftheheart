@@ -113,7 +113,7 @@ export default function BienvenidaAbril() {
                     {status === 'error' && <p style={{ color: 'red' }}>Ocurrió un error, intenta de nuevo!</p>}
                 </div>
             </div>
-            <div className="bienvenida-abril__content" style={{ marginBottom: '10rem' }}>
+            <div className="bienvenida-abril__content" style={{ marginBottom: '16rem' }}>
                 <h3>Fotos del primer añito</h3>
                 <p style={{ fontFamily: 'Playfair Display, serif', color: '#938787' }}>
                     Coming soon...
@@ -144,7 +144,7 @@ export default function BienvenidaAbril() {
                 <p>Los amamos,</p>
                 <p style={{ fontFamily: 'var(--font-madelyn), sans-serif', fontSize: '2.5rem' }}>Familia Sotelo Garcia</p>
             </div>
-            <SpotifyPlaylist playlist='https://open.spotify.com/track/71l747KWxSIlCOiKbtBokH?si=c62c6a5e22e44e2d'/>
+            <SpotifyPlaylist playlist='https://open.spotify.com/embed/track/71l747KWxSIlCOiKbtBokH?utm_source=generator'/>
         </div>
     )
 }
