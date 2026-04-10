@@ -1,6 +1,7 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
+import { AppContext } from 'src/app/context/AppContext'
 import Button from 'src/components/Button/Button'
 import Carousel from "src/components/Carousel/Carousel"
 
@@ -38,6 +39,7 @@ const carouselImages = [
 export default function BienvenidaAbril() {
     const [message, setMessage] = useState('')
     const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
+    const { isMobile } = useContext(AppContext)
 
     const sendMessage = async () => {
         if (!message.trim()) return
@@ -92,7 +94,7 @@ export default function BienvenidaAbril() {
             </div>
 
             <div className='bienvenida-abril-carousel'>
-                <Carousel cards={carouselImages} speed={180} style={{ height: '70vh' }} />
+                <Carousel cards={carouselImages} speed={180} style={{ height: isMobile ? '60vh' : '70vh' }} />
             </div>
             <div className="bienvenida-abril__content">
                 <h3>Deja un mensaje</h3>
