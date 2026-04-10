@@ -19,4 +19,4 @@ export const BLOG_CATEGORIES = [
     ]
 export const imagePlaceholder = '/assets/logos/isologo.png'
 
-export const SPOTIFY_PLAYLIST = 'https://open.spotify.com/embed/playlist/37i9dQZF1E8MvCNkmKtFkR?utm_source=generator&theme=0'
+export const SPOTIFY_PLAYLIST = 'https://open.spotify.com/embed/playlist/37i9dQZF1E8MvCNkmKtFkR'

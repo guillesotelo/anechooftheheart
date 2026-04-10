@@ -19,6 +19,7 @@ import { TEXT } from '../../constants/lang'
 import { subscribe } from '../../services/app'
 import { useRouter } from 'next/navigation'
 import SpotifyPlaylist from 'src/components/SpotifyPlaylist/SpotifyPlaylist'
+import { SPOTIFY_PLAYLIST } from "src/constants/app";
 // const Track1 = require('../../assets/audio/Jamie-Duffy_Solas.mp3')
 // const Track2 = require('../../assets/audio/Je-Te-Laisserai_Des-Mots.mp3')
 
@@ -256,6 +257,6 @@ export default function Home({ data }: dataObj) {
             </div>
         </div>
         {/* {showPlayer ? <Player filePath={[Track1, Track2]} setShowPlayer={setShowPlayer} /> : ''} */}
-        {showPlayer ? <SpotifyPlaylist /> : ''}
+        {showPlayer ? <SpotifyPlaylist playlist={SPOTIFY_PLAYLIST}/> : ''}
     </div>
 }

@@ -4,6 +4,7 @@ import React, { useContext, useState } from 'react'
 import { AppContext } from 'src/app/context/AppContext'
 import Button from 'src/components/Button/Button'
 import Carousel from "src/components/Carousel/Carousel"
+import SpotifyPlaylist from 'src/components/SpotifyPlaylist/SpotifyPlaylist'
 
 const carouselImages = [
     { image: '/assets/images/abril/DSC01270.jpg' },
@@ -143,6 +144,7 @@ export default function BienvenidaAbril() {
                 <p>Los amamos,</p>
                 <p style={{ fontFamily: 'var(--font-madelyn), sans-serif', fontSize: '2.5rem' }}>Familia Sotelo Garcia</p>
             </div>
+            <SpotifyPlaylist playlist='https://open.spotify.com/track/71l747KWxSIlCOiKbtBokH?si=c62c6a5e22e44e2d'/>
         </div>
     )
 }
