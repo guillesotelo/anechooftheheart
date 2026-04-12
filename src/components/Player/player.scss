@@ -1,19 +1,19 @@
 .player {
     &__container {
         width: 20rem;
-        background-color: #ece7e6;
+        background-color: #efdef5;
         // border: 1px solid #ffc49d;
         border-radius: 1rem;
         position: fixed;
         bottom: 2rem;
         right: 2rem;
         transform: translateX(150%);
-        animation: move-x-left 2s ease-in forwards;
+        animation: move-y-up 1s ease-in forwards;
         z-index: 5;
     }
 
     &__close {
-        margin: 0 1rem 0 0;
+        margin: 0 .5rem 0 0;
         border: none;
         background-color: transparent;
         font-weight: bold;
@@ -33,7 +33,8 @@
             justify-content: space-between;
 
             &-label {
-                margin: 1rem;
+                margin: .75rem 1rem;
+                font-size: .9rem;
             }
         }
 
@@ -56,12 +57,12 @@
         background: transparent;
 
         &-svg {
-            height: 2rem;
+            height: 1.5rem;
             cursor: pointer;
             transition: .2s;
 
             &-previous {
-                height: 1.5rem;
+                height: 1rem;
                 cursor: pointer;
                 transition: .2s;
                 transform: rotate(180deg);
@@ -72,7 +73,7 @@
             }
 
             &-next {
-                height: 1.5rem;
+                height: 1rem;
                 cursor: pointer;
                 transition: .2s;
 

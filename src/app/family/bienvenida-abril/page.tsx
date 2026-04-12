@@ -4,7 +4,10 @@ import React, { useContext, useState } from 'react'
 import { AppContext } from 'src/app/context/AppContext'
 import Button from 'src/components/Button/Button'
 import Carousel from "src/components/Carousel/Carousel"
+import Player from 'src/components/Player/Player'
 import SpotifyPlaylist from 'src/components/SpotifyPlaylist/SpotifyPlaylist'
+const Track1 = '/assets/audio/Andrea-Vanzo-April.mp3'
+const Track2 = '/assets/audio/Zamba-de-Abril.mp3'
 
 const carouselImages = [
     { image: '/assets/images/abril/DSC01270.jpg' },
@@ -39,6 +42,7 @@ const carouselImages = [
 
 export default function BienvenidaAbril() {
     const [message, setMessage] = useState('')
+    const [showPlayer, setShowPlayer] = useState(true)
     const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle')
     const { isMobile } = useContext(AppContext)
 
@@ -144,7 +148,12 @@ export default function BienvenidaAbril() {
                 <p>Los amamos,</p>
                 <p style={{ fontFamily: 'var(--font-madelyn), sans-serif', fontSize: '2.5rem' }}>Familia Sotelo Garcia</p>
             </div>
-            <SpotifyPlaylist playlist='https://open.spotify.com/embed/playlist/63EAKaQUy1C40YbQvsVHnq?utm_source=generator'/>
+            {/* <SpotifyPlaylist playlist='https://open.spotify.com/embed/playlist/63EAKaQUy1C40YbQvsVHnq?utm_source=generator'/> */}
+            {showPlayer ? <Player 
+            filePath={[Track1, Track2]}
+             setShowPlayer={setShowPlayer}
+              autoplay
+              titles={['Andrea Venzo - Abril', 'Raly Barrionuevo - Zamba de Abril']} /> : ''}
         </div>
     )
 }

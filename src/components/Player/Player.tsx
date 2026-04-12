@@ -1,32 +1,35 @@
 "use client"
 
 import React, { useContext, useEffect, useState } from 'react'
-import PlayTrack from '../../assets/icons/play-track.svg'
-import PauseTrack from '../../assets/icons/pause-track.svg'
-import ChangeTrack from '../../assets/icons/next-track.svg'
+const PlayTrack = '/assets/icons/play-track.svg'
+const PauseTrack = '/assets/icons/pause-track.svg'
+const ChangeTrack = '/assets/icons/next-track.svg'
 import { AppContext } from '../../app/context/AppContext'
 
 type Props = {
     filePath?: string | string[]
     setShowPlayer?: (value: boolean) => void
+    titles?: string[]
+    autoplay?: boolean
 }
 
-export default function Player({ filePath, setShowPlayer }: Props) {
+export default function Player({ filePath, setShowPlayer, titles }: Props) {
     const [playing, setPlaying] = useState(false)
     const [audioFile, setAudioFile] = useState<HTMLAudioElement | null>(null)
     const [fileName, setFileName] = useState<string | null>(null)
     const [pathIndex, setPathIndex] = useState(0)
     const [currentTime, setCurrentTime] = useState(0)
     const [duration, setDuration] = useState(0)
+    const [autoplayTrigger, setAutoplayTrigger] = useState(false)
     const { isMobile } = useContext(AppContext)
 
     useEffect(() => {
         if (filePath) {
             const audio = new Audio(Array.isArray(filePath) ? filePath[pathIndex] : filePath)
-            setFileName(getFileNameFromURL(audio.src))
+            setFileName(titles ? titles[0] : getFileNameFromURL(audio.src))
             setAudioFile(audio)
         }
-    }, [])
+    }, [filePath])
 
     useEffect(() => {
         if (audioFile) {
@@ -64,7 +67,7 @@ export default function Player({ filePath, setShowPlayer }: Props) {
                 audioFile.pause()
                 audioFile.currentTime = 0
                 const audio = new Audio(Array.isArray(filePath) ? filePath[index] : filePath)
-                setFileName(getFileNameFromURL(audio.src))
+                setFileName(titles ? titles[index] : getFileNameFromURL(audio.src))
                 audio.play()
                 setAudioFile(audio)
                 setPlaying(true)
@@ -81,7 +84,7 @@ export default function Player({ filePath, setShowPlayer }: Props) {
                 audioFile.pause()
                 audioFile.currentTime = 0
                 const audio = new Audio(Array.isArray(filePath) ? filePath[index] : filePath)
-                setFileName(getFileNameFromURL(audio.src))
+                setFileName(titles ? titles[index] : getFileNameFromURL(audio.src))
                 setAudioFile(audio)
                 audio.play()
                 setPlaying(true)
@@ -91,7 +94,7 @@ export default function Player({ filePath, setShowPlayer }: Props) {
 
     const playTrack = () => {
         if (audioFile) {
-            if (playing) audioFile?.pause()
+            if (playing) audioFile.pause()
             else audioFile.play()
             setPlaying(!playing)
         }
@@ -107,7 +110,7 @@ export default function Player({ filePath, setShowPlayer }: Props) {
 
     const closePlayer = () => {
         if (audioFile) {
-            audioFile.pause()
+            if (playing) audioFile.pause()
             audioFile.currentTime = 0
         }
         if (setShowPlayer) setShowPlayer(false)
@@ -117,9 +120,9 @@ export default function Player({ filePath, setShowPlayer }: Props) {
         <div
             className="player__container"
             style={{
-                width: isMobile ? '100vw' : '',
-                bottom: isMobile ? 0 : '',
-                right: isMobile ? 0 : '',
+                width: isMobile ? '91vw' : '',
+                bottom: isMobile ? '1rem' : '',
+                right: isMobile ? '1rem' : '',
             }}>
             <div className="player__track-name">
                 <p className="player__track-name-label">{fileName || 'Track Name - Artist Name'}</p>
