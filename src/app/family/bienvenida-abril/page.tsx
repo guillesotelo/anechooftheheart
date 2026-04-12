@@ -71,7 +71,7 @@ export default function BienvenidaAbril() {
                 <p>
                     Como la primera flor después del invierno, Abril simboliza la suavidad de lo que llega para transformar. Un recordatorio de que cada vida trae su propia luz, equilibrio y nuevas formas de mirar el mundo.
                 </p>
-                <img src="/assets/images/abril/flowers.png" width='auto' height='auto' className='bienvenida-abril__image' />
+                <img src="/assets/images/abril/flowers.png" className='bienvenida-abril__image' />
                 <p>
                     Mientras hemos ido navegando la mapaternidad en este país, poco a poco hemos comprendido la importancia de la inclusión familiar, del acompañamiento y de cómo algo tan simple como una conversación, un regalo o un saludo puede aportar a la vida de un niño.
                 </p>
@@ -144,7 +144,7 @@ export default function BienvenidaAbril() {
                 <p>Los amamos,</p>
                 <p style={{ fontFamily: 'var(--font-madelyn), sans-serif', fontSize: '2.5rem' }}>Familia Sotelo Garcia</p>
             </div>
-            <SpotifyPlaylist playlist='https://open.spotify.com/embed/track/71l747KWxSIlCOiKbtBokH?utm_source=generator'/>
+            <SpotifyPlaylist playlist='https://open.spotify.com/embed/playlist/63EAKaQUy1C40YbQvsVHnq?utm_source=generator'/>
         </div>
     )
 }
