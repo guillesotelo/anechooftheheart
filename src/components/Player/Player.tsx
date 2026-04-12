@@ -20,8 +20,7 @@ export default function Player({ filePath, setShowPlayer, titles }: Props) {
     const [pathIndex, setPathIndex] = useState(0)
     const [currentTime, setCurrentTime] = useState(0)
     const [duration, setDuration] = useState(0)
-    const [autoplayTrigger, setAutoplayTrigger] = useState(false)
-    const { isMobile } = useContext(AppContext)
+const { isMobile } = useContext(AppContext)
 
     useEffect(() => {
         if (filePath) {
@@ -33,25 +32,20 @@ export default function Player({ filePath, setShowPlayer, titles }: Props) {
 
     useEffect(() => {
         if (audioFile) {
-            const handleLoadedMetadata = () => {
-                setDuration(audioFile.duration)
-            }
+            const handleLoadedMetadata = () => setDuration(audioFile.duration)
+            const handleTimeUpdate = () => setCurrentTime(audioFile.currentTime)
+            const handleEnded = () => nextTrack()
 
-            const handleTimeUpdate = () => {
-                setCurrentTime(audioFile.currentTime)
-            }
             audioFile.addEventListener('loadedmetadata', handleLoadedMetadata)
             audioFile.addEventListener('timeupdate', handleTimeUpdate)
+            audioFile.addEventListener('ended', handleEnded)
             return () => {
                 audioFile.removeEventListener('loadedmetadata', handleLoadedMetadata)
                 audioFile.removeEventListener('timeupdate', handleTimeUpdate)
+                audioFile.removeEventListener('ended', handleEnded)
             }
         }
     }, [audioFile])
-
-    useEffect(() => {
-        if (audioFile && currentTime >= duration) nextTrack()
-    }, [currentTime])
 
     const getFileNameFromURL = (url: string): string => {
         const parts = url.split('/')

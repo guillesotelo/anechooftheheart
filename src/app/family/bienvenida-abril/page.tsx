@@ -105,7 +105,13 @@ export default function BienvenidaAbril() {
                 <h3>Deja un mensaje</h3>
                 {status === 'sent' ? '' : <div className="bienvenida-abril__message">
                     {/* <img src="/assets/images/abril/box-msg.png" width='700' height='450' className='bienvenida-abril__image' /> */}
-                    <textarea value={message} onChange={e => setMessage(e.target.value)} className="bienvenida-abril__message-input" rows={20} cols={55} />
+                    <textarea 
+                    value={message} 
+                    onChange={e => setMessage(e.target.value)} 
+                    className="bienvenida-abril__message-input" 
+                    rows={20} 
+                    cols={55} 
+                    placeholder='Hola Abril...'/>
                 </div>}
                 <div className='bienvenida-abril__row'>
                     {status === 'sent' ? '' :
