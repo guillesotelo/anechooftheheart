@@ -21,7 +21,7 @@ export async function POST(request: NextRequest) {
 
         await sheets.spreadsheets.values.append({
             spreadsheetId: process.env.GOOGLE_SHEETS_SPREADSHEET_ID,
-            range: 'Sheet1!A:B',
+            range: 'Mensajitos!A:B',
             valueInputOption: 'RAW',
             requestBody: {
                 values: [[new Date().toISOString(), message.trim()]],
