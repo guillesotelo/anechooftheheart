@@ -102,7 +102,7 @@ export default function BienvenidaAbril() {
                 <Carousel cards={carouselImages} speed={180} style={{ height: isMobile ? '60vh' : '70vh' }} />
             </div>
             <div className="bienvenida-abril__content">
-                <h3>Deja un mensaje</h3>
+                <h3>Deja tu mensajito. No olvides escribir tu nombre!</h3>
                 {status === 'sent' ? '' : <div className="bienvenida-abril__message">
                     {/* <img src="/assets/images/abril/box-msg.png" width='700' height='450' className='bienvenida-abril__image' /> */}
                     <textarea 
